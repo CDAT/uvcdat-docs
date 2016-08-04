@@ -33,7 +33,26 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinx.ext.doctest'
 ]
+
+doctest_path = sys.path
+
+doctest_global_setup = """
+import vcs
+import cdms2
+target = None
+"""
+
+doctest_global_cleanup = """
+if(target is not None):
+    if(vcs.istextcombined(target)):
+        vcs.removeobject(target.To)
+        vcs.removeobject(target.Tt)
+        del(vcs.elements["textcombined"][target.name])
+    else:
+        vcs.removeobject(target)
+"""
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -131,12 +150,12 @@ html_theme_options = { "stickysidebar" : "true" }
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-#html_logo = None
+html_logo = 'uvcdat.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-#html_favicon = None
+html_favicon = 'globe.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -173,7 +192,7 @@ html_static_path = ['_static']
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 #html_show_sphinx = True
@@ -290,3 +309,5 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+
