@@ -41,17 +41,17 @@ doctest_path = sys.path
 doctest_global_setup = """
 import vcs
 import cdms2
-target = None
+ex = None
 """
 
 doctest_global_cleanup = """
-if(target is not None):
-    if(vcs.istextcombined(target)):
-        vcs.removeobject(target.To)
-        vcs.removeobject(target.Tt)
-        del(vcs.elements["textcombined"][target.name])
+if(ex is not None):
+    if(vcs.istextcombined(ex)):
+        vcs.removeobject(ex.To)
+        vcs.removeobject(ex.Tt)
+        del(vcs.elements["textcombined"][ex.name])
     else:
-        vcs.removeobject(target)
+        vcs.removeobject(ex)
 """
 
 # Add any paths that contain templates here, relative to this directory.
