@@ -63,3 +63,4 @@ target/
 # vcs script() output
 filename.py
 filename.json
+.DS_Store

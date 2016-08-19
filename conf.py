@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# UV-CDAT documentation build configuration file, created by
+# vcs documentation build configuration file, created by
 # sphinx-quickstart on Tue Apr 26 15:55:07 2016.
 #
 # This file is execfile()d with the current directory set to its
@@ -14,11 +14,6 @@
 
 import sys
 import os
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('projects/UV-CDAT_docs/ed_fork/uvcdat/Packages/vcs/vcs'))
 
 # -- General configuration ------------------------------------------------
 
@@ -69,9 +64,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'UV-CDAT'
-copyright = u'2016, UV-CDAT Team'
-author = u'UV-CDAT Team'
+project = u'VCS'
+copyright = u'2016, LLNL'
+author = u'LLNL AIMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -223,7 +218,7 @@ html_show_sourcelink = True
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'UV-CDATdoc'
+htmlhelp_basename = 'vcsdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -239,23 +234,24 @@ latex_elements = {
 
 # Latex figure (float) alignment
 #'figure_align': 'htbp',
+  'classoptions': ',oneside',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'UV-CDAT.tex', u'UV-CDAT Documentation',
-     u'UV-CDAT Team', 'manual'),
+    (master_doc, 'vcs.tex', u'VCS Documentation',
+     u'AIMS Team', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = "uvcdat.png"
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
-#latex_use_parts = False
+latex_toplevel_sectioning = "chapter"
 
 # If true, show page references after internal links.
 #latex_show_pagerefs = False
@@ -275,7 +271,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'uv-cdat', u'UV-CDAT Documentation',
+    (master_doc, 'cdat', u'VCS Documentation',
      [author], 1)
 ]
 
@@ -289,8 +285,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'UV-CDAT', u'UV-CDAT Documentation',
-     author, 'UV-CDAT', 'One line description of project.',
+    (master_doc, 'VCS', u'VCS Documentation',
+     author, 'VCS', 'Visualization Control System',
      'Miscellaneous'),
 ]
 
