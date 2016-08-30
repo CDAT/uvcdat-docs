@@ -45,7 +45,7 @@ if(ex is not None):
         vcs.removeobject(ex.To)
         vcs.removeobject(ex.Tt)
         del(vcs.elements["textcombined"][ex.name])
-    else:
+    elif ex.name is not 'default':
         vcs.removeobject(ex)
 """
 
