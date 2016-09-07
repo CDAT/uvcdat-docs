@@ -5,7 +5,6 @@ VCS
 .. automodule:: vcs
     :members:
 
-
 .. toctree::
 
     Canvas

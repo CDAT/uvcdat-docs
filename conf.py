@@ -37,7 +37,11 @@ doctest_global_setup = """
 import vcs
 import cdms2
 ex = None
-"""
+# Copy vcs.elements so we can do a diff later.
+elts = dict(vcs.elements)
+for key in elts.keys():
+    elts[key] = dict(vcs.elements[key])
+    """
 
 doctest_global_cleanup = """
 if(ex is not None):
@@ -47,6 +51,16 @@ if(ex is not None):
         del(vcs.elements["textcombined"][ex.name])
     elif ex.name is not 'default':
         vcs.removeobject(ex)
+for key in vcs.elements.keys():
+    for _ in vcs.elements[key].keys():
+        try:
+            elts[key][_]
+        except:
+            stmt = "vcs.removeobject(vcs.get%s('%s'))" % (key,_)
+            try:
+                exec(stmt)
+            except:
+                continue
 """
 
 # Add any paths that contain templates here, relative to this directory.
