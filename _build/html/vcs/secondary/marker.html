@@ -68,17 +68,35 @@ existing marker table entry.</p>
 <dl class="describe">
 <dt>
 <code class="descname">Useful Functions:</code></dt>
-<dd></dd></dl>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas Constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1"># Show predefined marker objects</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;marker&#39;</span><span class="p">)</span>
+<span class="c1"># Updates the VCS Canvas at user&#39;s request</span>
+<span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="describe">
 <dt>
 <code class="descname">Create a new instance of marker:</code></dt>
-<dd></dd></dl>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Copies content of &#39;red&#39; to &#39;new&#39;</span>
+<span class="n">mk</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createmarker</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">mk</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createmarker</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="describe">
 <dt>
 <code class="descname">Modify an existing marker:</code></dt>
-<dd></dd></dl>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getmarker</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="describe">
 <dt>
@@ -86,20 +104,76 @@ existing marker table entry.</p>
 <dd><ul>
 <li><p class="first">List all the marker attribute values:</p>
 <blockquote>
-<div></div></blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="c1"># Range from 1 to 256</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">color</span><span class="o">=</span><span class="mi">100</span>
+<span class="c1"># Range from 1 to 300</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div></blockquote>
 </li>
 <li><dl class="first docutils">
 <dt>Specify the marker type:</dt>
-<dd></dd>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Same as mk.type=1</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span>
+<span class="c1"># Same as mk.type=2</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;plus&#39;</span>
+<span class="c1"># Same as mk.type=3</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;star&#39;</span>
+<span class="c1"># Same as mk.type=4</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;circle&#39;</span>
+<span class="c1"># Same as mk.type=5</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;cross&#39;</span>
+<span class="c1"># Same as mk.type=6</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;diamond&#39;</span>
+<span class="c1"># Same as mk.type=7</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_up&#39;</span>
+<span class="c1"># Same as mk.type=8</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_down&#39;</span>
+<span class="c1"># Same as mk.type=9</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_left&#39;</span>
+<span class="c1"># Same as mk.type=10</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_right&#39;</span>
+<span class="c1"># Same as mk.type=11</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;square&#39;</span>
+<span class="c1"># Same as mk.type=12</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;diamond_fill&#39;</span>
+<span class="c1"># Same as mk.type=13</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_up_fill&#39;</span>
+<span class="c1"># Same as mk.type=14</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_down_fill&#39;</span>
+<span class="c1"># Same as mk.type=15</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_left_fill&#39;</span>
+<span class="c1"># Same as mk.type=16</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;triangle_right_fill&#39;</span>
+<span class="c1"># Same as mk.type=17</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;square_fill&#39;</span>
+</pre></div>
+</div>
+</dd>
 </dl>
 </li>
 <li><p class="first">Set the graphics priority on the canvas</p>
 <blockquote>
-<div></div></blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mk</span><span class="o">.</span><span class="n">priority</span><span class="o">=</span><span class="mi">1</span>
+<span class="c1"># FloatType [0,1]x[0,1]</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">viewport</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span>
+<span class="c1"># FloatType [#,#]x[#,#]</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">worldcoordinate</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div></blockquote>
 </li>
 <li><p class="first">Example x and y coordinates:</p>
 <blockquote>
-<div></div></blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># List of FloatTypes</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">x</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span><span class="o">.</span><span class="mi">5</span><span class="p">]]</span>
+<span class="c1"># List of FloatTypes</span>
+<span class="n">mk</span><span class="o">.</span><span class="n">y</span><span class="o">=</span><span class="p">[[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span><span class="o">.</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div></blockquote>
 </li>
 </ul>
 </dd></dl>

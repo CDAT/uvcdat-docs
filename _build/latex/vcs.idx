@@ -1,0 +1,1046 @@
+\indexentry{vcs (module)|hyperpage}{1}
+\indexentry{init() (in module vcs)|hyperpage}{1}
+\indexentry{vcs.Canvas (module)|hyperpage}{2}
+\indexentry{Canvas (class in vcs.Canvas)|hyperpage}{2}
+\indexentry{addfont() (vcs.Canvas.Canvas method)|hyperpage}{2}
+\indexentry{boxfill() (vcs.Canvas.Canvas method)|hyperpage}{2}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{4}
+\indexentry{canvasid() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{canvasinfo() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{cgm() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{change\_display\_graphic\_method() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{check\_name\_source() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{clean\_auto\_generated\_objects() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{clear() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{close() (vcs.Canvas.Canvas method)|hyperpage}{5}
+\indexentry{copyfontto() (vcs.Canvas.Canvas method)|hyperpage}{6}
+\indexentry{create3d\_dual\_scalar() (vcs.Canvas.Canvas method)|hyperpage}{6}
+\indexentry{create3d\_scalar() (vcs.Canvas.Canvas method)|hyperpage}{6}
+\indexentry{create3d\_vector() (vcs.Canvas.Canvas method)|hyperpage}{7}
+\indexentry{createboxfill() (vcs.Canvas.Canvas method)|hyperpage}{7}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{9}
+\indexentry{createcolormap() (vcs.Canvas.Canvas method)|hyperpage}{10}
+\indexentry{createfillarea() (vcs.Canvas.Canvas method)|hyperpage}{10}
+\indexentry{createisofill() (vcs.Canvas.Canvas method)|hyperpage}{11}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{13}
+\indexentry{createisoline() (vcs.Canvas.Canvas method)|hyperpage}{13}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{15}
+\indexentry{createline() (vcs.Canvas.Canvas method)|hyperpage}{15}
+\indexentry{createmarker() (vcs.Canvas.Canvas method)|hyperpage}{16}
+\indexentry{createmeshfill() (vcs.Canvas.Canvas method)|hyperpage}{17}
+\indexentry{createprojection() (vcs.Canvas.Canvas method)|hyperpage}{18}
+\indexentry{createscatter() (vcs.Canvas.Canvas method)|hyperpage}{18}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{20}
+\indexentry{createtaylordiagram() (vcs.Canvas.Canvas method)|hyperpage}{20}
+\indexentry{createtemplate() (vcs.Canvas.Canvas method)|hyperpage}{21}
+\indexentry{createtext() (vcs.Canvas.Canvas method)|hyperpage}{22}
+\indexentry{createtextcombined() (vcs.Canvas.Canvas method)|hyperpage}{23}
+\indexentry{createtextorientation() (vcs.Canvas.Canvas method)|hyperpage}{24}
+\indexentry{createtexttable() (vcs.Canvas.Canvas method)|hyperpage}{25}
+\indexentry{createvector() (vcs.Canvas.Canvas method)|hyperpage}{26}
+\indexentry{createxvsy() (vcs.Canvas.Canvas method)|hyperpage}{26}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{28}
+\indexentry{createxyvsy() (vcs.Canvas.Canvas method)|hyperpage}{28}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{30}
+\indexentry{createyxvsx() (vcs.Canvas.Canvas method)|hyperpage}{30}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{32}
+\indexentry{destroy() (vcs.Canvas.Canvas method)|hyperpage}{32}
+\indexentry{drawfillarea() (vcs.Canvas.Canvas method)|hyperpage}{32}
+\indexentry{drawline() (vcs.Canvas.Canvas method)|hyperpage}{33}
+\indexentry{drawlogooff() (vcs.Canvas.Canvas method)|hyperpage}{34}
+\indexentry{drawlogoon() (vcs.Canvas.Canvas method)|hyperpage}{34}
+\indexentry{drawmarker() (vcs.Canvas.Canvas method)|hyperpage}{34}
+\indexentry{drawtext() (vcs.Canvas.Canvas method)|hyperpage}{35}
+\indexentry{drawtextcombined() (vcs.Canvas.Canvas method)|hyperpage}{36}
+\indexentry{eps() (vcs.Canvas.Canvas method)|hyperpage}{37}
+\indexentry{ffmpeg() (vcs.Canvas.Canvas method)|hyperpage}{37}
+\indexentry{fillarea() (vcs.Canvas.Canvas method)|hyperpage}{38}
+\indexentry{flush() (vcs.Canvas.Canvas method)|hyperpage}{39}
+\indexentry{geometry() (vcs.Canvas.Canvas method)|hyperpage}{39}
+\indexentry{get3d\_dual\_scalar() (vcs.Canvas.Canvas method)|hyperpage}{39}
+\indexentry{get3d\_scalar() (vcs.Canvas.Canvas method)|hyperpage}{40}
+\indexentry{get3d\_vector() (vcs.Canvas.Canvas method)|hyperpage}{40}
+\indexentry{get\_selected\_display() (vcs.Canvas.Canvas method)|hyperpage}{41}
+\indexentry{getboxfill() (vcs.Canvas.Canvas method)|hyperpage}{41}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{42}
+\indexentry{getcolorcell() (vcs.Canvas.Canvas method)|hyperpage}{43}
+\indexentry{getcolormap() (vcs.Canvas.Canvas method)|hyperpage}{43}
+\indexentry{getcolormapname() (vcs.Canvas.Canvas method)|hyperpage}{43}
+\indexentry{getcontinentstype() (vcs.Canvas.Canvas method)|hyperpage}{44}
+\indexentry{getdrawlogo() (vcs.Canvas.Canvas method)|hyperpage}{44}
+\indexentry{getfillarea() (vcs.Canvas.Canvas method)|hyperpage}{44}
+\indexentry{getfont() (vcs.Canvas.Canvas method)|hyperpage}{45}
+\indexentry{getfontname() (vcs.Canvas.Canvas method)|hyperpage}{45}
+\indexentry{getfontnumber() (vcs.Canvas.Canvas method)|hyperpage}{45}
+\indexentry{getisofill() (vcs.Canvas.Canvas method)|hyperpage}{45}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{47}
+\indexentry{getisoline() (vcs.Canvas.Canvas method)|hyperpage}{47}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{49}
+\indexentry{getline() (vcs.Canvas.Canvas method)|hyperpage}{49}
+\indexentry{getmarker() (vcs.Canvas.Canvas method)|hyperpage}{50}
+\indexentry{getmeshfill() (vcs.Canvas.Canvas method)|hyperpage}{51}
+\indexentry{getplot() (vcs.Canvas.Canvas method)|hyperpage}{52}
+\indexentry{getprojection() (vcs.Canvas.Canvas method)|hyperpage}{52}
+\indexentry{getscatter() (vcs.Canvas.Canvas method)|hyperpage}{53}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{54}
+\indexentry{gettaylordiagram() (vcs.Canvas.Canvas method)|hyperpage}{55}
+\indexentry{gettemplate() (vcs.Canvas.Canvas method)|hyperpage}{55}
+\indexentry{gettext() (vcs.Canvas.Canvas method)|hyperpage}{56}
+\indexentry{gettextcombined() (vcs.Canvas.Canvas method)|hyperpage}{57}
+\indexentry{gettextextent() (vcs.Canvas.Canvas method)|hyperpage}{58}
+\indexentry{gettextorientation() (vcs.Canvas.Canvas method)|hyperpage}{58}
+\indexentry{gettexttable() (vcs.Canvas.Canvas method)|hyperpage}{59}
+\indexentry{getvector() (vcs.Canvas.Canvas method)|hyperpage}{60}
+\indexentry{getxvsy() (vcs.Canvas.Canvas method)|hyperpage}{60}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{62}
+\indexentry{getxyvsy() (vcs.Canvas.Canvas method)|hyperpage}{62}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{64}
+\indexentry{getyxvsx() (vcs.Canvas.Canvas method)|hyperpage}{64}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{66}
+\indexentry{gif() (vcs.Canvas.Canvas method)|hyperpage}{66}
+\indexentry{grid() (vcs.Canvas.Canvas method)|hyperpage}{66}
+\indexentry{isinfile() (vcs.Canvas.Canvas method)|hyperpage}{67}
+\indexentry{islandscape() (vcs.Canvas.Canvas method)|hyperpage}{67}
+\indexentry{isofill() (vcs.Canvas.Canvas method)|hyperpage}{67}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{69}
+\indexentry{isoline() (vcs.Canvas.Canvas method)|hyperpage}{69}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{71}
+\indexentry{isopened() (vcs.Canvas.Canvas method)|hyperpage}{71}
+\indexentry{isportrait() (vcs.Canvas.Canvas method)|hyperpage}{71}
+\indexentry{landscape() (vcs.Canvas.Canvas method)|hyperpage}{71}
+\indexentry{line() (vcs.Canvas.Canvas method)|hyperpage}{72}
+\indexentry{listelements() (vcs.Canvas.Canvas method)|hyperpage}{73}
+\indexentry{marker() (vcs.Canvas.Canvas method)|hyperpage}{73}
+\indexentry{meshfill() (vcs.Canvas.Canvas method)|hyperpage}{73}
+\indexentry{objecthelp() (vcs.Canvas.Canvas method)|hyperpage}{74}
+\indexentry{open() (vcs.Canvas.Canvas method)|hyperpage}{74}
+\indexentry{orientation() (vcs.Canvas.Canvas method)|hyperpage}{74}
+\indexentry{pdf() (vcs.Canvas.Canvas method)|hyperpage}{75}
+\indexentry{plot() (vcs.Canvas.Canvas method)|hyperpage}{75}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{79}
+\indexentry{png() (vcs.Canvas.Canvas method)|hyperpage}{79}
+\indexentry{portrait() (vcs.Canvas.Canvas method)|hyperpage}{80}
+\indexentry{postscript() (vcs.Canvas.Canvas method)|hyperpage}{80}
+\indexentry{pstogif() (vcs.Canvas.Canvas method)|hyperpage}{81}
+\indexentry{raisecanvas() (vcs.Canvas.Canvas method)|hyperpage}{81}
+\indexentry{remove\_display\_name() (vcs.Canvas.Canvas method)|hyperpage}{82}
+\indexentry{removeobject() (vcs.Canvas.Canvas method)|hyperpage}{82}
+\indexentry{saveinitialfile() (vcs.Canvas.Canvas method)|hyperpage}{82}
+\indexentry{scatter() (vcs.Canvas.Canvas method)|hyperpage}{82}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{84}
+\indexentry{scriptobject() (vcs.Canvas.Canvas method)|hyperpage}{84}
+\indexentry{setantialiasing() (vcs.Canvas.Canvas method)|hyperpage}{85}
+\indexentry{setbgoutputdimensions() (vcs.Canvas.Canvas method)|hyperpage}{85}
+\indexentry{setcolorcell() (vcs.Canvas.Canvas method)|hyperpage}{85}
+\indexentry{setcolormap() (vcs.Canvas.Canvas method)|hyperpage}{86}
+\indexentry{setcontinentsline() (vcs.Canvas.Canvas method)|hyperpage}{86}
+\indexentry{setcontinentstype() (vcs.Canvas.Canvas method)|hyperpage}{86}
+\indexentry{setdefaultfont() (vcs.Canvas.Canvas method)|hyperpage}{87}
+\indexentry{show() (vcs.Canvas.Canvas method)|hyperpage}{87}
+\indexentry{svg() (vcs.Canvas.Canvas method)|hyperpage}{87}
+\indexentry{switchfonts() (vcs.Canvas.Canvas method)|hyperpage}{88}
+\indexentry{taylordiagram() (vcs.Canvas.Canvas method)|hyperpage}{88}
+\indexentry{text() (vcs.Canvas.Canvas method)|hyperpage}{88}
+\indexentry{textcombined() (vcs.Canvas.Canvas method)|hyperpage}{89}
+\indexentry{update() (vcs.Canvas.Canvas method)|hyperpage}{90}
+\indexentry{updateorientation() (vcs.Canvas.Canvas method)|hyperpage}{90}
+\indexentry{vector() (vcs.Canvas.Canvas method)|hyperpage}{90}
+\indexentry{xvsy() (vcs.Canvas.Canvas method)|hyperpage}{91}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{92}
+\indexentry{xyvsy() (vcs.Canvas.Canvas method)|hyperpage}{93}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{95}
+\indexentry{yxvsx() (vcs.Canvas.Canvas method)|hyperpage}{95}
+\indexentry{xmtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{xmtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{ymtics1 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{ymtics2 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{xticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{xticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{yticlabels1 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{yticlabels2 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{projection (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{datawc\_x1 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{datawc\_x2 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{datawc\_y1 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{datawc\_y2 (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{datawc\_timeunits (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{datawc\_calendar (vcs.Canvas.Canvas attribute)|hyperpage}{96}
+\indexentry{vcs.boxfill (module)|hyperpage}{97}
+\indexentry{Gfb (class in vcs.boxfill)|hyperpage}{97}
+\indexentry{boxfill\_type (vcs.boxfill.Gfb attribute)|hyperpage}{99}
+\indexentry{level\_1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{level\_2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{color\_1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{color\_2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{levels (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{legend (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{ext\_1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{ext\_2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{missing (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{xmtics1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{xmtics2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{ymtics1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{ymtics2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{xticlabels1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{xticlabels2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{yticlabels1 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{yticlabels2 (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{projection (vcs.boxfill.Gfb attribute)|hyperpage}{100}
+\indexentry{datawc\_x1 (vcs.boxfill.Gfb attribute)|hyperpage}{101}
+\indexentry{datawc\_x2 (vcs.boxfill.Gfb attribute)|hyperpage}{101}
+\indexentry{datawc\_y1 (vcs.boxfill.Gfb attribute)|hyperpage}{101}
+\indexentry{datawc\_y2 (vcs.boxfill.Gfb attribute)|hyperpage}{101}
+\indexentry{datawc\_timeunits (vcs.boxfill.Gfb attribute)|hyperpage}{101}
+\indexentry{datawc\_calendar (vcs.boxfill.Gfb attribute)|hyperpage}{101}
+\indexentry{colors() (vcs.boxfill.Gfb method)|hyperpage}{101}
+\indexentry{datawc() (vcs.boxfill.Gfb method)|hyperpage}{101}
+\indexentry{exts() (vcs.boxfill.Gfb method)|hyperpage}{101}
+\indexentry{list() (vcs.boxfill.Gfb method)|hyperpage}{101}
+\indexentry{rename() (vcs.boxfill.Gfb method)|hyperpage}{101}
+\indexentry{script() (vcs.boxfill.Gfb method)|hyperpage}{102}
+\indexentry{xmtics() (vcs.boxfill.Gfb method)|hyperpage}{102}
+\indexentry{xticlabels() (vcs.boxfill.Gfb method)|hyperpage}{102}
+\indexentry{xyscale() (vcs.boxfill.Gfb method)|hyperpage}{103}
+\indexentry{ymtics() (vcs.boxfill.Gfb method)|hyperpage}{103}
+\indexentry{yticlabels() (vcs.boxfill.Gfb method)|hyperpage}{103}
+\indexentry{vcs.dv3d (module)|hyperpage}{103}
+\indexentry{Gfdv3d (class in vcs.dv3d)|hyperpage}{103}
+\indexentry{vcs.isofill (module)|hyperpage}{103}
+\indexentry{Gfi (class in vcs.isofill)|hyperpage}{103}
+\indexentry{xmtics1 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{xmtics2 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{ymtics1 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{ymtics2 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{xticlabels1 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{xticlabels2 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{yticlabels1 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{yticlabels2 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{projection (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{datawc\_x1 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{datawc\_x2 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{datawc\_y1 (vcs.isofill.Gfi attribute)|hyperpage}{106}
+\indexentry{datawc\_y2 (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{datawc\_timeunits (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{datawc\_calendar (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{levels (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{fillareacolors (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{fillareastyle (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{fillareaindices (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{legend (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{ext\_1 (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{ext\_2 (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{missing (vcs.isofill.Gfi attribute)|hyperpage}{107}
+\indexentry{colors() (vcs.isofill.Gfi method)|hyperpage}{107}
+\indexentry{datawc() (vcs.isofill.Gfi method)|hyperpage}{107}
+\indexentry{exts() (vcs.isofill.Gfi method)|hyperpage}{107}
+\indexentry{list() (vcs.isofill.Gfi method)|hyperpage}{107}
+\indexentry{script() (vcs.isofill.Gfi method)|hyperpage}{108}
+\indexentry{xmtics() (vcs.isofill.Gfi method)|hyperpage}{108}
+\indexentry{xticlabels() (vcs.isofill.Gfi method)|hyperpage}{108}
+\indexentry{xyscale() (vcs.isofill.Gfi method)|hyperpage}{108}
+\indexentry{ymtics() (vcs.isofill.Gfi method)|hyperpage}{109}
+\indexentry{yticlabels() (vcs.isofill.Gfi method)|hyperpage}{109}
+\indexentry{vcs.isoline (module)|hyperpage}{109}
+\indexentry{Gi (class in vcs.isoline)|hyperpage}{109}
+\indexentry{label (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{labelskipdistance (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{labelbackgroundcolors (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{labelbackgroundopacities (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{level (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{clockwise (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{scale (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{angle (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{spacing (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{xmtics1 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{xmtics2 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{ymtics1 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{ymtics2 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{xticlabels1 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{xticlabels2 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{yticlabels1 (vcs.isoline.Gi attribute)|hyperpage}{112}
+\indexentry{yticlabels2 (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{projection (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc\_x1 (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc\_x2 (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc\_y1 (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc\_y2 (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc\_timeunits (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc\_calendar (vcs.isoline.Gi attribute)|hyperpage}{113}
+\indexentry{datawc() (vcs.isoline.Gi method)|hyperpage}{113}
+\indexentry{list() (vcs.isoline.Gi method)|hyperpage}{113}
+\indexentry{script() (vcs.isoline.Gi method)|hyperpage}{113}
+\indexentry{xmtics() (vcs.isoline.Gi method)|hyperpage}{114}
+\indexentry{xticlabels() (vcs.isoline.Gi method)|hyperpage}{114}
+\indexentry{xyscale() (vcs.isoline.Gi method)|hyperpage}{114}
+\indexentry{ymtics() (vcs.isoline.Gi method)|hyperpage}{114}
+\indexentry{yticlabels() (vcs.isoline.Gi method)|hyperpage}{114}
+\indexentry{vcs.meshfill (module)|hyperpage}{115}
+\indexentry{Gfm (class in vcs.meshfill)|hyperpage}{115}
+\indexentry{xmtics1 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{xmtics2 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{ymtics1 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{ymtics2 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{xticlabels1 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{xticlabels2 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{yticlabels1 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{yticlabels2 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{projection (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{datawc\_x1 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{datawc\_x2 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{datawc\_y1 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{datawc\_y2 (vcs.meshfill.Gfm attribute)|hyperpage}{117}
+\indexentry{datawc\_timeunits (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{datawc\_calendar (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{levels (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{fillareacolors (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{fillareastyle (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{fillareaindices (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{legend (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{ext\_1 (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{ext\_2 (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{missing (vcs.meshfill.Gfm attribute)|hyperpage}{118}
+\indexentry{colors() (vcs.meshfill.Gfm method)|hyperpage}{118}
+\indexentry{datawc() (vcs.meshfill.Gfm method)|hyperpage}{118}
+\indexentry{exts() (vcs.meshfill.Gfm method)|hyperpage}{118}
+\indexentry{list() (vcs.meshfill.Gfm method)|hyperpage}{119}
+\indexentry{script() (vcs.meshfill.Gfm method)|hyperpage}{119}
+\indexentry{xmtics() (vcs.meshfill.Gfm method)|hyperpage}{119}
+\indexentry{xticlabels() (vcs.meshfill.Gfm method)|hyperpage}{119}
+\indexentry{xyscale() (vcs.meshfill.Gfm method)|hyperpage}{119}
+\indexentry{ymtics() (vcs.meshfill.Gfm method)|hyperpage}{120}
+\indexentry{yticlabels() (vcs.meshfill.Gfm method)|hyperpage}{120}
+\indexentry{vcs.taylor (module)|hyperpage}{120}
+\indexentry{Gtd (class in vcs.taylor)|hyperpage}{120}
+\indexentry{defaultSkillFunction() (vcs.taylor.Gtd method)|hyperpage}{120}
+\indexentry{drawSkill() (vcs.taylor.Gtd method)|hyperpage}{120}
+\indexentry{getArc() (vcs.taylor.Gtd method)|hyperpage}{121}
+\indexentry{plot() (vcs.taylor.Gtd method)|hyperpage}{121}
+\indexentry{script() (vcs.taylor.Gtd method)|hyperpage}{121}
+\indexentry{TDMarker (class in vcs.taylor)|hyperpage}{122}
+\indexentry{equalize() (vcs.taylor.TDMarker method)|hyperpage}{122}
+\indexentry{vcs.unified1D (module)|hyperpage}{122}
+\indexentry{G1d (class in vcs.unified1D)|hyperpage}{122}
+\indexentry{xmtics1 (vcs.unified1D.G1d attribute)|hyperpage}{124}
+\indexentry{xmtics2 (vcs.unified1D.G1d attribute)|hyperpage}{124}
+\indexentry{ymtics1 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{ymtics2 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{xticlabels1 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{xticlabels2 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{yticlabels1 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{yticlabels2 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{projection (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc\_x1 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc\_x2 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc\_y1 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc\_y2 (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc\_timeunits (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc\_calendar (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{datawc() (vcs.unified1D.G1d method)|hyperpage}{125}
+\indexentry{g\_type (vcs.unified1D.G1d attribute)|hyperpage}{125}
+\indexentry{list() (vcs.unified1D.G1d method)|hyperpage}{125}
+\indexentry{script() (vcs.unified1D.G1d method)|hyperpage}{126}
+\indexentry{smooth (vcs.unified1D.G1d attribute)|hyperpage}{126}
+\indexentry{xmtics() (vcs.unified1D.G1d method)|hyperpage}{126}
+\indexentry{xticlabels() (vcs.unified1D.G1d method)|hyperpage}{126}
+\indexentry{ymtics() (vcs.unified1D.G1d method)|hyperpage}{126}
+\indexentry{yticlabels() (vcs.unified1D.G1d method)|hyperpage}{127}
+\indexentry{vcs.vector (module)|hyperpage}{127}
+\indexentry{Gv (class in vcs.vector)|hyperpage}{127}
+\indexentry{script() (vcs.vector.Gv method)|hyperpage}{129}
+\indexentry{vcs.template (module)|hyperpage}{130}
+\indexentry{P (class in vcs.template)|hyperpage}{130}
+\indexentry{blank() (vcs.template.P method)|hyperpage}{130}
+\indexentry{move() (vcs.template.P method)|hyperpage}{130}
+\indexentry{moveto() (vcs.template.P method)|hyperpage}{131}
+\indexentry{scale() (vcs.template.P method)|hyperpage}{131}
+\indexentry{script() (vcs.template.P method)|hyperpage}{131}
+\indexentry{epsilon\_gte() (in module vcs.template)|hyperpage}{132}
+\indexentry{epsilon\_lte() (in module vcs.template)|hyperpage}{132}
+\indexentry{vcs.Pboxeslines (module)|hyperpage}{132}
+\indexentry{Pbl (class in vcs.Pboxeslines)|hyperpage}{132}
+\indexentry{vcs.Pdata (module)|hyperpage}{133}
+\indexentry{Pds (class in vcs.Pdata)|hyperpage}{133}
+\indexentry{vcs.Pformat (module)|hyperpage}{134}
+\indexentry{Pf (class in vcs.Pformat)|hyperpage}{134}
+\indexentry{vcs.Plegend (module)|hyperpage}{135}
+\indexentry{Pls (class in vcs.Plegend)|hyperpage}{135}
+\indexentry{vcs.Ptext (module)|hyperpage}{136}
+\indexentry{Pt (class in vcs.Ptext)|hyperpage}{136}
+\indexentry{vcs.Pxlabels (module)|hyperpage}{137}
+\indexentry{Pxl (class in vcs.Pxlabels)|hyperpage}{137}
+\indexentry{vcs.Pxtickmarks (module)|hyperpage}{138}
+\indexentry{Pxt (class in vcs.Pxtickmarks)|hyperpage}{138}
+\indexentry{vcs.Pylabels (module)|hyperpage}{139}
+\indexentry{Pyl (class in vcs.Pylabels)|hyperpage}{139}
+\indexentry{vcs.Pytickmarks (module)|hyperpage}{140}
+\indexentry{Pyt (class in vcs.Pytickmarks)|hyperpage}{140}
+\indexentry{vcs.fillarea (module)|hyperpage}{142}
+\indexentry{Tf (class in vcs.fillarea)|hyperpage}{142}
+\indexentry{script() (vcs.fillarea.Tf method)|hyperpage}{143}
+\indexentry{vcs.line (module)|hyperpage}{143}
+\indexentry{Tl (class in vcs.line)|hyperpage}{143}
+\indexentry{script() (vcs.line.Tl method)|hyperpage}{145}
+\indexentry{vcs.marker (module)|hyperpage}{145}
+\indexentry{Tm (class in vcs.marker)|hyperpage}{145}
+\indexentry{script() (vcs.marker.Tm method)|hyperpage}{147}
+\indexentry{vcs.textcombined (module)|hyperpage}{147}
+\indexentry{Tc (class in vcs.textcombined)|hyperpage}{147}
+\indexentry{script() (vcs.textcombined.Tc method)|hyperpage}{149}
+\indexentry{vcs.textorientation (module)|hyperpage}{150}
+\indexentry{To (class in vcs.textorientation)|hyperpage}{150}
+\indexentry{script() (vcs.textorientation.To method)|hyperpage}{151}
+\indexentry{vcs.texttable (module)|hyperpage}{152}
+\indexentry{Tt (class in vcs.texttable)|hyperpage}{152}
+\indexentry{script() (vcs.texttable.Tt method)|hyperpage}{153}
+\indexentry{vcs.animate\_helper (module)|hyperpage}{154}
+\indexentry{animate\_obj\_old (class in vcs.animate\_helper)|hyperpage}{154}
+\indexentry{vcs.projection (module)|hyperpage}{154}
+\indexentry{Proj (class in vcs.projection)|hyperpage}{154}
+\indexentry{Lon/Z|hyperindexformat{\textbf}}{155}
+\indexentry{Lat/Z|hyperindexformat{\textbf}}{155}
+\indexentry{SMajor|hyperindexformat{\textbf}}{155}
+\indexentry{SMinor|hyperindexformat{\textbf}}{155}
+\indexentry{Sphere|hyperindexformat{\textbf}}{155}
+\indexentry{STDPAR|hyperindexformat{\textbf}}{156}
+\indexentry{STDPR1|hyperindexformat{\textbf}}{156}
+\indexentry{STDPR2|hyperindexformat{\textbf}}{156}
+\indexentry{CentMer|hyperindexformat{\textbf}}{156}
+\indexentry{OriginLat|hyperindexformat{\textbf}}{156}
+\indexentry{FE|hyperindexformat{\textbf}}{156}
+\indexentry{FN|hyperindexformat{\textbf}}{156}
+\indexentry{TrueScale|hyperindexformat{\textbf}}{156}
+\indexentry{LongPol|hyperindexformat{\textbf}}{156}
+\indexentry{Factor|hyperindexformat{\textbf}}{156}
+\indexentry{CentLon|hyperindexformat{\textbf}}{156}
+\indexentry{CenterLat|hyperindexformat{\textbf}}{156}
+\indexentry{Height|hyperindexformat{\textbf}}{156}
+\indexentry{Long1|hyperindexformat{\textbf}}{156}
+\indexentry{Long2|hyperindexformat{\textbf}}{156}
+\indexentry{Lat1|hyperindexformat{\textbf}}{156}
+\indexentry{Lat2|hyperindexformat{\textbf}}{156}
+\indexentry{AziAng|hyperindexformat{\textbf}}{156}
+\indexentry{AzmthPt|hyperindexformat{\textbf}}{156}
+\indexentry{IncAng|hyperindexformat{\textbf}}{156}
+\indexentry{AscLong|hyperindexformat{\textbf}}{156}
+\indexentry{PSRev|hyperindexformat{\textbf}}{156}
+\indexentry{LRat|hyperindexformat{\textbf}}{156}
+\indexentry{PFlag|hyperindexformat{\textbf}}{156}
+\indexentry{Satnum|hyperindexformat{\textbf}}{156}
+\indexentry{Path|hyperindexformat{\textbf}}{156}
+\indexentry{Shapem|hyperindexformat{\textbf}}{156}
+\indexentry{Shapen|hyperindexformat{\textbf}}{156}
+\indexentry{Angle|hyperindexformat{\textbf}}{156}
+\indexentry{script() (vcs.projection.Proj method)|hyperpage}{157}
+\indexentry{vcs.colormap (module)|hyperpage}{158}
+\indexentry{Cp (class in vcs.colormap)|hyperpage}{158}
+\indexentry{getcolorcell() (vcs.colormap.Cp method)|hyperpage}{159}
+\indexentry{script() (vcs.colormap.Cp method)|hyperpage}{159}
+\indexentry{setcolorcell() (vcs.colormap.Cp method)|hyperpage}{160}
+\indexentry{vcs.colors (module)|hyperpage}{160}
+\indexentry{matplotlib2vcs() (in module vcs.colors)|hyperpage}{160}
+\indexentry{vcs.displayplot (module)|hyperpage}{160}
+\indexentry{Dp (class in vcs.displayplot)|hyperpage}{160}
+\indexentry{backend (vcs.displayplot.Dp attribute)|hyperpage}{161}
+\indexentry{vcs.error (module)|hyperpage}{161}
+\indexentry{vcs.manageElements (module)|hyperpage}{161}
+\indexentry{check\_name\_source() (in module vcs.manageElements)|hyperpage}{161}
+\indexentry{create3d\_dual\_scalar() (in module vcs.manageElements)|hyperpage}{161}
+\indexentry{create3d\_scalar() (in module vcs.manageElements)|hyperpage}{162}
+\indexentry{create3d\_vector() (in module vcs.manageElements)|hyperpage}{162}
+\indexentry{createboxfill() (in module vcs.manageElements)|hyperpage}{163}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{createcolormap() (in module vcs.manageElements)|hyperpage}{165}
+\indexentry{createfillarea() (in module vcs.manageElements)|hyperpage}{166}
+\indexentry{createisofill() (in module vcs.manageElements)|hyperpage}{166}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{createisoline() (in module vcs.manageElements)|hyperpage}{168}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{170}
+\indexentry{createline() (in module vcs.manageElements)|hyperpage}{171}
+\indexentry{createmarker() (in module vcs.manageElements)|hyperpage}{171}
+\indexentry{createmeshfill() (in module vcs.manageElements)|hyperpage}{172}
+\indexentry{createprojection() (in module vcs.manageElements)|hyperpage}{173}
+\indexentry{createscatter() (in module vcs.manageElements)|hyperpage}{174}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{175}
+\indexentry{createtaylordiagram() (in module vcs.manageElements)|hyperpage}{176}
+\indexentry{createtemplate() (in module vcs.manageElements)|hyperpage}{176}
+\indexentry{createtext() (in module vcs.manageElements)|hyperpage}{177}
+\indexentry{createtextcombined() (in module vcs.manageElements)|hyperpage}{178}
+\indexentry{createtextorientation() (in module vcs.manageElements)|hyperpage}{179}
+\indexentry{createtexttable() (in module vcs.manageElements)|hyperpage}{180}
+\indexentry{createvector() (in module vcs.manageElements)|hyperpage}{181}
+\indexentry{createxvsy() (in module vcs.manageElements)|hyperpage}{181}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{createxyvsy() (in module vcs.manageElements)|hyperpage}{183}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{createyxvsx() (in module vcs.manageElements)|hyperpage}{185}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{get3d\_dual\_scalar() (in module vcs.manageElements)|hyperpage}{187}
+\indexentry{get3d\_scalar() (in module vcs.manageElements)|hyperpage}{188}
+\indexentry{get3d\_vector() (in module vcs.manageElements)|hyperpage}{188}
+\indexentry{getboxfill() (in module vcs.manageElements)|hyperpage}{189}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{getcolormap() (in module vcs.manageElements)|hyperpage}{190}
+\indexentry{getfillarea() (in module vcs.manageElements)|hyperpage}{191}
+\indexentry{getisofill() (in module vcs.manageElements)|hyperpage}{192}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{getisoline() (in module vcs.manageElements)|hyperpage}{194}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{getline() (in module vcs.manageElements)|hyperpage}{196}
+\indexentry{getmarker() (in module vcs.manageElements)|hyperpage}{197}
+\indexentry{getmeshfill() (in module vcs.manageElements)|hyperpage}{197}
+\indexentry{getprojection() (in module vcs.manageElements)|hyperpage}{198}
+\indexentry{getscatter() (in module vcs.manageElements)|hyperpage}{199}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{200}
+\indexentry{gettaylordiagram() (in module vcs.manageElements)|hyperpage}{201}
+\indexentry{gettemplate() (in module vcs.manageElements)|hyperpage}{201}
+\indexentry{gettext() (in module vcs.manageElements)|hyperpage}{202}
+\indexentry{gettextcombined() (in module vcs.manageElements)|hyperpage}{203}
+\indexentry{gettextorientation() (in module vcs.manageElements)|hyperpage}{204}
+\indexentry{gettexttable() (in module vcs.manageElements)|hyperpage}{204}
+\indexentry{getvector() (in module vcs.manageElements)|hyperpage}{205}
+\indexentry{getxvsy() (in module vcs.manageElements)|hyperpage}{206}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{207}
+\indexentry{getxyvsy() (in module vcs.manageElements)|hyperpage}{208}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{getyxvsx() (in module vcs.manageElements)|hyperpage}{209}
+\indexentry{xmtics1 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{xmtics2 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{ymtics1 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{ymtics2 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{xticlabels1 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{xticlabels2 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{yticlabels1 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{yticlabels2 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{projection (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{datawc\_x1 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{datawc\_x2 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{datawc\_y1 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{datawc\_y2 (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{datawc\_timeunits (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{datawc\_calendar (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{removeobject() (in module vcs.manageElements)|hyperpage}{211}
+\indexentry{vcs.queries (module)|hyperpage}{212}
+\indexentry{graphicsmethodlist() (in module vcs.queries)|hyperpage}{212}
+\indexentry{graphicsmethodtype() (in module vcs.queries)|hyperpage}{212}
+\indexentry{is1d() (in module vcs.queries)|hyperpage}{212}
+\indexentry{is3d\_dual\_scalar() (in module vcs.queries)|hyperpage}{213}
+\indexentry{is3d\_scalar() (in module vcs.queries)|hyperpage}{213}
+\indexentry{is3d\_vector() (in module vcs.queries)|hyperpage}{213}
+\indexentry{isboxfill() (in module vcs.queries)|hyperpage}{214}
+\indexentry{iscolormap() (in module vcs.queries)|hyperpage}{214}
+\indexentry{isfillarea() (in module vcs.queries)|hyperpage}{214}
+\indexentry{isgraphicsmethod() (in module vcs.queries)|hyperpage}{214}
+\indexentry{isisofill() (in module vcs.queries)|hyperpage}{215}
+\indexentry{isisoline() (in module vcs.queries)|hyperpage}{215}
+\indexentry{isline() (in module vcs.queries)|hyperpage}{215}
+\indexentry{ismarker() (in module vcs.queries)|hyperpage}{216}
+\indexentry{ismeshfill() (in module vcs.queries)|hyperpage}{216}
+\indexentry{isplot() (in module vcs.queries)|hyperpage}{216}
+\indexentry{isprojection() (in module vcs.queries)|hyperpage}{216}
+\indexentry{isscatter() (in module vcs.queries)|hyperpage}{217}
+\indexentry{issecondaryobject() (in module vcs.queries)|hyperpage}{217}
+\indexentry{istaylordiagram() (in module vcs.queries)|hyperpage}{218}
+\indexentry{istemplate() (in module vcs.queries)|hyperpage}{218}
+\indexentry{istext() (in module vcs.queries)|hyperpage}{218}
+\indexentry{istextcombined() (in module vcs.queries)|hyperpage}{219}
+\indexentry{istextorientation() (in module vcs.queries)|hyperpage}{219}
+\indexentry{istexttable() (in module vcs.queries)|hyperpage}{219}
+\indexentry{isvector() (in module vcs.queries)|hyperpage}{220}
+\indexentry{isxvsy() (in module vcs.queries)|hyperpage}{220}
+\indexentry{isxyvsy() (in module vcs.queries)|hyperpage}{220}
+\indexentry{isyxvsx() (in module vcs.queries)|hyperpage}{220}
+\indexentry{vcs.utils (module)|hyperpage}{221}
+\indexentry{generate\_time\_labels() (in module vcs.utils)|hyperpage}{221}
+\indexentry{getcolorcell() (in module vcs.utils)|hyperpage}{221}
+\indexentry{getcolormap() (in module vcs.utils)|hyperpage}{222}
+\indexentry{getcolors() (in module vcs.utils)|hyperpage}{222}
+\indexentry{getfontname() (in module vcs.utils)|hyperpage}{223}
+\indexentry{getfontnumber() (in module vcs.utils)|hyperpage}{223}
+\indexentry{getworldcoordinates() (in module vcs.utils)|hyperpage}{223}
+\indexentry{match\_color() (in module vcs.utils)|hyperpage}{223}
+\indexentry{minmax() (in module vcs.utils)|hyperpage}{224}
+\indexentry{mkevenlevels() (in module vcs.utils)|hyperpage}{224}
+\indexentry{mklabels() (in module vcs.utils)|hyperpage}{224}
+\indexentry{mkscale() (in module vcs.utils)|hyperpage}{225}
+\indexentry{rgba\_color() (in module vcs.utils)|hyperpage}{225}
+\indexentry{setTicksandLabels() (in module vcs.utils)|hyperpage}{225}
+\indexentry{setcolorcell() (in module vcs.utils)|hyperpage}{226}
+\indexentry{show() (in module vcs.utils)|hyperpage}{226}
+\indexentry{vcs.vcshelp (module)|hyperpage}{227}
+\indexentry{objecthelp() (in module vcs.vcshelp)|hyperpage}{227}

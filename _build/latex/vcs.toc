@@ -1,0 +1,44 @@
+\contentsline {chapter}{\numberline {1}VCS}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}VCS: Visualization and Control System}{1}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Authors}{1}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Description}{1}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Canvas}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}Graphics Methods}{97}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}boxfill}{97}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}dv3d}{103}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}isofill}{103}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.4}isoline}{109}{subsection.1.3.4}
+\contentsline {subsection}{\numberline {1.3.5}meshfill}{115}{subsection.1.3.5}
+\contentsline {subsection}{\numberline {1.3.6}taylor}{120}{subsection.1.3.6}
+\contentsline {subsection}{\numberline {1.3.7}unified1D}{122}{subsection.1.3.7}
+\contentsline {subsection}{\numberline {1.3.8}vector}{127}{subsection.1.3.8}
+\contentsline {section}{\numberline {1.4}Templating}{130}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}template}{130}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}Pboxeslines}{132}{subsection.1.4.2}
+\contentsline {subsection}{\numberline {1.4.3}Pdata}{133}{subsection.1.4.3}
+\contentsline {subsection}{\numberline {1.4.4}Pformat}{134}{subsection.1.4.4}
+\contentsline {subsection}{\numberline {1.4.5}Plegend}{135}{subsection.1.4.5}
+\contentsline {subsection}{\numberline {1.4.6}Ptext}{136}{subsection.1.4.6}
+\contentsline {subsection}{\numberline {1.4.7}Pxlabels}{137}{subsection.1.4.7}
+\contentsline {subsection}{\numberline {1.4.8}Pxtickmarks}{138}{subsection.1.4.8}
+\contentsline {subsection}{\numberline {1.4.9}Pylabels}{139}{subsection.1.4.9}
+\contentsline {subsection}{\numberline {1.4.10}Pytickmarks}{140}{subsection.1.4.10}
+\contentsline {section}{\numberline {1.5}Secondary Graphics Methods}{142}{section.1.5}
+\contentsline {subsection}{\numberline {1.5.1}fillarea}{142}{subsection.1.5.1}
+\contentsline {subsection}{\numberline {1.5.2}line}{143}{subsection.1.5.2}
+\contentsline {subsection}{\numberline {1.5.3}marker}{145}{subsection.1.5.3}
+\contentsline {subsection}{\numberline {1.5.4}textcombined}{147}{subsection.1.5.4}
+\contentsline {subsection}{\numberline {1.5.5}textorientation}{150}{subsection.1.5.5}
+\contentsline {subsection}{\numberline {1.5.6}texttable}{152}{subsection.1.5.6}
+\contentsline {section}{\numberline {1.6}Miscellaneous Modules}{154}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}animate\_helper}{154}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}projection}{154}{subsection.1.6.2}
+\contentsline {subsection}{\numberline {1.6.3}colormap}{158}{subsection.1.6.3}
+\contentsline {subsection}{\numberline {1.6.4}colors}{160}{subsection.1.6.4}
+\contentsline {subsection}{\numberline {1.6.5}displayplot}{160}{subsection.1.6.5}
+\contentsline {subsection}{\numberline {1.6.6}error}{161}{subsection.1.6.6}
+\contentsline {subsection}{\numberline {1.6.7}manageElements}{161}{subsection.1.6.7}
+\contentsline {subsection}{\numberline {1.6.8}queries}{212}{subsection.1.6.8}
+\contentsline {subsection}{\numberline {1.6.9}utils}{221}{subsection.1.6.9}
+\contentsline {subsection}{\numberline {1.6.10}vcshelp}{227}{subsection.1.6.10}
+\contentsline {chapter}{Python Module Index}{228}{section*.476}
