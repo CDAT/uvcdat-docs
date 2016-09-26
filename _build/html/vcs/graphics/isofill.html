@@ -1,0 +1,673 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>isofill &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="Graphics Methods" href="gm.html" />
+    <link rel="next" title="isoline" href="isoline.html" />
+    <link rel="prev" title="dv3d" href="dv3d.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="isoline.html" title="isoline"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dv3d.html" title="dv3d"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="gm.html" accesskey="U">Graphics Methods</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs.isofill">
+<span id="isofill"></span><h1>isofill<a class="headerlink" href="#module-vcs.isofill" title="Permalink to this headline">¶</a></h1>
+<p># Isofill (Gfi) module</p>
+<dl class="class">
+<dt id="vcs.isofill.Gfi">
+<em class="property">class </em><code class="descclassname">vcs.isofill.</code><code class="descname">Gfi</code><span class="sig-paren">(</span><em>Gfi_name</em>, <em>Gfi_name_src='default'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Isofill graphics method fills the area between selected isolevels
+(levels of constant value) of a two-dimensional array with a
+user-specified color. The example below shows how to display an isofill
+plot on the VCS Canvas and how to create and remove isofill isolevels.</p>
+<p>This class is used to define an isofill table entry used in VCS, or it
+can be used to change some or all of the isofill attributes in an
+existing isofill table entry.</p>
+<dl class="describe">
+<dt>
+<code class="descname">Useful Functions:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas Constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1"># Show predefined isofill graphics methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;isofill&#39;</span><span class="p">)</span>
+<span class="c1"># Show predefined fillarea objects</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;fillarea&#39;</span><span class="p">)</span>
+<span class="c1"># Show predefined template objects</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">)</span>
+<span class="c1"># Change the VCS color map</span>
+<span class="n">a</span><span class="o">.</span><span class="n">setcolormap</span><span class="p">(</span><span class="s2">&quot;AMIP&quot;</span><span class="p">)</span>
+<span class="c1"># Create a template</span>
+<span class="n">a</span><span class="o">.</span><span class="n">createtemplate</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="c1"># Create a fillarea</span>
+<span class="n">a</span><span class="o">.</span><span class="n">createfillarea</span><span class="p">(</span><span class="s1">&#39;fill&#39;</span><span class="p">)</span>
+<span class="c1"># Get an existing template</span>
+<span class="n">a</span><span class="o">.</span><span class="n">gettemplate</span><span class="p">(</span><span class="s1">&#39;AMIP&#39;</span><span class="p">)</span>
+<span class="c1"># Get an existing fillarea</span>
+<span class="n">a</span><span class="o">.</span><span class="n">getfillarea</span><span class="p">(</span><span class="s1">&#39;def37&#39;</span><span class="p">)</span>
+<span class="c1"># Plot array &#39;s&#39; with isofill &#39;i&#39; and template &#39;t&#39;</span>
+<span class="n">a</span><span class="o">.</span><span class="n">isofill</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+<span class="c1"># Updates the VCS Canvas at user&#39;s request</span>
+<span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Creating an isofill object:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#Create a VCS Canvas</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1">#Create a new instance of isofill:</span>
+<span class="c1"># Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisofill</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;quick&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisofill</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Modifying an existing isofill:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisofill</span><span class="p">(</span><span class="s1">&#39;AMIP_psl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Overview of isofill attributes:</code></dt>
+<dd><ul>
+<li><p class="first">List all isofill attribute values:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Set isofill attributes:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span>
+<span class="n">lon30</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">180</span><span class="p">:</span><span class="s1">&#39;180W&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">150</span><span class="p">:</span><span class="s1">&#39;150W&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;Eq&#39;</span><span class="p">}</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xticlabels1</span><span class="o">=</span><span class="n">lon30</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xticlabels2</span><span class="o">=</span><span class="n">lon30</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xticlabels</span><span class="p">(</span><span class="n">lon30</span><span class="p">,</span> <span class="n">lon30</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xmtics1</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xmtics2</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xmtics</span><span class="p">(</span><span class="n">lon30</span><span class="p">,</span> <span class="n">lon30</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yticlabels1</span><span class="o">=</span><span class="n">lat10</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yticlabels2</span><span class="o">=</span><span class="n">lat10</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yticlabels</span><span class="p">(</span><span class="n">lat10</span><span class="p">,</span> <span class="n">lat10</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">ymtics1</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">ymtics2</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">ymtics</span><span class="p">(</span><span class="n">lat10</span><span class="p">,</span> <span class="n">lat10</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_y1</span><span class="o">=-</span><span class="mf">90.0</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_y2</span><span class="o">=</span><span class="mf">90.0</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_x1</span><span class="o">=-</span><span class="mf">180.0</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_x2</span><span class="o">=</span><span class="mf">180.0</span>
+<span class="c1"># Will set them all</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xaxisconvert</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yaxisconvert</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xyscale</span><span class="p">(</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;area_wt&#39;</span><span class="p">)</span>
+<span class="c1"># Color index value range 0 to 255</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">missing</span><span class="o">=</span><span class="mi">241</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">legend</span><span class="o">=</span><span class="bp">None</span>
+<span class="n">ext_1</span><span class="o">=</span><span class="s1">&#39;n&#39;</span>
+<span class="n">ext_2</span><span class="o">=</span><span class="s1">&#39;y&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">exts</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Setting the isofill levels:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># 1) When levels are all contiguous:</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">levels</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">40</span><span class="p">],)</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">levels</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">50</span><span class="p">])</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">40</span><span class="p">]</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">levels</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">,</span><span class="mf">25.0</span><span class="p">,</span><span class="mf">30.0</span><span class="p">,</span><span class="mf">35.0</span><span class="p">,</span><span class="mf">40.0</span><span class="p">,</span><span class="mf">50.0</span><span class="p">)</span>
+
+<span class="c1"># 2) When levels are not contiguous:</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">levels</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">])</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">levels</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">])</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Setting the fillarea color indices:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">fillareacolors</span><span class="o">=</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="mi">77</span><span class="p">])</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">fillareacolors</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">fillareacolors</span><span class="o">=</span><span class="bp">None</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Setting the fillarea style:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;solid&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;hatch&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;pattern&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Setting the fillarea hatch or pattern indices:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">fillareaindices</span><span class="o">=</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">fillareaindices</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Using the fillarea secondary object (Ex):</code></dt>
+<dd><ul>
+<li><p class="first">Create a new instance of fillarea:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">=</span><span class="n">createfillarea</span><span class="p">(</span><span class="s1">&#39;fill1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Create a new isofill:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Copies &#39;quick&#39; to &#39;new&#39;</span>
+<span class="n">fill</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisofill</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;quick&#39;</span><span class="p">)</span>
+<span class="c1"># Copies &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">fill</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisofill</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Modify an existing isofill:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fill</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisofill</span><span class="p">(</span><span class="s1">&#39;def37&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Set index using fillarea</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">fillareaindices</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="n">fill</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="n">fill</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
+<span class="c1"># list fillarea attributes</span>
+<span class="n">fill</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="c1"># change style</span>
+<span class="n">fill</span><span class="o">.</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;hatch&#39;</span>
+<span class="c1"># change color</span>
+<span class="n">fill</span><span class="o">.</span><span class="n">color</span><span class="o">=</span><span class="mi">241</span>
+<span class="c1"># change style index</span>
+<span class="n">fill</span><span class="o">.</span><span class="n">index</span><span class="o">=</span><span class="mi">3</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Attribute descriptions:</code></dt>
+<dd><dl class="attribute">
+<dt id="vcs.isofill.Gfi.xmtics1">
+<code class="descname">xmtics1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.xmtics1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 1st side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.xmtics2">
+<code class="descname">xmtics2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.xmtics2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 2nd side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.ymtics1">
+<code class="descname">ymtics1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.ymtics1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 1st side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.ymtics2">
+<code class="descname">ymtics2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.ymtics2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 2nd side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.xticlabels1">
+<code class="descname">xticlabels1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.xticlabels1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 1st side of x axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.xticlabels2">
+<code class="descname">xticlabels2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.xticlabels2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 2nd side of x axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.yticlabels1">
+<code class="descname">yticlabels1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.yticlabels1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 1st side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.yticlabels2">
+<code class="descname">yticlabels2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.yticlabels2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 2nd side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.projection">
+<code class="descname">projection</code><span class="sig-paren">(</span><em>str/vcs.projection.Proj</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;default&#8217;) projection to use, name or object</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.datawc_x1">
+<code class="descname">datawc_x1</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.datawc_x1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) first value of xaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.datawc_x2">
+<code class="descname">datawc_x2</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.datawc_x2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) second value of xaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.datawc_y1">
+<code class="descname">datawc_y1</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.datawc_y1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) first value of yaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.datawc_y2">
+<code class="descname">datawc_y2</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.datawc_y2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) second value of yaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.datawc_timeunits">
+<code class="descname">datawc_timeunits</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.datawc_timeunits" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;days since 2000&#8217;) units to use when displaying time dimension auto tick</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.datawc_calendar">
+<code class="descname">datawc_calendar</code><span class="sig-paren">(</span><em>int</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.datawc_calendar" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 135441) calendar to use when displaying time dimension auto tick, default is proleptic gregorian calendar</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.levels">
+<code class="descname">levels</code><span class="sig-paren">(</span><em>[float,...]/[[float,float],...]</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.levels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the levels range to use, can be either a list of contiguous levels, or list of tuples
+indicating first and last value of the range.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.fillareacolors">
+<code class="descname">fillareacolors</code><span class="sig-paren">(</span><span class="optional">[</span><em>int</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.fillareacolors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Colors to use for each level</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.fillareastyle">
+<code class="descname">fillareastyle</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.fillareastyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Style to use for levels filling: solid/pattern/hatch</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.fillareaindices">
+<code class="descname">fillareaindices</code><span class="sig-paren">(</span><span class="optional">[</span><em>int</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.fillareaindices" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of patterns to use when filling a level and using pattern/hatch</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.legend">
+<code class="descname">legend</code><span class="sig-paren">(</span><em>None/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces the legend values in the dictionary keys with their associated string</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.ext_1">
+<code class="descname">ext_1</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.ext_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws an extension arrow on right side (values less than first range value)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.ext_2">
+<code class="descname">ext_2</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.ext_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws an extension arrow on left side (values greater than last range value)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isofill.Gfi.missing">
+<code class="descname">missing</code><span class="sig-paren">(</span><em>int</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isofill.Gfi.missing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color to use for missing value or values not in defined ranges</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.colors">
+<code class="descname">colors</code><span class="sig-paren">(</span><em>color1=16</em>, <em>color2=239</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.colors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the color_1 and color_2 properties of the object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>color1</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Sets the <code class="xref py py-attr docutils literal"><span class="pre">color_1</span></code> value on the object</li>
+<li><strong>color2</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Sets the <code class="xref py py-attr docutils literal"><span class="pre">color_2</span></code> value on the object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.datawc">
+<code class="descname">datawc</code><span class="sig-paren">(</span><em>dsp1=1e+20</em>, <em>dsp2=1e+20</em>, <em>dsp3=1e+20</em>, <em>dsp4=1e+20</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.datawc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.datawc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the data world coordinates for object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dsp1</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isofill.Gfi.datawc_y1" title="vcs.isofill.Gfi.datawc_y1"><code class="xref py py-attr docutils literal"><span class="pre">datawc_y1</span></code></a> property of the object.</li>
+<li><strong>dsp2</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isofill.Gfi.datawc_y2" title="vcs.isofill.Gfi.datawc_y2"><code class="xref py py-attr docutils literal"><span class="pre">datawc_y2</span></code></a> property of the object.</li>
+<li><strong>dsp3</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isofill.Gfi.datawc_x1" title="vcs.isofill.Gfi.datawc_x1"><code class="xref py py-attr docutils literal"><span class="pre">datawc_x1</span></code></a> property of the object.</li>
+<li><strong>dsp4</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isofill.Gfi.datawc_x2" title="vcs.isofill.Gfi.datawc_x2"><code class="xref py py-attr docutils literal"><span class="pre">datawc_x2</span></code></a> property of the object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.exts">
+<code class="descname">exts</code><span class="sig-paren">(</span><em>ext1='n'</em>, <em>ext2='y'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.exts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.exts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the ext_1 and ext_2 values on the object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ext1</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isofill.Gfi.ext_1" title="vcs.isofill.Gfi.ext_1"><code class="xref py py-attr docutils literal"><span class="pre">ext_1</span></code></a> value on the object. &#8216;y&#8217; sets it to True, &#8216;n&#8217; sets it to False.</li>
+<li><strong>ext2</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isofill.Gfi.ext_2" title="vcs.isofill.Gfi.ext_2"><code class="xref py py-attr docutils literal"><span class="pre">ext_2</span></code></a> value on the object. &#8216;y&#8217; sets it to True, &#8216;n&#8217; sets it to False.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.list">
+<code class="descname">list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists the current values of object attributes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.script">
+<code class="descname">script</code><span class="sig-paren">(</span><em>script_filename</em>, <em>mode='a'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves out a copy of the isofill graphics method in JSON, or Python format to a designated file.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the the filename has a &#8216;.py&#8217; at the end, it will produce a
+Python script. If no extension is given, then by default a
+.json file containing a JSON serialization of the object&#8217;s
+data will be produced.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">VCS Scripts Deprecated.
+SCR script files are no longer generated by this function.</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a Canvas object to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisofill</span><span class="p">()</span> <span class="c1"># Get default isofill</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename.py&#39;</span><span class="p">)</span> <span class="c1"># Append to a Python script named &#39;filename.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="c1"># Create or overwrite a JSON file &#39;filename.json&#39;.</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>script_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Output name of the script file. If no extension is specified, a .json object is created.</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Either &#8216;w&#8217; for replace, or &#8216;a&#8217; for append. Defaults to &#8216;a&#8217;, if not specified.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.xmtics">
+<code class="descname">xmtics</code><span class="sig-paren">(</span><em>xmt1=''</em>, <em>xmt2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.xmtics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.xmtics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the xmtics1 and xmtics2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xmt1</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isofill.Gfi.xmtics1" title="vcs.isofill.Gfi.xmtics1"><code class="xref py py-attr docutils literal"><span class="pre">xmtics1</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+<li><strong>xmt2</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isofill.Gfi.xmtics2" title="vcs.isofill.Gfi.xmtics2"><code class="xref py py-attr docutils literal"><span class="pre">xmtics2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.xticlabels">
+<code class="descname">xticlabels</code><span class="sig-paren">(</span><em>xtl1=''</em>, <em>xtl2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.xticlabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.xticlabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the xticlabels1 and xticlabels2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xtl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isofill.Gfi.xticlabels1" title="vcs.isofill.Gfi.xticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels1</span></code></a>. Must be  a str, or a dictionary object with float:str mappings.</li>
+<li><strong>xtl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isofill.Gfi.xticlabels2" title="vcs.isofill.Gfi.xticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.xyscale">
+<code class="descname">xyscale</code><span class="sig-paren">(</span><em>xat=''</em>, <em>yat=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.xyscale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.xyscale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets xaxisconvert and yaxisconvert values for the object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisofill</span><span class="p">(</span><span class="s1">&#39;xyscale_ex&#39;</span><span class="p">)</span> <span class="c1"># create a boxfill to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">xyscale</span><span class="p">(</span><span class="n">xat</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yat</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> <span class="c1"># set xaxisconvert and yaxisconvert to &#39;linear&#39;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xat</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Set value for x axis conversion.</li>
+<li><strong>yat</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Set value for y axis conversion.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.ymtics">
+<code class="descname">ymtics</code><span class="sig-paren">(</span><em>ymt1=''</em>, <em>ymt2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.ymtics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.ymtics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the ymtics1 and ymtics2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ymt1</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isofill.Gfi.ymtics1" title="vcs.isofill.Gfi.ymtics1"><code class="xref py py-attr docutils literal"><span class="pre">ymtics1</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+<li><strong>ymt2</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isofill.Gfi.ymtics2" title="vcs.isofill.Gfi.ymtics2"><code class="xref py py-attr docutils literal"><span class="pre">ymtics2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isofill.Gfi.yticlabels">
+<code class="descname">yticlabels</code><span class="sig-paren">(</span><em>ytl1=''</em>, <em>ytl2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isofill.html#Gfi.yticlabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isofill.Gfi.yticlabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the yticlabels1 and yticlabels2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ytl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isofill.Gfi.yticlabels1" title="vcs.isofill.Gfi.yticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels1</span></code></a>. Must be  a str, or a dictionary object with float:str mappings.</li>
+<li><strong>ytl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isofill.Gfi.yticlabels2" title="vcs.isofill.Gfi.yticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dv3d.html"
+                        title="previous chapter">dv3d</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="isoline.html"
+                        title="next chapter">isoline</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/vcs/graphics/isofill.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="isoline.html" title="isoline"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dv3d.html" title="dv3d"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="gm.html" >Graphics Methods</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

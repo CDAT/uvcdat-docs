@@ -1,0 +1,1247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.isoline &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.isoline</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Isoline (Gi) module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Module:       isoline (Gi) module                                             #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California                   #</span>
+<span class="c1">#               This software may not be distributed to others without          #</span>
+<span class="c1">#               permission of the author.                                       #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Author:       PCMDI Software Team                                             #</span>
+<span class="c1">#               Lawrence Livermore NationalLaboratory:                          #</span>
+<span class="c1">#               support@pcmdi.llnl.gov                                          #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Description:  Python command wrapper for VCS&#39;s isoline graphics method.       #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Version:      5.0                                                             #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Import: VCS C extension module.                                               #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1">##########################################################################</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">cdtime</span>
+<span class="kn">import</span> <span class="nn">xmldocs</span>
+<span class="kn">import</span> <span class="nn">genutil</span>
+
+
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">json_dict</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">get_att_from_sub</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">att</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">process_src</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+
+    <span class="c1"># Takes VCS script code (string) as input and generates isoline gm from it</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Gi</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isoline&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+    <span class="c1"># process attributes with = as assignement</span>
+    <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xticlabels#1&quot;</span><span class="p">,</span> <span class="s2">&quot;xticlabels#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xmtics#1&quot;</span><span class="p">,</span> <span class="s2">&quot;xmtics#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;yticlabels#1&quot;</span><span class="p">,</span> <span class="s2">&quot;yticlabels#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ymtics#1&quot;</span><span class="p">,</span> <span class="s2">&quot;ymtics#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xaxisconvert&quot;</span><span class="p">,</span> <span class="s2">&quot;yaxisconvert&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;boxfill_type&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;legend&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ext_1&quot;</span><span class="p">,</span> <span class="s2">&quot;ext_2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;missing&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_calendar&quot;</span><span class="p">,</span> <span class="s2">&quot;make_labels&quot;</span><span class="p">]:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># last one no comma</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">scode</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">scode</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">nm</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;make_labels&quot;</span><span class="p">:</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="s2">&quot;label&quot;</span>
+        <span class="k">elif</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">:</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="s2">&quot;datawc_timeunits&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># int will be converted</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># int and floats will be converted</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="nb">eval</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># strings</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># oh well we stick to default value</span>
+    <span class="c1"># Datawc</span>
+    <span class="n">idwc</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot; datawc(&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idwc</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">jdwc</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">idwc</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span> <span class="o">+</span> <span class="mi">8</span><span class="p">:</span><span class="n">jdwc</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="c1"># idatawc</span>
+    <span class="n">idwc</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;idatawc(&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idwc</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">jdwc</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">idwc</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span> <span class="o">+</span> <span class="mi">8</span><span class="p">:</span><span class="n">jdwc</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+    <span class="n">irg</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;lines&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">irg</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">scode</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">irg</span><span class="p">:]</span>
+        <span class="n">tl</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">to</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">clock</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">scales</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">spacing</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">levs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># print code[irg:]</span>
+        <span class="n">iid</span> <span class="o">=</span> <span class="n">scode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;(id=&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">iid</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">genutil</span><span class="o">.</span><span class="n">get_parenthesis_content</span><span class="p">(</span><span class="n">scode</span><span class="p">[</span><span class="n">iid</span><span class="p">:])</span>
+            <span class="k">if</span> <span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+            <span class="n">levs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">))</span>
+            <span class="n">tl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;Tl&quot;</span><span class="p">))</span>
+            <span class="n">to</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;To&quot;</span><span class="p">))</span>
+            <span class="n">tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;Tt&quot;</span><span class="p">))</span>
+            <span class="n">clock</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;clockwise&quot;</span><span class="p">))</span>
+            <span class="n">scales</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;length&quot;</span><span class="p">))</span>
+            <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;angle&quot;</span><span class="p">))</span>
+            <span class="n">spacing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_att_from_sub</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;spacing&quot;</span><span class="p">))</span>
+            <span class="n">iend</span> <span class="o">=</span> <span class="n">scode</span><span class="p">[</span><span class="n">iid</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">scode</span> <span class="o">=</span> <span class="n">scode</span><span class="p">[</span><span class="n">iid</span> <span class="o">+</span> <span class="n">iend</span><span class="p">:]</span>
+            <span class="n">iid</span> <span class="o">=</span> <span class="n">scode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;(id=&quot;</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">levs</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">tl</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="n">tl</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">to</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">to</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">textcolors</span> <span class="o">=</span> <span class="n">tt</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">_textcolors</span> <span class="o">=</span> <span class="n">tt</span>
+
+    <span class="n">gd</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isoline&quot;</span><span class="p">][</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scales</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">scale</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angles</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">angle</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">clockwise</span> <span class="o">=</span> <span class="n">clock</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">clockwise</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">clockwise</span>
+
+
+<div class="viewcode-block" id="Gi"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi">[docs]</a><span class="k">class</span> <span class="nc">Gi</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    The Isoline graphics method (Gi) draws lines of constant value at specified</span>
+<span class="s2">    levels in order to graphically represent a two-dimensional array. It</span>
+<span class="s2">    also labels the values of these isolines on the VCS Canvas. The example</span>
+<span class="s2">    below shows how to plot isolines of different types at specified levels</span>
+<span class="s2">    and how to create isoline labels having user-specified text and line type</span>
+<span class="s2">    and color.</span>
+
+<span class="s2">    This class is used to define an isoline table entry used in VCS, or it can</span>
+<span class="s2">    be used to change some or all of the isoline attributes in an existing isoline</span>
+<span class="s2">    table entry.</span>
+
+<span class="s2">    .. describe:: Useful Functions:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            # VCS Canvas Constructor</span>
+<span class="s2">            a=vcs.init()</span>
+<span class="s2">            # Show predefined isoline graphics methods</span>
+<span class="s2">            a.show(&#39;isoline&#39;)</span>
+<span class="s2">            # Show predefined VCS line objects</span>
+<span class="s2">            a.show(&#39;line&#39;)</span>
+<span class="s2">            # Change the VCS color map</span>
+<span class="s2">            a.setcolormap(&quot;AMIP&quot;)</span>
+<span class="s2">            # Plot data &#39;s&#39; with isoline &#39;i&#39; and &#39;default&#39; template</span>
+<span class="s2">            a.isoline(s,a,&#39;default&#39;)</span>
+<span class="s2">            # Updates the VCS Canvas at user&#39;s request</span>
+<span class="s2">            a.update()</span>
+
+<span class="s2">    .. describe::  Create a canvas object:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            a=vcs.init()</span>
+
+<span class="s2">    .. describe:: Create a new instance of isoline:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            # Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="s2">            iso=a.createisoline(&#39;new&#39;,&#39;quick&#39;)</span>
+<span class="s2">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="s2">            iso=a.createisoline(&#39;new&#39;)</span>
+
+<span class="s2">    .. describe:: Modify an existing isoline:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            iso=a.getisoline(&#39;AMIP_psl&#39;)</span>
+
+<span class="s2">    .. _isoline-attributes:</span>
+
+<span class="s2">    .. describe:: Overview of isoline attributes:</span>
+
+<span class="s2">        * List all the isoline attribute values</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.list()</span>
+
+<span class="s2">        * Set isoline attribute values:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.projection=&#39;linear&#39;</span>
+<span class="s2">                lon30={-180:&#39;180W&#39;,-150:&#39;150W&#39;,0:&#39;Eq&#39;}</span>
+<span class="s2">                iso.xticlabels1=lon30</span>
+<span class="s2">                iso.xticlabels2=lon30</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.xticlabels(lon30, lon30)</span>
+<span class="s2">                iso.xmtics1=&#39;&#39;</span>
+<span class="s2">                iso.xmtics2=&#39;&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.xmtics(lon30, lon30)</span>
+<span class="s2">                iso.yticlabels1=lat10</span>
+<span class="s2">                iso.yticlabels2=lat10</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.yticlabels(lat10, lat10)</span>
+<span class="s2">                iso.ymtics1=&#39;&#39;</span>
+<span class="s2">                iso.ymtics2=&#39;&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.ymtics(lat10, lat10)</span>
+<span class="s2">                iso.datawc_y1=-90.0</span>
+<span class="s2">                iso.datawc_y2=90.0</span>
+<span class="s2">                iso.datawc_x1=-180.0</span>
+<span class="s2">                iso.datawc_x2=180.0</span>
+<span class="s2">                # Will set them all</span>
+<span class="s2">                iso.datawc(-90, 90, -180, 180)</span>
+<span class="s2">                xaxisconvert=&#39;linear&#39;</span>
+<span class="s2">                yaxisconvert=&#39;linear&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.xyscale(&#39;linear&#39;, &#39;area_wt&#39;)</span>
+
+<span class="s2">        * Setting isoline :py:attr:`level` values:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                #1) As a list of tuples (Examples):</span>
+<span class="s2">                    iso.level=[(23,32,45,50,76),]</span>
+<span class="s2">                    iso.level=[(22,33,44,55,66)]</span>
+<span class="s2">                    iso.level=[(20,0.0),(30,0),(50,0)]</span>
+<span class="s2">                    iso.level=[(23,32,45,50,76), (35, 45, 55)]</span>
+<span class="s2">                #2) As a tuple of lists (Examples):</span>
+<span class="s2">                    iso.level=([23,32,45,50,76],)</span>
+<span class="s2">                    iso.level=([22,33,44,55,66])</span>
+<span class="s2">                    iso.level=([23,32,45,50,76],)</span>
+<span class="s2">                    iso.level=([0,20,25,30,35,40],[30,40],[50,60])</span>
+<span class="s2">                #3) As a list of lists (Examples):</span>
+<span class="s2">                    iso.level=[[20,0.0],[30,0],[50,0]]</span>
+<span class="s2">                #4) As a tuple of tuples (Examples):</span>
+<span class="s2">                    iso.level=((20,0.0),(30,0),(50,0),(60,0),(70,0))</span>
+
+
+<span class="s2">            .. note::</span>
+<span class="s2">                A combination of a pairs (i.e., (30,0) or [30,0])</span>
+<span class="s2">                represents the isoline value plus its increment value.</span>
+<span class="s2">                Thus, to let VCS generate &quot;default&quot; isolines:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # Same as iso.level=((0,1e20),)</span>
+<span class="s2">                    iso.level=[[0,1e20]]</span>
+
+<span class="s2">        * Displaying isoline labels:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                # Same as iso.label=1, will display isoline labels</span>
+<span class="s2">                iso.label=&#39;y&#39;</span>
+<span class="s2">                # Same as iso.label=0, will turn isoline labels off</span>
+<span class="s2">                iso.label=&#39;n&#39;</span>
+
+<span class="s2">        * Specify the isoline line style (or type):</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                # The following two lines of code are equivalent.</span>
+<span class="s2">                iso.line=([0,1,2,3,4])</span>
+<span class="s2">                # Both specify the isoline style</span>
+<span class="s2">                iso.line=([&#39;solid, &#39;dash&#39;, &#39;dot&#39;, &#39;dash-dot&#39;, &#39;long-dash&#39;])</span>
+
+<span class="s2">        * There are three possibilities for setting the line color indices:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                # The following two lines of code are equivalent</span>
+<span class="s2">                # Both will set the isoline to a specific color index</span>
+<span class="s2">                iso.linecolors=(22,33,44,55,66,77)</span>
+<span class="s2">                iso.linecolors=([22,33,44,55,66,77])</span>
+<span class="s2">                # Turns off the line color index</span>
+<span class="s2">                iso.linecolors=None</span>
+
+<span class="s2">        * There are three possibilities for setting the line widths:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                # The following two lines of code are equivalent</span>
+<span class="s2">                iso.linewidths=(1,10,3,4,5,6,7,8)</span>
+<span class="s2">                # Both will set the isoline to a specific width size</span>
+<span class="s2">                iso.linewidths=([1,2,3,4,5,6,7,8])</span>
+<span class="s2">                # Turns off the line width size</span>
+<span class="s2">                iso.linewidths=None</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                If the number of line styles, colors or widths are less</span>
+<span class="s2">                than the number of levels, we extend the attribute list</span>
+<span class="s2">                using the last attribute value in the attribute list.</span>
+
+<span class="s2">        * There are three ways to specify the text or font number:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                # Font numbers are between 1 and 9</span>
+<span class="s2">                iso.text=(1,2,3,4,5,6,7,8,9)</span>
+<span class="s2">                iso.text=[9,8,7,6,5,4,3,2,1]</span>
+<span class="s2">                iso.text=([1,3,5,6,9,2])</span>
+<span class="s2">                # Removes the text settings</span>
+<span class="s2">                iso.text=None</span>
+
+<span class="s2">        * There are three possibilities for setting the text color indices:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.textcolors=([22,33,44,55,66,77])</span>
+<span class="s2">                iso.textcolors=(16,19,33,44)</span>
+<span class="s2">                # Turns off the text color index</span>
+<span class="s2">                iso.textcolors=None</span>
+
+<span class="s2">        .. _isoline-attribute-descriptions:</span>
+
+<span class="s2">        * Attribute descriptions:</span>
+
+<span class="s2">            .. py:attribute:: label (str)</span>
+<span class="s2">            Turn on/off labels on isolines</span>
+
+<span class="s2">            .. py:attribute:: labelskipdistance (float)</span>
+<span class="s2">            Minimum distance between isoline labels</span>
+
+<span class="s2">            .. py:attribute:: labelbackgroundcolors ([float])</span>
+<span class="s2">            Background color for isoline labels</span>
+
+<span class="s2">            .. py:attribute:: labelbackgroundopacities ([float])</span>
+<span class="s2">            Background opacity for isoline labels</span>
+
+<span class="s2">            .. py:attribute:: level ([float,...])</span>
+<span class="s2">            Isocountours to display</span>
+
+<span class="s2">            .. py:attribute:: clockwise ([int,...])</span>
+<span class="s2">            Draw directional arrows</span>
+<span class="s2">            +-(0,1,2) Indicate none/clockwise/clokwise on y axis &gt;0.</span>
+<span class="s2">            Clockwise on x axis positive negative value invert behaviour</span>
+
+<span class="s2">            .. py:attribute:: scale ([float,...])</span>
+<span class="s2">            Scales the directional arrow lengths</span>
+
+<span class="s2">            .. py:attribute:: angle ([float,...])</span>
+<span class="s2">            Directional arrows head angle</span>
+
+<span class="s2">            .. py:attribute:: spacing ([float,...])</span>
+<span class="s2">            Scales spacing between directional arrows</span>
+
+<span class="s2">            </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">            &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">linesdoc</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">textsdoc</span><span class="p">)</span>
+
+    <span class="n">colormap</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">colormap</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;colormap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_colormap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;g_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;levels&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;level&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;label&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;labelskipdistance&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;labelbackgroundcolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;labelbackgroundopacities&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;linecolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;linewidths&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;textcolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;clockwise&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;scale&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;angle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;spacing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_level&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_label&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_labelskipdistance&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_labelbackgroundcolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_labelbackgroundopacities&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_linecolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_linewidths&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_text&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_textcolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_projection&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xmtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xmtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ymtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ymtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_x1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_x2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_y1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_y2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_timeunits&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_calendar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_clockwise&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_scale&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_angle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_spacing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;info&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span>
+
+    <span class="k">def</span> <span class="nf">_setcalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkCalendar</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_calendar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcalendar</span><span class="p">,</span> <span class="n">_setcalendar</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettimeunits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span>
+
+    <span class="k">def</span> <span class="nf">_settimeunits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkTimeUnits</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_timeunits</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettimeunits</span><span class="p">,</span> <span class="n">_settimeunits</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span>
+
+    <span class="k">def</span> <span class="nf">_setxaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxaxisconvert</span><span class="p">,</span> <span class="n">_setxaxisconvert</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span>
+
+    <span class="k">def</span> <span class="nf">_setyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyaxisconvert</span><span class="p">,</span> <span class="n">_setyaxisconvert</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlevels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_level</span>
+
+    <span class="k">def</span> <span class="nf">_setlevels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkIsolineLevels</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;levels&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_level</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlevels</span><span class="p">,</span> <span class="n">_setlevels</span><span class="p">)</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlevels</span><span class="p">,</span> <span class="n">_setlevels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getprojection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span>
+
+    <span class="k">def</span> <span class="nf">_setprojection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkProjection</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">projection</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getprojection</span><span class="p">,</span> <span class="n">_setprojection</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span>
+
+    <span class="k">def</span> <span class="nf">_setxticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xticlabels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxticlabels1</span><span class="p">,</span> <span class="n">_setxticlabels1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span>
+
+    <span class="k">def</span> <span class="nf">_setxticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xticlabels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxticlabels2</span><span class="p">,</span> <span class="n">_setxticlabels2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span>
+
+    <span class="k">def</span> <span class="nf">_setyticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yticlabels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyticlabels1</span><span class="p">,</span> <span class="n">_setyticlabels1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span>
+
+    <span class="k">def</span> <span class="nf">_setyticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yticlabels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyticlabels2</span><span class="p">,</span> <span class="n">_setyticlabels2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxmtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span>
+
+    <span class="k">def</span> <span class="nf">_setxmtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xmtics1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxmtics1</span><span class="p">,</span> <span class="n">_setxmtics1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxmtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span>
+
+    <span class="k">def</span> <span class="nf">_setxmtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xmtics2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxmtics2</span><span class="p">,</span> <span class="n">_setxmtics2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getymtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span>
+
+    <span class="k">def</span> <span class="nf">_setymtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">ymtics1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getymtics1</span><span class="p">,</span> <span class="n">_setymtics1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getymtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span>
+
+    <span class="k">def</span> <span class="nf">_setymtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">ymtics2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getymtics2</span><span class="p">,</span> <span class="n">_setymtics2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_x1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_x1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_x1</span><span class="p">,</span> <span class="n">_setdatawc_x1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_x2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_x2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_x2</span><span class="p">,</span> <span class="n">_setdatawc_x2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_y1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_y1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y1</span><span class="p">,</span> <span class="n">_setdatawc_y1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_y2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_y2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y2</span><span class="p">,</span> <span class="n">_setdatawc_y2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlinewidths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linewidths</span>
+
+    <span class="k">def</span> <span class="nf">_setlinewidths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkListOfNumbers</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;linewidths&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">300</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_linewidths</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">linewidths</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlinewidths</span><span class="p">,</span> <span class="n">_setlinewidths</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlinecolors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linecolors</span>
+
+    <span class="k">def</span> <span class="nf">_setlinecolors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColorList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;linecolors&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_linecolors</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">linecolors</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlinecolors</span><span class="p">,</span> <span class="n">_setlinecolors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span>
+
+    <span class="k">def</span> <span class="nf">_setline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">wvalue</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLinesList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;line&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cvalue</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span> <span class="o">=</span> <span class="n">cvalue</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">wvalue</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span> <span class="o">=</span> <span class="n">wvalue</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">line</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getline</span><span class="p">,</span> <span class="n">_setline</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span>
+
+    <span class="k">def</span> <span class="nf">_settext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkTextsList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="n">storeName</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettext</span><span class="p">,</span> <span class="n">_settext</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettextcolors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_textcolors</span>
+
+    <span class="k">def</span> <span class="nf">_settextcolors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColorList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;textcolors&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_textcolors</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">textcolors</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettextcolors</span><span class="p">,</span> <span class="n">_settextcolors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+
+    <span class="k">def</span> <span class="nf">_setlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkFuzzyBoolean</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlabel</span><span class="p">,</span> <span class="n">_setlabel</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlabelskipdistance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labelskipdistance</span>
+
+    <span class="k">def</span> <span class="nf">_setlabelskipdistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkIntFloat</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;labelskipdistance&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_labelskipdistance</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">labelskipdistance</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlabelskipdistance</span><span class="p">,</span> <span class="n">_setlabelskipdistance</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlabelbackgroundcolors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labelbackgroundcolors</span>
+
+    <span class="k">def</span> <span class="nf">_setlabelbackgroundcolors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColorList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;labelbackgroundcolors&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_labelbackgroundcolors</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">labelbackgroundcolors</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_getlabelbackgroundcolors</span><span class="p">,</span>
+        <span class="n">_setlabelbackgroundcolors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlabelbackgroundopacities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labelbackgroundopacities</span>
+
+    <span class="k">def</span> <span class="nf">_setlabelbackgroundopacities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkOpacitiesList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;labelbackgroundopacities&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_labelbackgroundopacities</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">labelbackgroundopacities</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_getlabelbackgroundopacities</span><span class="p">,</span>
+        <span class="n">_setlabelbackgroundopacities</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getspacing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spacing</span>
+
+    <span class="k">def</span> <span class="nf">_setspacing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkListOfNumbers</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;spacing&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="mf">0.</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spacing</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">spacing</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getspacing</span><span class="p">,</span> <span class="n">_setspacing</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span>
+
+    <span class="k">def</span> <span class="nf">_setangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkListOfNumbers</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;angle&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="mf">0.</span><span class="p">,</span>
+                <span class="mf">90.</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getangle</span><span class="p">,</span> <span class="n">_setangle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getscale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span>
+
+    <span class="k">def</span> <span class="nf">_setscale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkListOfNumbers</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;scale&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="mf">0.</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getscale</span><span class="p">,</span> <span class="n">_setscale</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getclockwise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_clockwise</span>
+
+    <span class="k">def</span> <span class="nf">_setclockwise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkListOfNumbers</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;clockwise&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">ints</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clockwise</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">clockwise</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getclockwise</span><span class="p">,</span> <span class="n">_setclockwise</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gi_name</span><span class="p">,</span> <span class="n">Gi_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+                <span class="c1">#                                                         #</span>
+                <span class="c1">###########################################################</span>
+                <span class="c1"># Initialize the isoline class and its members            #</span>
+                <span class="c1"># The getGimember function retrieves the values of the   #</span>
+                <span class="c1"># isoline members in the C structure and passes back the  #</span>
+                <span class="c1"># appropriate Python Object.                              #</span>
+                <span class="c1">###########################################################</span>
+                <span class="c1">#                                                         #</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Gi_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline name must be a string&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Gi_name</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isoline&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;isoline graphic method &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists&quot;</span> <span class="o">%</span>
+                <span class="n">Gi_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">Gi_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="s1">&#39;Gi&#39;</span>
+        <span class="k">if</span> <span class="n">Gi_name</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;solid&#39;</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_linecolors</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_linewidths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_textcolors</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_level</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.0000000200408773e+20</span><span class="p">],</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="s2">&quot;days since 2000&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="mi">135441</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_clockwise</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">35.</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spacing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="s1">&#39;n&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_labelskipdistance</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_labelbackgroundcolors</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_labelbackgroundopacities</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_colormap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Gi_name_src</span><span class="p">,</span> <span class="n">Gi</span><span class="p">):</span>
+                <span class="n">Gi_name_src</span> <span class="o">=</span> <span class="n">Gi_name_src</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">if</span> <span class="n">Gi_name_src</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isoline&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Isoline method &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exists&quot;</span> <span class="o">%</span>
+                    <span class="n">Gi_name_src</span><span class="p">)</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isoline&quot;</span><span class="p">][</span><span class="n">Gi_name_src</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;colormap&#39;</span><span class="p">,</span> <span class="s1">&#39;projection&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="s2">&quot;linecolors&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidths&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;textcolors&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;clockwise&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;angle&quot;</span><span class="p">,</span> <span class="s2">&quot;spacing&quot;</span><span class="p">,</span> <span class="s2">&quot;labelskipdistance&quot;</span><span class="p">,</span> <span class="s2">&quot;labelbackgroundcolors&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;labelbackgroundopacities&quot;</span><span class="p">]:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isoline&quot;</span><span class="p">][</span><span class="n">Gi_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+<span class="c1">#</span>
+<span class="c1"># Doesn&#39;t make sense to inherit. This would mean more coding in C.</span>
+<span class="c1"># I put this code back.</span>
+<span class="c1">#</span>
+<div class="viewcode-block" id="Gi.xticlabels"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.xticlabels">[docs]</a>    <span class="k">def</span> <span class="nf">xticlabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xtl1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xtl2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="c1"># specific_options_doc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span> <span class="o">=</span> <span class="n">xtl1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span> <span class="o">=</span> <span class="n">xtl2</span></div>
+    <span class="n">xticlabels</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xticlabelsdoc</span>
+
+<div class="viewcode-block" id="Gi.xmtics"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.xmtics">[docs]</a>    <span class="k">def</span> <span class="nf">xmtics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmt1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xmt2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span> <span class="o">=</span> <span class="n">xmt1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span> <span class="o">=</span> <span class="n">xmt2</span></div>
+    <span class="n">xmtics</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xmticsdoc</span>
+
+<div class="viewcode-block" id="Gi.yticlabels"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.yticlabels">[docs]</a>    <span class="k">def</span> <span class="nf">yticlabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ytl1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ytl2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span> <span class="o">=</span> <span class="n">ytl1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span> <span class="o">=</span> <span class="n">ytl2</span></div>
+    <span class="n">yticlabels</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">yticlabelsdoc</span>
+
+<div class="viewcode-block" id="Gi.ymtics"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.ymtics">[docs]</a>    <span class="k">def</span> <span class="nf">ymtics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ymt1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ymt2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span> <span class="o">=</span> <span class="n">ymt1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span> <span class="o">=</span> <span class="n">ymt2</span></div>
+    <span class="n">ymtics</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">ymticsdoc</span>
+
+<div class="viewcode-block" id="Gi.datawc"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.datawc">[docs]</a>    <span class="k">def</span> <span class="nf">datawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsp1</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp2</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp3</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp4</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="n">dsp1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="n">dsp2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="n">dsp3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="n">dsp4</span></div>
+    <span class="n">datawc</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">datawcdoc</span>
+
+<div class="viewcode-block" id="Gi.xyscale"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.xyscale">[docs]</a>    <span class="k">def</span> <span class="nf">xyscale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xat</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">yat</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span> <span class="o">=</span> <span class="n">xat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span> <span class="o">=</span> <span class="n">yat</span></div>
+    <span class="n">xyscale</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xyscaledoc</span> <span class="o">%</span> <span class="p">((</span><span class="s1">&#39;isoline&#39;</span><span class="p">,)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Gi.list"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;__removed_from_VCS__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This instance has been removed from VCS.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;----------Isoline (Gi) member (attribute) listings ----------&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;graphics method =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span>
+        <span class="nb">print</span> <span class="s2">&quot;name =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s2">&quot;projection =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span>
+        <span class="nb">print</span> <span class="s2">&quot;xticlabels1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span>
+        <span class="nb">print</span> <span class="s2">&quot;xticlabels2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span>
+        <span class="nb">print</span> <span class="s2">&quot;xmtics1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span>
+        <span class="nb">print</span> <span class="s2">&quot;xmtics2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span>
+        <span class="nb">print</span> <span class="s2">&quot;yticlabels1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span>
+        <span class="nb">print</span> <span class="s2">&quot;yticlabels2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span>
+        <span class="nb">print</span> <span class="s2">&quot;ymtics1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span>
+        <span class="nb">print</span> <span class="s2">&quot;ymtics2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_x1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_y1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_x2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_y2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_timeunits = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_timeunits</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_calendar = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_calendar</span>
+        <span class="nb">print</span> <span class="s2">&quot;xaxisconvert = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span>
+        <span class="nb">print</span> <span class="s2">&quot;yaxisconvert = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span>
+        <span class="nb">print</span> <span class="s2">&quot;label = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
+        <span class="nb">print</span> <span class="s2">&quot;labelskipdistance = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelskipdistance</span>
+        <span class="nb">print</span> <span class="s2">&quot;labelbackgroundcolors = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundcolors</span>
+        <span class="nb">print</span> <span class="s2">&quot;labelbackgroundopacities = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundopacities</span>
+        <span class="nb">print</span> <span class="s2">&quot;line = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span>
+        <span class="nb">print</span> <span class="s2">&quot;linecolors = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span>
+        <span class="nb">print</span> <span class="s2">&quot;linewidths = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span>
+        <span class="nb">print</span> <span class="s2">&quot;text = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="nb">print</span> <span class="s2">&quot;textcolors = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textcolors</span>
+        <span class="nb">print</span> <span class="s2">&quot;level = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span>
+        <span class="nb">print</span> <span class="s2">&quot;clockwise = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clockwise</span>
+        <span class="nb">print</span> <span class="s2">&quot;scale = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+        <span class="nb">print</span> <span class="s2">&quot;angle = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span>
+        <span class="nb">print</span> <span class="s2">&quot;spacing = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spacing</span></div>
+    <span class="nb">list</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">listdoc</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Script out primary isoline graphics method in VCS to a file.              #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+<div class="viewcode-block" id="Gi.script"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.script">[docs]</a>    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in json</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+            <span class="k">if</span> <span class="n">script_filename</span> <span class="o">!=</span> <span class="s2">&quot;initial.attributes&quot;</span><span class="p">:</span>
+                <span class="n">script_filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s1">&#39;.scr&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;scr script are no longer generated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s2">&quot;py&quot;</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">py_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+                <span class="mi">3</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">py_type</span> <span class="o">!=</span> <span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+                <span class="n">script_filename</span> <span class="o">=</span> <span class="n">script_filename</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+            <span class="c1"># Write to file</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># Must be a new file, so include below</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#####################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                                 #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Import and Initialize VCS     #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                             #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#############################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;import vcs</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;v=vcs.init()</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">unique_name</span> <span class="o">=</span> <span class="s1">&#39;__Gi__&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;#----------Isoline (Gi) member (attribute) listings ----------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;gi_list=v.listelements(&#39;isoline&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;if (&#39;</span><span class="si">%s</span><span class="s2">&#39; in gi_list):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.getisoline(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;else:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.createisoline(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="c1"># Common core graphics method attributes</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.projection = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xticlabels1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xticlabels2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xmtics1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xmtics2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yticlabels1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yticlabels2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ymtics1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ymtics2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x1 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y1 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x2 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y2 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_calendar = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_timeunits = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xaxisconvert = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yaxisconvert = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span><span class="p">))</span>
+            <span class="c1"># Unique attribute for isoline</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.label = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.labelskipdistance = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelskipdistance</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.labelbackgroundcolors = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundcolors</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.labelbackgroundopacities = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundopacities</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.line = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linecolors = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linewidths = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.text = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.textcolors = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textcolors</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.level = </span><span class="si">%s</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">))</span>
+
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.clockwise =  &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clockwise</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.scale =  &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.angle =  &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.spacing =  &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spacing</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.colormap = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Json type</span>
+            <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;+&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">dumpToJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="n">script</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">scriptdocs</span><span class="p">[</span><span class="s1">&#39;isoline&#39;</span><span class="p">]</span></div>
+
+<span class="c1">##########################################################################</span>
+<span class="c1">#        END OF FILE								#</span>
+<span class="c1">##########################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

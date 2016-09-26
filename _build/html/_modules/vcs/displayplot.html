@@ -1,0 +1,410 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.displayplot &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.displayplot</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Automatically adapted for numpy.oldnumeric Jul 06, 2007 by numeric2numpy.py</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Display Plot (Dp) module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Module:       Display Plot (Dp) module                                      #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California                 #</span>
+<span class="c1">#               This software may not be distributed to others without        #</span>
+<span class="c1">#               permission of the author.                                     #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Authors:      PCMDI Software Team                                           #</span>
+<span class="c1">#               Lawrence Livermore NationalLaboratory:                        #</span>
+<span class="c1">#               support@pcmdi.llnl.gov                                        #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Description:  Python command wrapper for VCS&#39;s display plot object.         #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Version:      4.0                                                           #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+
+
+<div class="viewcode-block" id="Dp"><a class="viewcode-back" href="../../vcs/misc/displayplot.html#vcs.displayplot.Dp">[docs]</a><span class="k">class</span> <span class="nc">Dp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Display plot object allows the manipulation of the plot name, off,</span>
+<span class="sd">    priority, template, graphics type, graphics name, and data array(s).</span>
+
+<span class="sd">    This class is used to define a display plot table entry used in VCS, or it</span>
+<span class="sd">    can be used to change some or all of the display plot attributes in an</span>
+<span class="sd">    existing display plot table entry.</span>
+
+<span class="sd">    .. describe:: Useful Functions:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Canvas constructor</span>
+<span class="sd">            a=vcs.init()</span>
+<span class="sd">            # Show display plot objects</span>
+<span class="sd">            a.show(&#39;plot&#39;)</span>
+<span class="sd">            # Updates the VCS Canvas at user&#39;s request</span>
+<span class="sd">            a.update()</span>
+
+<span class="sd">    .. describe:: General display plot usage:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            #Create a VCS Canvas object</span>
+<span class="sd">            a=vcs.init()</span>
+<span class="sd">            #To Create a new instance of plot:</span>
+<span class="sd">            # Create a plot object</span>
+<span class="sd">            p1=a.plot(s)</span>
+<span class="sd">            #To Modify an existing plot in use:</span>
+<span class="sd">            p1=a.getplot(&#39;dpy_plot_1&#39;)</span>
+
+<span class="sd">    .. describe:: Display plot object attributes:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Will list all the display plot attributes</span>
+<span class="sd">            p1.list()</span>
+<span class="sd">            # &quot;On&quot; or &quot;Off&quot; status, 1=on, 0=off</span>
+<span class="sd">            p1.off=1</span>
+<span class="sd">            # Priority to place plot in front of other objects</span>
+<span class="sd">            p1.priority=1</span>
+<span class="sd">            # Name of template object</span>
+<span class="sd">            p1.template=&#39;quick&#39;</span>
+<span class="sd">            # Graphics method type</span>
+<span class="sd">            p1.g_type=&#39;boxfill&#39;</span>
+<span class="sd">            # Graphics method name</span>
+<span class="sd">            p1.g_name=&#39;quick&#39;</span>
+<span class="sd">            # List of all the array names</span>
+<span class="sd">            p1.array=[&#39;a1&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_name&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;s_name&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;off&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;template&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;backend&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_template_origin&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;g_type&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;g_name&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;array&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;continents&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;extradisplays&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;parent&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_parent&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_off&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_priority&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_template&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;__template_origin&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_g_type&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_g_name&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_array&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_continents&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_continents_line&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;continents_line&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_backend&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;ratio&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;newelements&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;_newelements&quot;</span><span class="p">,</span>
+                 <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_repr_png</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">tempfile</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mktemp</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">st</span>
+<span class="c1"># TODO: html,json,jpeg,png,svg,latex</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_setnewelements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;newelements attribute must be a dictionary&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_newelements</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_getnewelements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_newelements</span>
+    <span class="n">newelements</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getnewelements</span><span class="p">,</span> <span class="n">_setnewelements</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcontinents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_continents</span>
+
+    <span class="k">def</span> <span class="nf">_setcontinents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkContinents</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_continents</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">continents</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcontinents</span><span class="p">,</span> <span class="n">_setcontinents</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcontinents_line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_continents_line</span>
+
+    <span class="k">def</span> <span class="nf">_setcontinents_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_continents_line</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLine</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;continents_line&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">continents_line</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcontinents_line</span><span class="p">,</span> <span class="n">_setcontinents_line</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getpriority</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_priority</span>
+
+    <span class="k">def</span> <span class="nf">_setpriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_priority</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;priority&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">minvalue</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getpriority</span><span class="p">,</span> <span class="n">_setpriority</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getoff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_off</span>
+
+    <span class="k">def</span> <span class="nf">_setoff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_off</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;off&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">minvalue</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">maxvalue</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extradisplays</span><span class="p">:</span>
+            <span class="n">d</span><span class="o">.</span><span class="n">off</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_off</span>
+    <span class="n">off</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getoff</span><span class="p">,</span> <span class="n">_setoff</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getg_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g_name</span>
+
+    <span class="k">def</span> <span class="nf">_setg_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_g_name</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkString</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;g_name&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+    <span class="n">g_name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getg_name</span><span class="p">,</span> <span class="n">_setg_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getarray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_array</span>
+
+    <span class="k">def</span> <span class="nf">_setarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The array must be contained in a list object.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getarray</span><span class="p">,</span> <span class="n">_setarray</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template</span>
+
+    <span class="k">def</span> <span class="nf">_settemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkString</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettemplate</span><span class="p">,</span> <span class="n">_settemplate</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettemplate_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__template_origin</span>
+
+    <span class="k">def</span> <span class="nf">_settemplate_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__template_origin</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkString</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;_template_origin&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+    <span class="n">_template_origin</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettemplate_origin</span><span class="p">,</span> <span class="n">_settemplate_origin</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getg_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_g_type</span>
+
+    <span class="k">def</span> <span class="nf">_setg_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">vcsaddons</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;g_type&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">!=</span> <span class="s2">&quot;text&quot;</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcsaddons</span><span class="o">.</span><span class="n">gms</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;invalid g_type &#39;</span><span class="si">%s</span><span class="s2">&#39; must be one of: </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_g_type</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">g_type</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getg_type</span><span class="p">,</span> <span class="n">_setg_type</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_backend</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span>
+
+    <span class="k">def</span> <span class="nf">_set_backend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;The dispaly backend attribute must be a dictionary or None&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_get_backend</span><span class="p">,</span>
+        <span class="n">_set_backend</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;dictionary of things the backend wants to be able to reuse&quot;</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Initialize the display plot attributes.                                   #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Dp_name</span><span class="p">,</span> <span class="n">Dp_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="c1">#                                                                           #</span>
+            <span class="c1">###################################################################</span>
+            <span class="c1"># Initialize the display plot&#39;s class and its members                       #</span>
+            <span class="c1"># The getDpmember function retrieves the values of the                      #</span>
+            <span class="c1"># display plot members in the C structure and passes back the               #</span>
+            <span class="c1"># appropriate Python Object.                                                #</span>
+            <span class="c1">###################################################################</span>
+            <span class="c1">#                                                                           #</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extradisplays</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">Dp_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_name</span> <span class="o">=</span> <span class="s1">&#39;Dp&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_off</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_priority</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_template</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__template_origin</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_g_type</span> <span class="o">=</span> <span class="s2">&quot;boxfill&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_g_name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_continents</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_continents_line</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;display&quot;</span><span class="p">][</span><span class="n">Dp_name_src</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">off</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">off</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">array</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">template</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_template_origin</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">_template_origin</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">g_type</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">g_type</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">g_name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">continents</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">continents</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">continents_line</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">continents_line</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">priority</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">ratio</span>
+
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;display&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># List out display plot members (attributes).                               #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;__removed_from_VCS__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This instance has been removed from VCS.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;----------Display Plot (Dp) member (attribute) listings ----------&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;Display plot method =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_name</span>
+        <span class="nb">print</span> <span class="s2">&quot;name =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s2">&quot;off =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">off</span>
+        <span class="nb">print</span> <span class="s2">&quot;priority =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span>
+        <span class="nb">print</span> <span class="s2">&quot;template =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span>
+        <span class="nb">print</span> <span class="s2">&quot;template_origin =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_template_origin</span>
+        <span class="nb">print</span> <span class="s2">&quot;g_type =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_type</span>
+        <span class="nb">print</span> <span class="s2">&quot;g_name =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span>
+        <span class="nb">print</span> <span class="s2">&quot;array =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span>
+        <span class="nb">print</span> <span class="s2">&quot;continents =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">continents</span>
+        <span class="nb">print</span> <span class="s2">&quot;extradisplays =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">extradisplays</span>
+        <span class="nb">print</span> <span class="s2">&quot;ratio =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

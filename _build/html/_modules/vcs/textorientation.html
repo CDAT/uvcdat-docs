@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.textorientation &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.textorientation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Text Orientation (To) module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Module:       textorientation (To) module                                     #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California                   #</span>
+<span class="c1">#               This software may not be distributed to others without          #</span>
+<span class="c1">#               permission of the author.                                       #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Author:       PCMDI Software Team                                             #</span>
+<span class="c1">#               Lawrence Livermore NationalLaboratory:                          #</span>
+<span class="c1">#               support@pcmdi.llnl.gov                                          #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Description:  Python command wrapper for VCS&#39;s text orientation secondary 	#</span>
+<span class="c1">#               object.                                                         #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Version:      4.0                                                             #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+<span class="kn">from</span> <span class="nn">xmldocs</span> <span class="k">import</span> <span class="n">scriptdocs</span>
+
+<span class="k">def</span> <span class="nf">process_src</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+
+    <span class="c1"># Takes VCS script code (string) as input and generates boxfill gm from it</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">to</span> <span class="o">=</span> <span class="n">To</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">to</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+    <span class="c1"># process attributes with = as assignement</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="n">to</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="n">to</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">to</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">to</span><span class="o">.</span><span class="n">halign</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">to</span><span class="o">.</span><span class="n">valign</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+
+<span class="c1">#############################################################################</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1"># Text Orientation (To) Class.                                              #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#############################################################################</span>
+<div class="viewcode-block" id="To"><a class="viewcode-back" href="../../vcs/secondary/textorientation.html#vcs.textorientation.To">[docs]</a><span class="k">class</span> <span class="nc">To</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The (To) Text Orientation lists text attribute set names that define the font, spacing,</span>
+<span class="sd">    expansion, and color index.</span>
+
+<span class="sd">    This class is used to define an text orientation table entry used in VCS, or it</span>
+<span class="sd">    can be used to change some or all of the text orientation attributes in an</span>
+<span class="sd">    existing text orientation table entry.</span>
+
+<span class="sd">    .. describe:: Useful Functions:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # VCS Canvas Constructor</span>
+<span class="sd">            a=vcs.init()</span>
+<span class="sd">            # Show predefined text orientation objects</span>
+<span class="sd">            a.show(&#39;textorientation&#39;)</span>
+<span class="sd">            # Updates the VCS Canvas at user&#39;s request</span>
+<span class="sd">            a.update()</span>
+
+<span class="sd">    .. describe:: Make a canvas object to work with:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            a=vcs.init()</span>
+
+<span class="sd">    .. describe:: Create a new instance of text orientation:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Copies content of &#39;7left&#39; to &#39;new&#39;</span>
+<span class="sd">            to=a.createtextorientation(&#39;new&#39;,&#39;7left&#39;)</span>
+<span class="sd">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="sd">            to=a.createtextorientation(&#39;new&#39;)</span>
+
+<span class="sd">    .. describe:: Modify an existing textorientation:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            to=a.gettextorientation(&#39;7left&#39;)</span>
+
+<span class="sd">    .. describe:: Overview of textorientation attributes:</span>
+
+<span class="sd">        * Listing the attributes:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # Will list all the textorientation attribute values</span>
+<span class="sd">                to.list()</span>
+
+<span class="sd">        * Specify the text height:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # The height value must be an integer</span>
+<span class="sd">                to.height=20</span>
+
+<span class="sd">        * Specify the text angle:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # The angle value must be in the range 0 to 360</span>
+<span class="sd">                to.angle=0</span>
+
+<span class="sd">        * Specify the text path:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # Same as to.path=0</span>
+<span class="sd">                to.path=&#39;right&#39;</span>
+<span class="sd">                # Same as to.path=1</span>
+<span class="sd">                to.path=&#39;left&#39;</span>
+<span class="sd">                # Same as to.path=2</span>
+<span class="sd">                to.path=&#39;up&#39;</span>
+<span class="sd">                # Same as to.path=3</span>
+<span class="sd">                to.path=&#39;down&#39;</span>
+
+<span class="sd">        * Specify the text horizontal alignment:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # Same as to.halign=0</span>
+<span class="sd">                to.halign=&#39;right&#39;</span>
+<span class="sd">                # Same as to.halign=1</span>
+<span class="sd">                to.halign=&#39;center&#39;</span>
+<span class="sd">                # Same as to.halign=2</span>
+<span class="sd">                to.halign=&#39;right&#39;</span>
+
+<span class="sd">        * Specify the text vertical alignment:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # Same as tovalign=0</span>
+<span class="sd">                to.valign=&#39;top&#39;</span>
+<span class="sd">                # Same as tovalign=1</span>
+<span class="sd">                to.valign=&#39;cap&#39;</span>
+<span class="sd">                # Same as tovalign=2</span>
+<span class="sd">                to.valign=&#39;half&#39;</span>
+<span class="sd">                # Same as tovalign=3</span>
+<span class="sd">                to.valign=&#39;base&#39;</span>
+<span class="sd">                # Same as tovalign=4</span>
+<span class="sd">                to.valign=&#39;bottom&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;s_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;height&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;angle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;path&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;halign&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;valign&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_height&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_angle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_path&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_halign&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_valign&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getheight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span>
+
+    <span class="k">def</span> <span class="nf">_setheight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkNumber</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;height&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getheight</span><span class="p">,</span> <span class="n">_setheight</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span>
+
+    <span class="k">def</span> <span class="nf">_setangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;angle&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">minvalue</span><span class="o">=-</span>
+            <span class="mi">360</span><span class="p">,</span>
+            <span class="n">maxvalue</span><span class="o">=</span><span class="mi">360</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getangle</span><span class="p">,</span> <span class="n">_setangle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getpath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span>
+
+    <span class="k">def</span> <span class="nf">_setpath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInStringsListInt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;path&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">vals</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getpath</span><span class="p">,</span> <span class="n">_setpath</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gethalign</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_halign</span>
+
+    <span class="k">def</span> <span class="nf">_sethalign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_halign</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInStringsListInt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;halign&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">vals</span><span class="p">)</span>
+    <span class="n">halign</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gethalign</span><span class="p">,</span> <span class="n">_sethalign</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getvalign</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valign</span>
+
+    <span class="k">def</span> <span class="nf">_setvalign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;cap&quot;</span><span class="p">,</span> <span class="s2">&quot;half&quot;</span><span class="p">,</span> <span class="s2">&quot;base&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_valign</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInStringsListInt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;valign&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">,</span>
+            <span class="n">vals</span><span class="p">)</span>
+    <span class="n">valign</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getvalign</span><span class="p">,</span> <span class="n">_setvalign</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Initialize the text orientation attributes.                               #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">To_name</span><span class="p">,</span> <span class="n">To_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+        <span class="c1">#                                                           #</span>
+        <span class="c1">#############################################################</span>
+        <span class="c1"># Initialize the text orientation class and its members     #</span>
+        <span class="c1">#                                                           #</span>
+        <span class="c1"># The getTomember function retrieves the values of the      #</span>
+        <span class="c1"># text orientation members in the C structure and passes    #</span>
+        <span class="c1"># back the appropriate Python Object.                       #</span>
+        <span class="c1">#############################################################</span>
+        <span class="c1">#                                                           #</span>
+        <span class="k">if</span> <span class="n">To_name</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;textorientation object &#39;%&#39; already exists&quot;</span> <span class="o">%</span>
+                <span class="n">To_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">To_name</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">To_name_src</span><span class="p">,</span> <span class="n">To</span><span class="p">):</span>
+            <span class="n">To_name_src</span> <span class="o">=</span> <span class="n">To_name_src</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_name</span> <span class="o">=</span> <span class="s1">&#39;To&#39;</span>
+        <span class="k">if</span> <span class="n">To_name</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="o">=</span> <span class="mi">14</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_halign</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_valign</span> <span class="o">=</span> <span class="s2">&quot;half&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">To_name_src</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;source textorientation &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exists&quot;</span> <span class="o">%</span>
+                    <span class="n">To_name_src</span><span class="p">)</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">][</span><span class="n">To_name_src</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">height</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">angle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">path</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">halign</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">halign</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valign</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">valign</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">][</span><span class="n">To_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># List out text orientation members (attributes).                           #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;__removed_from_VCS__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This instance has been removed from VCS.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;----------Text Orientation (To) member (attribute) listings ----------&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;secondary method =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_name</span>
+        <span class="nb">print</span> <span class="s2">&quot;name =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s2">&quot;height =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+        <span class="nb">print</span> <span class="s2">&quot;angle =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span>
+        <span class="nb">print</span> <span class="s2">&quot;path =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+        <span class="nb">print</span> <span class="s2">&quot;halign =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">halign</span>
+        <span class="nb">print</span> <span class="s2">&quot;valign =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valign</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Script out secondary text orientation method in VCS to a file.            #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+<div class="viewcode-block" id="To.script"><a class="viewcode-back" href="../../vcs/secondary/textorientation.html#vcs.textorientation.To.script">[docs]</a>    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in json</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+            <span class="k">if</span> <span class="n">script_filename</span> <span class="o">!=</span> <span class="s2">&quot;initial.attributes&quot;</span><span class="p">:</span>
+                <span class="n">script_filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s1">&#39;.scr&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;scr script are no longer generated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s2">&quot;py&quot;</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">py_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+                <span class="mi">3</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">py_type</span> <span class="o">!=</span> <span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+                <span class="n">script_filename</span> <span class="o">=</span> <span class="n">script_filename</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+            <span class="c1"># Write to file</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># Must be a new file, so include below</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#####################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                                 #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Import and Initialize VCS     #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                             #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#############################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;import vcs</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;v=vcs.init()</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">unique_name</span> <span class="o">=</span> <span class="s1">&#39;__To__&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;#----------Text Orientation (To) member (attribute) listings ----------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;to_list=v.listelements(&#39;textorientation&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;if (&#39;</span><span class="si">%s</span><span class="s2">&#39; in to_list):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.gettextorientation(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;else:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.createtextorientation(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.height = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.angle = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.path = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.halign = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">halign</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.valign = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valign</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Json type</span>
+            <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;+&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">dumpToJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="n">script</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">scriptdocs</span><span class="p">[</span><span class="s1">&#39;textorientation&#39;</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

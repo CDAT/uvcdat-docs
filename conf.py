@@ -36,7 +36,8 @@ doctest_path = sys.path
 doctest_global_setup = """
 import vcs
 import cdms2
-ex = None
+ex = ex1 = ex2 = None
+__examples = [ex, ex1, ex2]
 # Copy vcs.elements so we can do a diff later.
 elts = dict(vcs.elements)
 for key in elts.keys():
@@ -49,8 +50,6 @@ if(ex is not None):
         vcs.removeobject(ex.To)
         vcs.removeobject(ex.Tt)
         del(vcs.elements["textcombined"][ex.name])
-    elif ex.name is not 'default':
-        vcs.removeobject(ex)
 for key in vcs.elements.keys():
     for _ in vcs.elements[key].keys():
         try:

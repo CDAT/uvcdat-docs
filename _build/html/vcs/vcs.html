@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>VCS &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../index.html" />
+    <link rel="next" title="Canvas" href="Canvas.html" />
+    <link rel="prev" title="CDAT API Documentation" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Canvas.html" title="Canvas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="CDAT API Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VCS 2.4.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs">
+<span id="vcs"></span><h1>VCS<a class="headerlink" href="#module-vcs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="vcs-visualization-and-control-system">
+<h2>VCS: Visualization and Control System<a class="headerlink" href="#vcs-visualization-and-control-system" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="authors">
+<h3>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h3>
+<p>Creator: <a class="reference external" href="http://computation.llnl.gov/about/our-people/highlights/dean-williams">Dean Williams</a> (LLNL, AIMS Team)</p>
+<p>Lead Developer: <a class="reference external" href="https://github.com/doutriaux1">Charles Doutriaux</a> (LLNL, AIMS Team)</p>
+<p>Contributors: <a class="reference external" href="https://github.com/UV-CDAT/uvcdat/graphs/contributors">https://github.com/UV-CDAT/uvcdat/graphs/contributors</a></p>
+<p>Support Email: <a class="reference external" href="mailto:uvcdat-support&#37;&#52;&#48;llnl&#46;gov">uvcdat-support<span>&#64;</span>llnl<span>&#46;</span>gov</a></p>
+<p>Project Site: <a class="reference external" href="http://uvcdat.llnl.gov/">http://uvcdat.llnl.gov/</a></p>
+<p>Project Repo: <a class="reference external" href="https://github.com/UV-CDAT/uvcdat/graphs/contributors">https://github.com/UV-CDAT/uvcdat/graphs/contributors</a></p>
+</div>
+<div class="section" id="description">
+<h3>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
+<p>VCS is a visualization library for scientific data. It has a simple
+model for defining a plot, that is decomposed into three parts:</p>
+<ol class="arabic simple">
+<li><strong>Data</strong>: If it&#8217;s iterable, we&#8217;ll plot it... or at least try!
+Currently we support numpy arrays, lists (nested and not),
+and CDMS2 variables (there&#8217;s some special support for metadata
+from CDMS2 that gives some niceties in your plot, but it&#8217;s not
+mandatory).</li>
+<li><strong>Graphics Method</strong>: We have a variety of plot types that we
+support out-of-the box; you can easily customize every aspect
+of them to create the effect that you&#8217;re looking for. If you can&#8217;t,
+we also support defining your own graphics methods, which you can
+share with other users using standard python infrastructure (conda, pip).</li>
+<li><strong>Template</strong>: Templates control the appearance of everything that
+<em>isn&#8217;t</em> your data. They position labels, control fonts, adjust borders,
+place legends, and more. They&#8217;re very flexible, and give the fine-grained
+control of your plot that is needed for the truly perfect plot. Once you&#8217;ve
+customized them, you can also save them out for later use, and distribute
+them to other users.</li>
+</ol>
+<dl class="function">
+<dt id="vcs.init">
+<code class="descclassname">vcs.</code><code class="descname">init</code><span class="sig-paren">(</span><em>mode=1</em>, <em>pause_time=0</em>, <em>call_from_gui=0</em>, <em>size=None</em>, <em>backend='vtk'</em>, <em>geometry=None</em>, <em>bg=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vcs.html#init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize and construct a VCS Canvas object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vcs</span>
+
+<span class="c1"># Portrait orientation of 1 width per 2 height</span>
+<span class="n">portrait</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">size</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># also accepts &quot;usletter&quot;</span>
+<span class="n">letter</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;letter&quot;</span><span class="p">)</span>
+<span class="n">a4</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;a4&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">vtk</span>
+<span class="c1"># Useful for embedding VCS inside another application</span>
+<span class="n">my_win</span> <span class="o">=</span> <span class="n">vtk</span><span class="o">.</span><span class="n">vtkRenderWindow</span><span class="p">()</span>
+<span class="n">embedded</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="n">my_win</span><span class="p">)</span>
+
+<span class="n">dict_init</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">600</span><span class="p">})</span>
+<span class="n">tuple_init</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+
+<span class="n">bg_canvas</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>size</strong> (<em>float or case-insensitive str</em>) &#8211; Aspect ratio for canvas (width / height)</li>
+<li><strong>backend</strong> (str, <cite>vtk.vtkRenderWindow</cite>) &#8211; Which VCS backend to use</li>
+<li><strong>geometry</strong> (<em>dict or tuple</em>) &#8211; Size (in pixels) you want the canvas to be.</li>
+<li><strong>bg</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Initialize a canvas to render in &#8220;background&#8221; mode (without displaying a window)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">an initialized canvas</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="Canvas.html#vcs.Canvas.Canvas" title="vcs.Canvas.Canvas">vcs.Canvas.Canvas</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Canvas.html">Canvas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics/gm.html">Graphics Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphics/boxfill.html">boxfill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/dv3d.html">dv3d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/isofill.html">isofill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/isoline.html">isoline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/meshfill.html">meshfill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/taylor.html">taylor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/unified1D.html">unified1D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics/vector.html">vector</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="template/templ.html">Templating</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="template/template.html">template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pboxeslines.html">Pboxeslines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pdata.html">Pdata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pformat.html">Pformat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Plegend.html">Plegend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Ptext.html">Ptext</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pxlabels.html">Pxlabels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pxtickmarks.html">Pxtickmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pylabels.html">Pylabels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template/Pytickmarks.html">Pytickmarks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="secondary/gms.html">Secondary Graphics Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="secondary/fillarea.html">fillarea</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secondary/line.html">line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secondary/marker.html">marker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secondary/textcombined.html">textcombined</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secondary/textorientation.html">textorientation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secondary/texttable.html">texttable</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="misc/misc.html">Miscellaneous Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="misc/animate_helper.html">animate_helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/projection.html">projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/colormap.html">colormap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/colors.html">colors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/displayplot.html">displayplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/error.html">error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/manageElements.html">manageElements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/queries.html">queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/utils.html">utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/vcshelp.html">vcshelp</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">VCS</a><ul>
+<li><a class="reference internal" href="#vcs-visualization-and-control-system">VCS: Visualization and Control System</a><ul>
+<li><a class="reference internal" href="#authors">Authors</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">CDAT API Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Canvas.html"
+                        title="next chapter">Canvas</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/vcs/vcs.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Canvas.html" title="Canvas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="CDAT API Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">VCS 2.4.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

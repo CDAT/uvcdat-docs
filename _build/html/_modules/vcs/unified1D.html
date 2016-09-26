@@ -1,0 +1,1008 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.unified1D &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.unified1D</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Unification of all 1D gms</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Module:       yxvsx (GYx) module                                            #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California                 #</span>
+<span class="c1">#               This software may not be distributed to others without        #</span>
+<span class="c1">#               permission of the author.                                     #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Authors:      PCMDI Software Team                                           #</span>
+<span class="c1">#               Lawrence Livermore NationalLaboratory:                        #</span>
+<span class="c1">#               support@pcmdi.llnl.gov                                        #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Description:  Python command wrapper for VCS&#39;s yxvsx graphics method.       #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1"># Version:      4.0                                                           #</span>
+<span class="c1">#                                                                             #</span>
+<span class="c1">###############################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">cdtime</span>
+<span class="kn">import</span> <span class="nn">xmldocs</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+
+
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">json_dict</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">process_src</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
+
+    <span class="c1"># Takes VCS script code (string) as input and generates oneD gm from it</span>
+    <span class="n">onm</span> <span class="o">=</span> <span class="n">nm</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gm</span> <span class="o">=</span> <span class="n">G1d</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">gm</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;1d&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+    <span class="c1"># process attributes with = as assignement</span>
+    <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xticlabels#1&quot;</span><span class="p">,</span> <span class="s2">&quot;xticlabels#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xmtics#1&quot;</span><span class="p">,</span> <span class="s2">&quot;xmtics#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;yticlabels#1&quot;</span><span class="p">,</span> <span class="s2">&quot;yticlabels#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ymtics#1&quot;</span><span class="p">,</span> <span class="s2">&quot;ymtics#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xaxisconvert&quot;</span><span class="p">,</span> <span class="s2">&quot;yaxisconvert&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Tl&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Tm&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_calendar&quot;</span><span class="p">]:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># last one no comma</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">scode</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">scode</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">nm</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;Tl&quot;</span><span class="p">:</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="s2">&quot;line&quot;</span>
+        <span class="k">elif</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;Tm&quot;</span><span class="p">:</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="s2">&quot;marker&quot;</span>
+        <span class="k">elif</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">:</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="s2">&quot;datawc_timeunits&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># int will be converted</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># int and floats will be converted</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="nb">eval</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># strings</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># oh well we stick to default value</span>
+    <span class="c1"># Datawc</span>
+    <span class="n">idwc</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;datawc(&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idwc</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">jdwc</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">idwc</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span> <span class="o">+</span> <span class="mi">7</span><span class="p">:</span><span class="n">jdwc</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="c1"># idatawc</span>
+    <span class="n">idwc</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;idatawc(&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idwc</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">jdwc</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">idwc</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span> <span class="o">+</span> <span class="mi">8</span><span class="p">:</span><span class="n">jdwc</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">,</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">,</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">,</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">,</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&quot;GYx&quot;</span><span class="p">:</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;yxvsx&quot;</span><span class="p">][</span><span class="n">onm</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span>
+    <span class="k">elif</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&quot;GXY&quot;</span><span class="p">:</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;xvsy&quot;</span><span class="p">][</span><span class="n">onm</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span>
+    <span class="k">elif</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&quot;GXy&quot;</span><span class="p">:</span>
+        <span class="n">gm</span><span class="o">.</span><span class="n">flip</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;xyvsy&quot;</span><span class="p">][</span><span class="n">onm</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span>
+    <span class="k">elif</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&quot;GSp&quot;</span><span class="p">:</span>
+        <span class="n">gm</span><span class="o">.</span><span class="n">linewidth</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;scatter&quot;</span><span class="p">][</span><span class="n">onm</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span>
+
+
+<div class="viewcode-block" id="G1d"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d">[docs]</a><span class="k">class</span> <span class="nc">G1d</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    This graphics method displays a line plot from 1D data array (i.e. a</span>
+<span class="s2">    plot of Y(x), where y represents the 1D coordinate values, and x can be either Y&#39;s axis or another 1D arrays).</span>
+<span class="s2">    The example below</span>
+<span class="s2">    shows how to change line and marker attributes for the Yxvsx graphics method.</span>
+
+<span class="s2">    This class is used to define an Yxvsx table entry used in VCS, or it can be</span>
+<span class="s2">    used to change some or all of the Yxvsx attributes in an existing Yxvsx table</span>
+<span class="s2">    entry.</span>
+
+<span class="s2">    .. describe:: Make a Canvas object:</span>
+
+<span class="s2">        You&#39;ll need a Canvas object to work with.</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            # VCS Canvas constructor</span>
+<span class="s2">            a=vcs.init()</span>
+
+<span class="s2">    .. describe:: Create a new instance of Yxvsx:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            # Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="s2">            yxx=a.create1D(&#39;new&#39;,&#39;quick&#39;)</span>
+<span class="s2">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="s2">            yxx=a.create1D(&#39;new&#39;)</span>
+
+<span class="s2">    .. describe:: Modify an existing Yxvsx:</span>
+
+<span class="s2">        * Get a YXvsX object to work with:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                yxx=a.get1D(&#39;AMIP_psl&#39;)</span>
+
+<span class="s2">        * Overview of YXvsX attributes:</span>
+
+<span class="s2">            * To view YXvsX attributes:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # Will list all the Yxvsx attribute values</span>
+<span class="s2">                    yxx.list()</span>
+
+<span class="s2">            * To set the projection attribute:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    yxx.projection=&#39;linear&#39;</span>
+
+<span class="s2">                .. note::</span>
+
+<span class="s2">                    YXvsX projection attribute can only be &#39;linear&#39;</span>
+<span class="s2">                    i.e. lon30={-180:&#39;180W&#39;,-150:&#39;150W&#39;,0:&#39;Eq&#39;}</span>
+
+<span class="s2">            * To set axis attributes:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    yxx.xticlabels1=lon30</span>
+<span class="s2">                    yxx.xticlabels2=lon30</span>
+<span class="s2">                    # Will set them both</span>
+<span class="s2">                    yxx.xticlabels(lon30, lon30)</span>
+<span class="s2">                    yxx.xmtics1=&#39;&#39;</span>
+<span class="s2">                    yxx.xmtics2=&#39;&#39;</span>
+<span class="s2">                    # Will set them both</span>
+<span class="s2">                    yxx.xmtics(lon30, lon30)</span>
+<span class="s2">                    yxx.yticlabels1=lat10</span>
+<span class="s2">                    yxx.yticlabels2=lat10</span>
+<span class="s2">                    # Will set them both</span>
+<span class="s2">                    yxx.yticlabels(lat10, lat10)</span>
+<span class="s2">                    yxx.ymtics1=&#39;&#39;</span>
+<span class="s2">                    yxx.ymtics2=&#39;&#39;</span>
+<span class="s2">                    # Will set them both</span>
+<span class="s2">                    yxx.ymtics(lat10, lat10)</span>
+<span class="s2">                    yxx.datawc_y1=-90.0</span>
+<span class="s2">                    yxx.datawc_y2=90.0</span>
+<span class="s2">                    yxx.datawc_x1=-180.0</span>
+<span class="s2">                    yxx.datawc_x2=180.0</span>
+<span class="s2">                    # Will set them all</span>
+<span class="s2">                    yxx.datawc(-90, 90, -180, 180)</span>
+<span class="s2">                    yxx.xaxisconvert=&#39;linear&#39;</span>
+
+<span class="s2">            * To specify the Yxvsx line type:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # same as yxx.line = &#39;solid&#39;</span>
+<span class="s2">                    yxx.line=0</span>
+<span class="s2">                    # same as yxx.line = &#39;dash&#39;</span>
+<span class="s2">                    yxx.line=1</span>
+<span class="s2">                    # same as yxx.line = &#39;dot&#39;</span>
+<span class="s2">                    yxx.line=2</span>
+<span class="s2">                    # same as yxx.line = &#39;dash-dot&#39;</span>
+<span class="s2">                    yxx.line=3</span>
+<span class="s2">                    # same as yxx.line = &#39;long-dash</span>
+<span class="s2">                    yxx.line=4</span>
+
+<span class="s2">            * To specify the Yxvsx line color:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # color range: 16 to 230, default color is black</span>
+<span class="s2">                    yxx.linecolor=16</span>
+<span class="s2">                    # width range: 1 to 100, default color is 1</span>
+<span class="s2">                    yxx.linewidth=1</span>
+
+<span class="s2">            * To specify the Yxvsx marker type:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # Same as yxx.marker=&#39;dot&#39;</span>
+<span class="s2">                    yxx.marker=1</span>
+<span class="s2">                    # Same as yxx.marker=&#39;plus&#39;</span>
+<span class="s2">                    yxx.marker=2</span>
+<span class="s2">                    # Same as yxx.marker=&#39;star&#39;</span>
+<span class="s2">                    yxx.marker=3</span>
+<span class="s2">                    # Same as yxx.marker=&#39;circle&#39;</span>
+<span class="s2">                    yxx.marker=4</span>
+<span class="s2">                    # Same as yxx.marker=&#39;cross&#39;</span>
+<span class="s2">                    yxx.marker=5</span>
+<span class="s2">                    # Same as yxx.marker=&#39;diamond&#39;</span>
+<span class="s2">                    yxx.marker=6</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_up&#39;</span>
+<span class="s2">                    yxx.marker=7</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_down&#39;</span>
+<span class="s2">                    yxx.marker=8</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_left&#39;</span>
+<span class="s2">                    yxx.marker=9</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_right&#39;</span>
+<span class="s2">                    yxx.marker=10</span>
+<span class="s2">                    # Same as yxx.marker=&#39;square&#39;</span>
+<span class="s2">                    yxx.marker=11</span>
+<span class="s2">                    # Same as yxx.marker=&#39;diamond_fill&#39;</span>
+<span class="s2">                    yxx.marker=12</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_up_fill&#39;</span>
+<span class="s2">                    yxx.marker=13</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_down_fill&#39;</span>
+<span class="s2">                    yxx.marker=14</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_left_fill&#39;</span>
+<span class="s2">                    yxx.marker=15</span>
+<span class="s2">                    # Same as yxx.marker=&#39;triangle_right_fill&#39;</span>
+<span class="s2">                    yxx.marker=16</span>
+<span class="s2">                    # Same as yxx.marker=&#39;square_fill&#39;</span>
+<span class="s2">                    yxx.marker=17</span>
+<span class="s2">                    # Draw no markers</span>
+<span class="s2">                    yxx.marker=None</span>
+
+<span class="s2">            * There are four possibilities for setting the marker color index:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # Same as below</span>
+<span class="s2">                    yxx.markercolors=22</span>
+<span class="s2">                    # Same as below</span>
+<span class="s2">                    yxx.markercolors=(22)</span>
+<span class="s2">                    # Will set the markers to a specific color index</span>
+<span class="s2">                    yxx.markercolors=([22])</span>
+<span class="s2">                    # Color index defaults to Black</span>
+<span class="s2">                    yxx.markercolors=None</span>
+
+<span class="s2">            * To set the Yxvsx Marker size:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    yxx.markersize=5</span>
+<span class="s2">                    yxx.markersize=55</span>
+<span class="s2">                    yxx.markersize=100</span>
+<span class="s2">                    yxx.markersize=300</span>
+<span class="s2">                    yxx.markersize=None</span>
+
+<span class="s2">    </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">    </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">    </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">    </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xaxisconvert</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">linedoc</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">markerdoc</span><span class="p">)</span>
+    <span class="n">colormap</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">colormap</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;colormap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_colormap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;g_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;linecolor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;linewidth&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;marker&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;markersize&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;markercolor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;flip&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;smooth&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_linecolor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_linewidth&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_marker&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_markersize&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_markercolor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_projection&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xmtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xmtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ymtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ymtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_x1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_x2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_y1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_y2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_timeunits&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_calendar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_flip&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_smooth&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span>
+
+    <span class="k">def</span> <span class="nf">_setcalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkCalendar</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_calendar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcalendar</span><span class="p">,</span> <span class="n">_setcalendar</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettimeunits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span>
+
+    <span class="k">def</span> <span class="nf">_settimeunits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkTimeUnits</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_timeunits</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettimeunits</span><span class="p">,</span> <span class="n">_settimeunits</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span>
+
+    <span class="k">def</span> <span class="nf">_setxaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxaxisconvert</span><span class="p">,</span> <span class="n">_setxaxisconvert</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span>
+
+    <span class="k">def</span> <span class="nf">_setyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyaxisconvert</span><span class="p">,</span> <span class="n">_setyaxisconvert</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getprojection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span>
+
+    <span class="k">def</span> <span class="nf">_setprojection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkProjection</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">projection</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getprojection</span><span class="p">,</span> <span class="n">_setprojection</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span>
+
+    <span class="k">def</span> <span class="nf">_setxticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xticlabels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxticlabels1</span><span class="p">,</span> <span class="n">_setxticlabels1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span>
+
+    <span class="k">def</span> <span class="nf">_setxticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xticlabels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxticlabels2</span><span class="p">,</span> <span class="n">_setxticlabels2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span>
+
+    <span class="k">def</span> <span class="nf">_setyticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yticlabels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyticlabels1</span><span class="p">,</span> <span class="n">_setyticlabels1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span>
+
+    <span class="k">def</span> <span class="nf">_setyticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yticlabels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyticlabels2</span><span class="p">,</span> <span class="n">_setyticlabels2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxmtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span>
+
+    <span class="k">def</span> <span class="nf">_setxmtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xmtics1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxmtics1</span><span class="p">,</span> <span class="n">_setxmtics1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxmtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span>
+
+    <span class="k">def</span> <span class="nf">_setxmtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xmtics2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxmtics2</span><span class="p">,</span> <span class="n">_setxmtics2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getymtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span>
+
+    <span class="k">def</span> <span class="nf">_setymtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">ymtics1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getymtics1</span><span class="p">,</span> <span class="n">_setymtics1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getymtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span>
+
+    <span class="k">def</span> <span class="nf">_setymtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">ymtics2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getymtics2</span><span class="p">,</span> <span class="n">_setymtics2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_x1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_x1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_x1</span><span class="p">,</span> <span class="n">_setdatawc_x1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_x2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_x2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_x2</span><span class="p">,</span> <span class="n">_setdatawc_x2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_y1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_y1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y1</span><span class="p">,</span> <span class="n">_setdatawc_y1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_y2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_y2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y2</span><span class="p">,</span> <span class="n">_setdatawc_y2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlinewidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linewidth</span>
+
+    <span class="k">def</span> <span class="nf">_setlinewidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkNumber</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;linewidth&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="mi">300</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_linewidth</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">linewidth</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlinewidth</span><span class="p">,</span> <span class="n">_setlinewidth</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlinecolor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linecolor</span>
+
+    <span class="k">def</span> <span class="nf">_setlinecolor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;linecolor&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_linecolor</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">linecolor</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlinecolor</span><span class="p">,</span> <span class="n">_setlinecolor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span>
+
+    <span class="k">def</span> <span class="nf">_setline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isline</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLineType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getline</span><span class="p">,</span> <span class="n">_setline</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getmarker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_marker</span>
+
+    <span class="k">def</span> <span class="nf">_setmarker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkMarker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;marker&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_marker</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">marker</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getmarker</span><span class="p">,</span> <span class="n">_setmarker</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getmarkersize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_markersize</span>
+
+    <span class="k">def</span> <span class="nf">_setmarkersize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkNumber</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;markersize&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="mi">300</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_markersize</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">markersize</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getmarkersize</span><span class="p">,</span> <span class="n">_setmarkersize</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getmarkercolor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_markercolor</span>
+
+    <span class="k">def</span> <span class="nf">_setmarkercolor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColor</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;markercolor&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_markercolor</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">markercolor</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getmarkercolor</span><span class="p">,</span> <span class="n">_setmarkercolor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getflip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flip</span>
+
+    <span class="k">def</span> <span class="nf">_setflip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkTrueFalse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;flip&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flip</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">flip</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getflip</span><span class="p">,</span> <span class="n">_setflip</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsmooth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smooth</span>
+
+    <span class="k">def</span> <span class="nf">_setsmooth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkInt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;smooth&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smooth</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">smooth</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_getsmooth</span><span class="p">,</span>
+        <span class="n">_setsmooth</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;beta parameter for kaiser smoothing&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flip</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;xyvsy&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;scatter&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;yxvsx&quot;</span>
+    <span class="n">g_type</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gtype</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;the 1d graphics method type&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+            <span class="c1">#                                                         #</span>
+            <span class="c1">###########################################################</span>
+            <span class="c1"># Initialize the Yxvsx class and its members              #</span>
+            <span class="c1">#                                                         #</span>
+            <span class="c1"># The getGYxmember function retrieves the values of the   #</span>
+            <span class="c1"># Yxvsx members in the C structure and passes back the    #</span>
+            <span class="c1"># appropriate Python Object.                              #</span>
+            <span class="c1">###########################################################</span>
+            <span class="c1">#                                                         #</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;1d&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The 1D method &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="s1">&#39;G1d&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_smooth</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_flip</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="s1">&#39;solid&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_linecolor</span> <span class="o">=</span> <span class="mi">241</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_linewidth</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_marker</span> <span class="o">=</span> <span class="s1">&#39;dot&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_markercolor</span> <span class="o">=</span> <span class="mi">241</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_markersize</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="s2">&quot;days since 2000&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="mi">135441</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_colormap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_src</span><span class="p">,</span> <span class="n">G1d</span><span class="p">):</span>
+                <span class="n">name_src</span> <span class="o">=</span> <span class="n">name_src</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">if</span> <span class="n">name_src</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;1d&quot;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The oneD method &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exists&quot;</span> <span class="o">%</span>
+                    <span class="n">name_src</span><span class="p">)</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;1d&quot;</span><span class="p">][</span><span class="n">name_src</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;projection&#39;</span><span class="p">,</span> <span class="s1">&#39;colormap&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;line&#39;</span><span class="p">,</span> <span class="s1">&#39;linecolor&#39;</span><span class="p">,</span> <span class="s1">&#39;linewidth&#39;</span><span class="p">,</span> <span class="s1">&#39;marker&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;markercolor&#39;</span><span class="p">,</span> <span class="s1">&#39;markersize&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span> <span class="s1">&#39;smooth&#39;</span><span class="p">,</span> <span class="s1">&#39;flip&#39;</span><span class="p">]:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
+        <span class="c1"># Ok now we need to stick in the elements</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;1d&quot;</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="c1">#                                                         #</span>
+        <span class="c1">###########################################################</span>
+        <span class="c1"># Find and set the Yxvsx structure in VCS C pointer       #</span>
+        <span class="c1"># list. If the Yxvsx name does not exist, then use        #</span>
+        <span class="c1"># default Yxvsx.                                          #</span>
+        <span class="c1">###########################################################</span>
+        <span class="c1">#                                                         #</span>
+
+<span class="c1">#</span>
+<span class="c1"># Doesn&#39;t make sense to inherit. This would mean more coding in C.</span>
+<span class="c1"># I put this code back.</span>
+<span class="c1">#</span>
+<div class="viewcode-block" id="G1d.xticlabels"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.xticlabels">[docs]</a>    <span class="k">def</span> <span class="nf">xticlabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xtl1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xtl2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span> <span class="o">=</span> <span class="n">xtl1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span> <span class="o">=</span> <span class="n">xtl2</span></div>
+    <span class="n">xticlabels</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xticlabelsdoc</span>
+
+<div class="viewcode-block" id="G1d.xmtics"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.xmtics">[docs]</a>    <span class="k">def</span> <span class="nf">xmtics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmt1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xmt2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span> <span class="o">=</span> <span class="n">xmt1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span> <span class="o">=</span> <span class="n">xmt2</span></div>
+    <span class="n">xmtics</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xmticsdoc</span>
+
+<div class="viewcode-block" id="G1d.yticlabels"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.yticlabels">[docs]</a>    <span class="k">def</span> <span class="nf">yticlabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ytl1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ytl2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span> <span class="o">=</span> <span class="n">ytl1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span> <span class="o">=</span> <span class="n">ytl2</span></div>
+    <span class="n">yticlabels</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">yticlabelsdoc</span>
+
+<div class="viewcode-block" id="G1d.ymtics"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.ymtics">[docs]</a>    <span class="k">def</span> <span class="nf">ymtics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ymt1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ymt2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span> <span class="o">=</span> <span class="n">ymt1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span> <span class="o">=</span> <span class="n">ymt2</span></div>
+    <span class="n">ymtics</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">ymticsdoc</span>
+
+<div class="viewcode-block" id="G1d.datawc"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.datawc">[docs]</a>    <span class="k">def</span> <span class="nf">datawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsp1</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp2</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp3</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp4</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="n">dsp1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="n">dsp2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="n">dsp3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="n">dsp4</span></div>
+    <span class="n">datawc</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">datawcdoc</span>
+
+<div class="viewcode-block" id="G1d.list"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;__removed_from_VCS__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This instance has been removed from VCS.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;----------Yxvsx (GYx) member (attribute) listings ----------&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;graphics method =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span>
+        <span class="nb">print</span> <span class="s2">&quot;name =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s2">&quot;projection =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span>
+        <span class="nb">print</span> <span class="s2">&quot;xticlabels1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span>
+        <span class="nb">print</span> <span class="s2">&quot;xticlabels2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span>
+        <span class="nb">print</span> <span class="s2">&quot;xmtics1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span>
+        <span class="nb">print</span> <span class="s2">&quot;xmtics2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span>
+        <span class="nb">print</span> <span class="s2">&quot;yticlabels1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span>
+        <span class="nb">print</span> <span class="s2">&quot;yticlabels2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span>
+        <span class="nb">print</span> <span class="s2">&quot;ymtics1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span>
+        <span class="nb">print</span> <span class="s2">&quot;ymtics2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_x1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_y1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_x2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_y2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_timeunits = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_timeunits</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_calendar = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_calendar</span>
+        <span class="nb">print</span> <span class="s2">&quot;xaxisconvert = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span>
+        <span class="nb">print</span> <span class="s2">&quot;yaxisconvert = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span>
+        <span class="nb">print</span> <span class="s2">&quot;line = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span>
+        <span class="nb">print</span> <span class="s2">&quot;linecolor = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolor</span>
+        <span class="nb">print</span> <span class="s2">&quot;linewidth = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span>
+        <span class="nb">print</span> <span class="s2">&quot;marker = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">marker</span>
+        <span class="nb">print</span> <span class="s2">&quot;markercolor = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">markercolor</span>
+        <span class="nb">print</span> <span class="s2">&quot;markersize = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">markersize</span>
+        <span class="nb">print</span> <span class="s2">&quot;flip = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flip</span></div>
+    <span class="nb">list</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">listdoc</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1">#                                                                         #</span>
+    <span class="c1"># Script out primary Yxvsx graphics method in VCS to a file.              #</span>
+    <span class="c1">#                                                                         #</span>
+    <span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="G1d.script"><a class="viewcode-back" href="../../vcs/graphics/unified1D.html#vcs.unified1D.G1d.script">[docs]</a>    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in json</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+            <span class="k">if</span> <span class="n">script_filename</span> <span class="o">!=</span> <span class="s2">&quot;initial.attributes&quot;</span><span class="p">:</span>
+                <span class="n">script_filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s1">&#39;.scr&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;scr script are no longer generated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s2">&quot;py&quot;</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">py_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+                <span class="mi">3</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">py_type</span> <span class="o">!=</span> <span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+                <span class="n">script_filename</span> <span class="o">=</span> <span class="n">script_filename</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+            <span class="c1"># Write to file</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># Must be a new file, so include below</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#####################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                                 #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Import and Initialize VCS     #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                             #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#############################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;import vcs</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;v=vcs.init()</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">unique_name</span> <span class="o">=</span> <span class="s1">&#39;__OneD__&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;#----------OneD (GOneD) member (attribute) listings ----------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;oned_list=v.listelements(&#39;1d&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;if (&#39;</span><span class="si">%s</span><span class="s2">&#39; in oned_list):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.get1d(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;else:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.create1d(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="c1"># Common core graphics method attributes</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.projection = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xticlabels1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xticlabels2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xmtics1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xmtics2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yticlabels1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yticlabels2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ymtics1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ymtics2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x1 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y1 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x2 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y2 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_calendar = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_timeunits = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xaxisconvert = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yaxisconvert = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span><span class="p">))</span>
+            <span class="c1"># Unique attribute for yxvsx</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.line = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linecolor = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolor</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linewidth = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidth</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.marker = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">marker</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.markercolor = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">markercolor</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.markersize = </span><span class="si">%s</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">markersize</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.flip = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flip</span><span class="p">)))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.colormap = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Json type</span>
+            <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;+&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">dumpToJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="n">script</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">scriptdocs</span><span class="p">[</span><span class="s1">&#39;yxvsx&#39;</span><span class="p">]</span></div>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1">#        END OF FILE							      #</span>
+<span class="c1">###############################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.Ptext &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.Ptext</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Adapted for numpy/ma/cdms2 by convertcdms.py</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Template Text (Pt) module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Module:       Template Text (Pt) module                                       #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California                   #</span>
+<span class="c1">#               This software may not be distributed to others without          #</span>
+<span class="c1">#               permission of the author.                                       #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Author:       PCMDI Software Team                                             #</span>
+<span class="c1">#               Lawrence Livermore NationalLaboratory:                          #</span>
+<span class="c1">#               support@pcmdi.llnl.gov                                          #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Description:  Python command wrapper for VCS&#39;s template text object.          #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1"># Version:      4.0                                                             #</span>
+<span class="c1">#                                                                               #</span>
+<span class="c1">##########################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="c1">#############################################################################</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1"># Template text (Pt) Class.                                                 #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#############################################################################</span>
+
+
+<div class="viewcode-block" id="Pt"><a class="viewcode-back" href="../../vcs/template/Ptext.html#vcs.Ptext.Pt">[docs]</a><span class="k">class</span> <span class="nc">Pt</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Template text object allows the manipulation of line type, width, and color index.</span>
+
+<span class="sd">    This class is used to define an line table entry used in VCS, or it</span>
+<span class="sd">    can be used to change some or all of the line attributes in an</span>
+<span class="sd">    existing line table entry.</span>
+
+<span class="sd">    .. describe:: Useful Functions:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # VCS Canvas Constructor</span>
+<span class="sd">            a=vcs.init()</span>
+<span class="sd">            # Show predefined line objects</span>
+<span class="sd">            a.show(&#39;line&#39;)</span>
+<span class="sd">            # Updates the VCS Canvas at user&#39;s request</span>
+<span class="sd">            a.update()</span>
+
+<span class="sd">    .. describe:: Make a Canvas object to work with:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            a=vcs.init()</span>
+
+<span class="sd">    .. describe:: Create a new instance of line:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Copies content of &#39;red&#39; to &#39;new&#39;</span>
+<span class="sd">            ln=a.createline(&#39;new&#39;,&#39;red&#39;)</span>
+<span class="sd">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="sd">            ln=a.createline(&#39;new&#39;)</span>
+
+<span class="sd">    .. describe:: Modify an existing line:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            ln=a.getline(&#39;red&#39;)</span>
+
+<span class="sd">    .. describe:: Overview of line attributes:</span>
+
+<span class="sd">        * Listing line attributes:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # Will list all the line attribute values</span>
+<span class="sd">                ln.list()</span>
+<span class="sd">                # Range from 1 to 256</span>
+<span class="sd">                ln.color=100</span>
+<span class="sd">                # Range from 1 to 300</span>
+<span class="sd">                ln.width=100</span>
+
+<span class="sd">        * Specifying the line type:</span>
+
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                # Same as ln.type=0</span>
+<span class="sd">                ln.type=&#39;solid&#39;</span>
+<span class="sd">                # Same as ln.type=1</span>
+<span class="sd">                ln.type=&#39;dash&#39;</span>
+<span class="sd">                # Same as ln.type=2</span>
+<span class="sd">                ln.type=&#39;dot&#39;</span>
+<span class="sd">                # Same as ln.type=3</span>
+<span class="sd">                ln.type=&#39;dash-dot&#39;</span>
+<span class="sd">                # Same as ln.type=4</span>
+<span class="sd">                ln.type=&#39;long-dash&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Initialize the line attributes.                                           #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;_priority&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;priority&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_texttable&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;texttable&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_textorientation&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;textorientation&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;member&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member</span><span class="p">):</span>
+        <span class="c1">#                                                         #</span>
+        <span class="c1">###########################################################</span>
+        <span class="c1"># Initialize the line class and its members               #</span>
+        <span class="c1"># The getPtmember function retrieves the values of the    #</span>
+        <span class="c1"># line members in the C structure and passes back the     #</span>
+        <span class="c1"># appropriate Python Object.                              #</span>
+        <span class="c1">###########################################################</span>
+        <span class="c1">#                                                         #</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">texttable</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">textorientation</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+        <span class="k">if</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0500000007451</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0130000002682</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0500000007451</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0130000002682</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;logicalmask&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0500000007451</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0329999998212</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;transformation&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0500000007451</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.0529999993742</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;source&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0500000007451</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.941999971867</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;dataname&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0500000007451</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.922999978065</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.15000000596</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.922999978065</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.670000016689</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.922999978065</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;crdate&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.75</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.922999978065</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;crtime&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.850000023842</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.922999978065</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;comment1&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.10000000149</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.954999983311</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;comment2&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.10000000149</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.975000023842</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;comment3&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.10000000149</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.995000004768</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;comment4&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.10000000149</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.999000012875</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;xname&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.21</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">textorientation</span> <span class="o">=</span> <span class="s2">&quot;defcenter&quot;</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;yname&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.006</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.56</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">textorientation</span> <span class="o">=</span> <span class="s2">&quot;defup&quot;</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;zname&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.995000004768</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;tname&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.995000004768</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;xunits&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.600000023842</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.277000010014</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;yunits&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.019999999553</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.658999979496</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;zunits&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.995000004768</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">member</span> <span class="o">==</span> <span class="s2">&quot;tunits&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">0.995000004768</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">member</span> <span class="o">=</span> <span class="n">member</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Set template text  attributes.                                            #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">priority</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">y</span>
+    <span class="n">texttable</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">texttable</span>
+    <span class="n">textorientation</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">textorientation</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># List out template text members (attributes).                              #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="s2">&quot;member = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">member</span>
+        <span class="nb">print</span> <span class="s2">&quot;     priority =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">priority</span>
+        <span class="nb">print</span> <span class="s2">&quot;     x =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="nb">print</span> <span class="s2">&quot;     y =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+        <span class="nb">print</span> <span class="s2">&quot;     texttable =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">texttable</span>
+        <span class="nb">print</span> <span class="s2">&quot;     textorientation =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textorientation</span></div>
+
+
+<span class="c1">##########################################################################</span>
+<span class="c1">#        END OF FILE								#</span>
+<span class="c1">##########################################################################</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

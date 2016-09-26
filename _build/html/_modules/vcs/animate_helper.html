@@ -1,0 +1,1172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.animate_helper &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.animate_helper</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">vcs</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">thread</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">error</span> <span class="k">import</span> <span class="n">vcsError</span>
+
+
+<span class="k">def</span> <span class="nf">showerror</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+
+<span class="c1">#############################################################################</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1"># Animate wrapper for VCS.                                                  #</span>
+<span class="c1">#                                                                           #</span>
+<span class="c1">#############################################################################</span>
+<div class="viewcode-block" id="animate_obj_old"><a class="viewcode-back" href="../../vcs/misc/animate_helper.html#vcs.animate_helper.animate_obj_old">[docs]</a><span class="k">class</span> <span class="nc">animate_obj_old</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Animate the contents of the VCS Canvas. The animation can also be controlled from</span>
+<span class="sd">    the animation GUI. (See VCDAT for more details.)</span>
+
+<span class="sd">    See the `animation GUI documenation`_</span>
+<span class="sd">    .. _animation GUI documenation: http://www-pcmdi.llnl.gov/software/vcs</span>
+
+<span class="sd">    :Example:</span>
+
+<span class="sd">        .. doctest:: animate_helper_obj_old</span>
+
+<span class="sd">                &gt;&gt;&gt; a=vcs.init()</span>
+<span class="sd">                &gt;&gt;&gt; a.plot(array,&#39;default&#39;,&#39;isofill&#39;,&#39;quick&#39;)</span>
+<span class="sd">                &gt;&gt;&gt; a.animate()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Initialize the animation flags						#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcs_self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span> <span class="o">=</span> <span class="n">vcs_self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gui_popup</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">continents_value</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">continents_hold_value</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># We need to store this because if user close</span>
+        <span class="c1"># anim with preserve_pngs = True</span>
+        <span class="c1"># it still gets deleted at python exit time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preserve_pngs</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Create the animation images. If min or max is None, then			#</span>
+    <span class="c1"># the animator will find the min and max values from the dataset.		#</span>
+    <span class="c1"># If min and max are set to 1e20, then no min and max animation		#</span>
+    <span class="c1"># value is used (i.e., each animation frame will have different		#</span>
+    <span class="c1"># min and max values. If min and max are set by the user, then		#</span>
+    <span class="c1"># these values are used for the animation min and max.			#</span>
+    <span class="c1"># If you are running animation from a program, set thread_it to 0.		#</span>
+    <span class="c1"># This will cause the Python program to wait for the create function		#</span>
+    <span class="c1"># to finish before moving onto the next command line.			#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">thread_it</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bitrate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ffmpegoptions</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">vcs</span> <span class="k">import</span> <span class="n">minmax</span>
+        <span class="kn">from</span> <span class="nn">numpy.ma</span> <span class="k">import</span> <span class="n">maximum</span><span class="p">,</span> <span class="n">minimum</span>
+
+        <span class="c1"># Cannot &quot;Run&quot; or &quot;Create&quot; an animation while already creating an</span>
+        <span class="c1"># animation</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span> <span class="o">==</span> <span class="p">[]:</span>
+            <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;No data found!&quot;</span>
+            <span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;Error Message to User&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Stop the (thread) execution of the X main loop (if it is running).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">stopxmainloop</span><span class="p">()</span>
+
+        <span class="c1"># Force VCS to update its orientation, needed when the user changes the</span>
+        <span class="c1"># VCS Canvas size.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">updateorientation</span><span class="p">()</span>
+
+        <span class="c1"># Make sure the animate information is up-to-date for creating images</span>
+        <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">gui_popup</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_animate_display_list</span><span class="p">()</span>
+
+        <span class="c1"># Save the min and max values for the graphics methods.</span>
+        <span class="c1"># Will need to restore values back when animation is done.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_original_min_max</span><span class="p">()</span>
+
+        <span class="c1"># Set up the animation min and max values by changing the graphics method</span>
+        <span class="c1"># Note: cannot set the min and max values if the default graphics</span>
+        <span class="c1"># method is set.</span>
+        <span class="n">do_min_max</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">iso_spacing</span> <span class="o">==</span> <span class="s1">&#39;Log&#39;</span><span class="p">):</span>
+                <span class="n">do_min_max</span> <span class="o">=</span> <span class="s1">&#39;no&#39;</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Draw specified continental outlines if needed.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">continents_hold_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">getcontinentstype</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">setcontinentstype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">continents_value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">do_min_max</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">):</span>
+            <span class="n">minv</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">maxv</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                    <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0e77</span><span class="p">)</span>
+                    <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0e77</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                    <span class="n">dpy</span><span class="p">,</span> <span class="n">slab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">mins</span><span class="p">,</span> <span class="n">maxs</span> <span class="o">=</span> <span class="n">minmax</span><span class="p">(</span><span class="n">slab</span><span class="p">)</span>
+                    <span class="n">minv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">minimum</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">minv</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">mins</span><span class="p">)))</span>
+                    <span class="n">maxv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">maximum</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">maxv</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxs</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">max</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                    <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span>
+                    <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span>
+
+            <span class="c1"># Set the min an max for each plot in the page. If the same graphics method is used</span>
+            <span class="c1"># to display the plots, then the last min and max setting of the</span>
+            <span class="c1"># data set will be used.</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_animation_min_max</span><span class="p">(</span><span class="n">minv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">maxv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="c1"># if it is default, then you cannot set the min and max, so</span>
+                    <span class="c1"># pass.</span>
+                    <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">save_file</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">save_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;ras&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">thread_it</span><span class="p">:</span>
+                <span class="n">thread</span><span class="o">.</span><span class="n">start_new_thread</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_init</span><span class="p">,</span> <span class="p">(</span><span class="n">save_file</span><span class="p">,))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_init</span><span class="p">(</span><span class="n">save_file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># ffmpeg stuff</span>
+            <span class="n">save_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span>
+            <span class="n">animation_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">animate_info_from_python</span><span class="p">()</span>
+            <span class="n">slabs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">templates</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">dpys</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="n">dpy</span><span class="p">,</span> <span class="n">slab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">slabs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slab</span><span class="p">)</span>
+                <span class="n">dpys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpy</span><span class="p">)</span>
+                <span class="n">templates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dpy</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
+            <span class="n">sh</span> <span class="o">=</span> <span class="n">slabs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">if</span> <span class="n">dpy</span><span class="o">.</span><span class="n">g_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;boxfill&#39;</span><span class="p">,</span> <span class="s1">&#39;isofill&#39;</span><span class="p">,</span> <span class="s1">&#39;isoline&#39;</span><span class="p">,</span> <span class="s1">&#39;meshfill&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;outfill&#39;</span><span class="p">,</span> <span class="s1">&#39;outline&#39;</span><span class="p">,</span> <span class="s1">&#39;taylordiagram&#39;</span><span class="p">,</span> <span class="s1">&#39;vector&#39;</span><span class="p">,</span> <span class="p">]:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sh</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sh</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="c1"># now create the list of all previous indices to plot</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+                <span class="n">this</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">sh</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="n">indices</span> <span class="o">==</span> <span class="p">[]:</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">this</span><span class="p">:</span>
+                        <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">k</span><span class="p">,</span> <span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">this</span><span class="p">:</span>
+                            <span class="n">tmp2</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                            <span class="n">tmp2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                            <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp2</span><span class="p">)</span>
+                    <span class="n">indices</span> <span class="o">=</span> <span class="n">tmp</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">white_square</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">createfillarea</span><span class="p">()</span>
+            <span class="n">white_square</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="mi">240</span>
+            <span class="n">white_square</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">white_square</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">new_vcs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">orientation</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;portrait&#39;</span><span class="p">:</span>
+                <span class="n">new_vcs</span><span class="o">.</span><span class="n">portrait</span><span class="p">()</span>
+            <span class="c1"># self.vcs_self.close()</span>
+
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+                <span class="n">new_vcs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">new_vcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">white_square</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">save_info</span><span class="p">)):</span>
+                    <span class="n">slab</span> <span class="o">=</span> <span class="n">slabs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">template</span> <span class="o">=</span> <span class="n">templates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">gtype</span> <span class="o">=</span> <span class="n">animation_info</span><span class="p">[</span><span class="s2">&quot;gtype&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">gname</span> <span class="o">=</span> <span class="n">animation_info</span><span class="p">[</span><span class="s2">&quot;gname&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># for flake8 to be happy</span>
+                    <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;gm = new_vcs.get</span><span class="si">%s</span><span class="s2">(&#39;</span><span class="si">%s</span><span class="s2">&#39;)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">gtype</span><span class="p">,</span> <span class="n">gname</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">index</span><span class="p">:</span>
+                        <span class="n">slab</span> <span class="o">=</span> <span class="n">slab</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">new_vcs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">new_vcs</span><span class="o">.</span><span class="n">gettemplate</span><span class="p">(</span><span class="n">template</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">new_vcs</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="s2">&quot;tmp_anim_</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">count</span><span class="p">)</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">new_vcs</span><span class="o">.</span><span class="n">ffmpeg</span><span class="p">(</span>
+                <span class="n">save_file</span><span class="p">,</span>
+                <span class="s2">&quot;tmp_anim_</span><span class="si">%d</span><span class="s2">.png&quot;</span><span class="p">,</span>
+                <span class="n">bitrate</span><span class="o">=</span><span class="n">bitrate</span><span class="p">,</span>
+                <span class="n">rate</span><span class="o">=</span><span class="n">rate</span><span class="p">,</span>
+                <span class="n">options</span><span class="o">=</span><span class="n">ffmpegoptions</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;tmp_anim_</span><span class="si">%i</span><span class="s2">.png&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">del</span><span class="p">(</span><span class="n">new_vcs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">animate_info_from_python</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">gtype</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">gname</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">tmpl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
+            <span class="n">gtype</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">g_type</span><span class="p">)</span>
+            <span class="n">gname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">g_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="n">tmpl</span><span class="p">,</span> <span class="s2">&quot;gtype&quot;</span><span class="p">:</span> <span class="n">gtype</span><span class="p">,</span> <span class="s2">&quot;gname&quot;</span><span class="p">:</span> <span class="n">gname</span><span class="p">}</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Save original min and max values    					#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">save_original_min_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">animation_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">animate_info_from_python</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_legend</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_mean_veloc</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+            <span class="n">gtype</span> <span class="o">=</span> <span class="n">animation_info</span><span class="p">[</span><span class="s2">&quot;gtype&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;boxfill&quot;</span><span class="p">:</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">level_1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">level_2</span>
+<span class="c1">#            self.save_legend[i] = gm.legend</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;meshfill&quot;</span><span class="p">):</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getmeshfill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">levels</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;isofill&quot;</span><span class="p">):</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getisofill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">levels</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;isoline&quot;</span><span class="p">):</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getisoline</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">levels</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;yxvsx&quot;</span><span class="p">):</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getyxvsx</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y2</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;xyvsy&quot;</span><span class="p">):</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getxyvsy</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x2</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;vector&quot;</span><span class="p">):</span>
+                <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getvector</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save_mean_veloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">reference</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Restore min and max values                                                 #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">restore_min_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">animation_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">animate_info_from_python</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="n">gtype</span> <span class="o">=</span> <span class="n">animation_info</span><span class="p">[</span><span class="s2">&quot;gtype&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;boxfill&quot;</span><span class="p">:</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">level_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">level_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="c1">#            gm.legend = self.save_legend[i]</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;meshfill&quot;</span><span class="p">):</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getmeshfill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;isofill&quot;</span><span class="p">):</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getisofill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;isoline&quot;</span><span class="p">):</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getisoline</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_levels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;yxvsx&quot;</span><span class="p">):</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getyxvsx</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;xyvsy&quot;</span><span class="p">):</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getxyvsy</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_min</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_max</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;vector&quot;</span><span class="p">):</span>
+                    <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getvector</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">gm</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_mean_veloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Set the animation min and max values    					#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">set_animation_min_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">vcs</span> <span class="k">import</span> <span class="n">mkscale</span><span class="p">,</span> <span class="n">mklabels</span><span class="p">,</span> <span class="n">getcolors</span>
+        <span class="n">animation_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">animate_info_from_python</span><span class="p">()</span>
+        <span class="n">gtype</span> <span class="o">=</span> <span class="n">animation_info</span><span class="p">[</span><span class="s2">&quot;gtype&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">levs</span> <span class="o">=</span> <span class="n">mkscale</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">mklabels</span><span class="p">(</span><span class="n">levs</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">getcolors</span><span class="p">(</span><span class="n">levs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;boxfill&quot;</span><span class="p">:</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">gm</span><span class="o">.</span><span class="n">boxfill_type</span> <span class="o">==</span> <span class="s1">&#39;custom&#39;</span><span class="p">:</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">fillareacolors</span> <span class="o">=</span> <span class="n">cols</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="n">levs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">level_1</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">level_2</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">legend</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;meshfill&quot;</span><span class="p">):</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getmeshfill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="o">==</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">max</span> <span class="o">==</span> <span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="n">levs</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">fillareacolors</span> <span class="o">=</span> <span class="n">cols</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;isofill&quot;</span><span class="p">):</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getisofill</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="o">==</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">max</span> <span class="o">==</span> <span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="n">levs</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">fillareacolors</span> <span class="o">=</span> <span class="n">cols</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;isoline&quot;</span><span class="p">):</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getisoline</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="o">==</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">max</span> <span class="o">==</span> <span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">levels</span> <span class="o">=</span> <span class="n">levs</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">fillareacolors</span> <span class="o">=</span> <span class="n">cols</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;yxvsx&quot;</span><span class="p">):</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getyxvsx</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">max</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">yticlabels1</span> <span class="o">=</span> <span class="n">dic</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">yticlabels2</span> <span class="o">=</span> <span class="n">dic</span>
+                <span class="nb">min</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">max</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">min</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">max</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;xyvsy&quot;</span><span class="p">):</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getxyvsy</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">max</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">xticlabels1</span> <span class="o">=</span> <span class="n">dic</span>
+                <span class="n">gm</span><span class="o">.</span><span class="n">xticlabels2</span> <span class="o">=</span> <span class="n">dic</span>
+                <span class="nb">min</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">max</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">min</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">max</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;vector&quot;</span><span class="p">):</span>
+            <span class="n">gm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getvector</span><span class="p">(</span><span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">mean_veloc</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e20</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">min</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">e20</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">max</span> <span class="o">!=</span> <span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+                <span class="n">mean_veloc</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="nb">min</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">max</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))))</span>
+            <span class="n">gm</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="n">mean_veloc</span>
+        <span class="n">animation_info</span><span class="p">[</span><span class="s1">&#39;gname&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Return the animation min and max values                                    #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">return_animation_min_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dpy</span><span class="p">,</span> <span class="n">slab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">vcs</span><span class="o">.</span><span class="n">minmax</span><span class="p">(</span><span class="n">slab</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Load animation from a stored Raster file.   				#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">load_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thread_it</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">load_file</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">R_OK</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">showerror</span><span class="p">(</span>
+                <span class="s2">&quot;Error Message to the User&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;The specfied file does not have read permission or does not exist. &quot;</span>
+                <span class="s2">&quot;Please check the availability of the file.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">thread_it</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">thread</span><span class="o">.</span><span class="n">start_new_thread</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_load</span><span class="p">,</span> <span class="p">(</span><span class="n">load_file</span><span class="p">,))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_init</span><span class="p">(</span><span class="n">load_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Creating animation flag                 					#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">creating_animation_flg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Run animation flag                 					#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">run_animation_flg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Run or start the animation              					#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Cannot &quot;Create&quot; an animation while running an animation.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_run</span><span class="p">()</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Stop the animation creation                                                #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">stop_create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_stop_create</span><span class="p">()</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Stop the animation                                 			#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_stop</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_stop_create</span><span class="p">()</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># View the specified animation frame                          		#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_frame</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Return the number of animate frames                                    	#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">number_of_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Pause the animation loop                                               	#</span>
+    <span class="c1"># Value ranges from 0 to 100                                                 #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span>
+                <span class="s2">&quot;Pause value must be between an integer between 0 and 100.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_pause</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Zoom in on the animation                                               	#</span>
+    <span class="c1"># Value ranges from 0 to 20                                                  #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span>
+                <span class="s2">&quot;Zoom value must be between an integer between 1 and 20.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_zoom</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Pan the zoomed animation or frame in the x (or horizontal) direction   	#</span>
+    <span class="c1"># Value ranges from -100 to 100						#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">horizontal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">101</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span>
+                <span class="s2">&quot;Horizontal pan value must be between an integer between -100 and 100.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_horizontal</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Pan the zoomed animation or frame in the y (or vertical) direction   	#</span>
+    <span class="c1"># Value ranges from -100 to 100						#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">101</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span>
+                <span class="s2">&quot;Vertical pan value must be between an integer between -100 and 100.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_vertical</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Set the direction of the animation:                                        #</span>
+    <span class="c1"># Value 1 -&gt; forward, 2 -&gt; backward       	                                #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">direction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span>
+                <span class="s2">&quot;Direction value must be between either 1=&#39;forward&#39; or 2=&#39;backward&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_direction</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Mode sets the cycle, forth and back, or animate once                   	#</span>
+    <span class="c1"># Value: 1 -&gt; cycle, 2 -&gt; animate once, and 3 -&gt; forth and back              #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])):</span>
+            <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span><span class="s2">&quot;Mode value must be between either 1 or 3.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">creating_animation</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_mode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Update the animation display list                                      	#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">update_animate_display_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">current_display_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">return_display_names</span><span class="p">()</span>
+
+        <span class="n">temp_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">current_display_list</span><span class="p">:</span>
+                <span class="n">temp_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span> <span class="o">=</span> <span class="n">temp_list</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Close the animate session                                              	#</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preserve_pngs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">animate_close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gui_popup</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_flg</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_flg</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">getcontinentstype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">continents_hold_value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">continents_value</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">continents_hold_value</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Now that the animation is completed, restore the graphics methods min</span>
+        <span class="c1"># and max values.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restore_min_max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_unique_prefix&quot;</span><span class="p">):</span>
+            <span class="n">png_names</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;.uvcdat&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_unique_prefix</span><span class="p">,</span>
+                    <span class="s2">&quot;anim_*.png&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">preserve_pngs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">preserve_pngs</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">preserve_pngs</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">png_names</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">png_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">png_names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">png_names</span></div>
+
+
+<span class="k">class</span> <span class="nc">RT</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nextFunc</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">nextFunc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runnnig</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">frames_per_second</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># Adapted from</span>
+<span class="c1"># http://stackoverflow.com/questions/323972/is-there-any-way-to-kill-a-thread-in-python</span>
+
+
+<span class="k">class</span> <span class="nc">StoppableThread</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">is_stopped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="o">.</span><span class="n">isSet</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">resume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">wait_if_paused</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">AnimationCreateParams</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a_min</span> <span class="o">=</span> <span class="n">a_min</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a_max</span> <span class="o">=</span> <span class="n">a_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
+
+
+<span class="k">class</span> <span class="nc">AnimationCreate</span><span class="p">(</span><span class="n">StoppableThread</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+        <span class="n">StoppableThread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">initialize_create_canvas</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">set_anim_min_max</span><span class="p">()</span>
+        <span class="n">all_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">get_all_frame_args</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">reset_file_paths</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_really_used</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend_kargs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_stopped</span><span class="p">():</span>
+                <span class="k">break</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wait_if_paused</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_really_used</span> <span class="o">!=</span> <span class="p">[]:</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+                    <span class="n">args</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_really_used</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="n">kargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend_kargs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kargs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">displays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">render_frame</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">kargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_really_used</span> <span class="o">==</span> <span class="p">[]:</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">displays</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_really_used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">_gettemplate</span><span class="p">(),</span> <span class="n">d</span><span class="o">.</span><span class="n">_getg_type</span><span class="p">(),</span> <span class="n">d</span><span class="o">.</span><span class="n">_getg_name</span><span class="p">()])</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_backend_kargs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
+
+            <span class="c1"># this is how you allow the GUI to process events during</span>
+            <span class="c1"># animation creation</span>
+            <span class="c1"># time.sleep(0.001)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">restore_min_max</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">animation_created</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">signals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">signals</span><span class="o">.</span><span class="n">created</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">AnimationPlaybackParams</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_factor</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertical_factor</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_factor</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frames_per_second</span> <span class="o">=</span> <span class="mf">10.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">fps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Animation desired number of frame per seconds (might not be</span>
+<span class="sd">        achievable depending on your system)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frames_per_second</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">frames_per_second</span>
+
+    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Zoom factor for the animation&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zoom_factor</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Zoom must be greater than 0&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">horizontal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Pan the window horizontaly (when zoomed). 100% means move so you can see the furthest right part of the picture&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mf">100.</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Horizontal Factor cannot be greater than 100%&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">100.</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Horizontal Factor cannot be less than 100%&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_factor</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Pan the window verticaly (when zoomed). 100% means move so you can see the top part of the picture&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mf">100.</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Vertical Factor cannot be greater than 100%&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">100.</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Vertical Factor cannot be less than 100%&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertical_factor</span> <span class="o">=</span> <span class="n">value</span>
+
+
+<span class="k">class</span> <span class="nc">AnimationPlayback</span><span class="p">(</span><span class="n">StoppableThread</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+        <span class="n">StoppableThread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">signals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">signals</span><span class="o">.</span><span class="n">stopped</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">playback_running</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_stopped</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wait_if_paused</span><span class="p">()</span>
+            <span class="c1"># draw frame</span>
+            <span class="c1"># print &quot;DRAWING FRAME:&quot;, self.controller.frame_num,</span>
+            <span class="c1"># self.controller.animation_files[self.frame_num]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">draw_frame</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">number_of_frames</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">loop</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">frames_per_second</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">playback_running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">signals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">signals</span><span class="o">.</span><span class="n">stopped</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">AnimationController</span><span class="p">(</span><span class="n">animate_obj_old</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcs_self</span><span class="p">):</span>
+        <span class="n">animate_obj_old</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcs_self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">animation_created</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">animation_seed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span> <span class="o">=</span> <span class="n">AnimationCreateParams</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span> <span class="o">=</span> <span class="n">AnimationPlaybackParams</span><span class="p">()</span>
+        <span class="c1"># GUI will set these if available</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signals</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AnimationCreate</span> <span class="o">=</span> <span class="n">AnimationCreate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AnimationPlayback</span> <span class="o">=</span> <span class="n">AnimationPlayback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preserve_pngs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AnimationController</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">preserve_pngs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signals</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signals</span> <span class="o">=</span> <span class="n">signals</span>
+
+    <span class="k">def</span> <span class="nf">created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">animation_created</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thread_it</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_number_of_frames</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">thread_it</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">thread_it</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">canvasinfo</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span>
+            <span class="k">if</span> <span class="nb">min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Animation min/max autoset has been deprecated, use graphic method to set them&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_min</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_max</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AnimationCreate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">thread_it</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create_pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create_resume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">resume</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">is_playing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">playback_running</span>
+
+    <span class="k">def</span> <span class="nf">playback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="p">()</span> <span class="ow">and</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">())):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AnimationPlayback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># alias run to playback for command-line compatibility</span>
+    <span class="n">run</span> <span class="o">=</span> <span class="n">playback</span>
+
+    <span class="k">def</span> <span class="nf">playback_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_playing</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_playing</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">playback_pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_playing</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">playback_resume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_thread</span><span class="o">.</span><span class="n">resume</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_pause</span><span class="p">()</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_resume</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">number_of_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span>
+
+    <span class="k">def</span> <span class="nf">initialize_create_canvas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># create a new canvas for each frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="o">.</span><span class="n">setcolormap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">getcolormapname</span><span class="p">())</span>
+
+        <span class="n">dims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas_info</span>
+        <span class="k">if</span> <span class="n">dims</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="o">.</span><span class="n">setbgoutputdimensions</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">dims</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span>
+                                                 <span class="n">height</span><span class="o">=</span><span class="n">dims</span><span class="p">[</span>
+                                                     <span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span>
+                                                 <span class="n">units</span><span class="o">=</span><span class="s1">&#39;pixel&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_anim_min_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Save the min and max values for the graphics methods.</span>
+        <span class="c1"># Will need to restore values back when animation is done.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_original_min_max</span><span class="p">()</span>
+        <span class="n">minv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">maxv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_min</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0e77</span><span class="p">)</span>
+                <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0e77</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="n">dpy</span><span class="p">,</span> <span class="n">slab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">mins</span><span class="p">,</span> <span class="n">maxs</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">minmax</span><span class="p">(</span><span class="n">slab</span><span class="p">)</span>
+                <span class="n">minv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">minv</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">mins</span><span class="p">)))</span>
+                <span class="n">maxv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">maxv</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxs</span><span class="p">)))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_min</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span>
+              <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_max</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_min</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_min</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_max</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_max</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+                <span class="n">minv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_min</span><span class="p">)</span>
+                <span class="n">maxv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">a_max</span><span class="p">)</span>
+        <span class="c1"># Set the min an max for each plot in the page. If the same graphics method is used</span>
+        <span class="c1"># to display the plots, then the last min and max setting of the</span>
+        <span class="c1"># data set will be used.</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_animation_min_max</span><span class="p">(</span><span class="n">minv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">maxv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># if it is default, then you cannot set the min and max, so</span>
+                <span class="c1"># pass.</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">generate_number_of_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span>
+        <span class="n">NFrames</span> <span class="o">=</span> <span class="mf">1.e8</span>
+        <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">:</span>
+            <span class="n">disp</span><span class="p">,</span> <span class="n">slabs</span> <span class="o">=</span> <span class="n">info</span>
+            <span class="k">if</span> <span class="n">slabs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Nothing to do</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">disp</span><span class="o">.</span><span class="n">g_type</span> <span class="o">==</span> <span class="s2">&quot;meshfill&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">g</span> <span class="o">=</span> <span class="n">slabs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getGrid</span><span class="p">()</span>
+                    <span class="n">NXY</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="c1"># No grid so slab1 rnk will tell us</span>
+                    <span class="n">NXY</span> <span class="o">=</span> <span class="n">slabs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">2</span>  <span class="c1"># lat/lon/vertices</span>
+            <span class="k">elif</span> <span class="n">disp</span><span class="o">.</span><span class="n">g_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;G1D&quot;</span><span class="p">]:</span>
+                <span class="n">NXY</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">NXY</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="c1"># Now we can do the math and figure how many frames</span>
+            <span class="n">NXtraDims</span> <span class="o">=</span> <span class="n">slabs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="n">NXY</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">slabs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getAxisList</span><span class="p">()[:</span><span class="n">NXtraDims</span><span class="p">]:</span>
+                <span class="n">n</span> <span class="o">*=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+            <span class="c1"># We truncate to mininum number of common frames</span>
+            <span class="n">NFrames</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">NFrames</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span> <span class="o">=</span> <span class="n">NFrames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_dims_used_for_plot</span> <span class="o">=</span> <span class="n">NXY</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_frames</span>
+
+    <span class="k">def</span> <span class="nf">get_all_frame_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">alen</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">truncated</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">vcs_ai</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animate_info</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="n">vcs_ai</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">alen</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">l</span> <span class="o">!=</span> <span class="n">alen</span><span class="p">:</span>
+                    <span class="n">alen</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">alen</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+                    <span class="n">truncated</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Because of inconsistent shapes over axis: </span><span class="si">%i</span><span class="s2">, the &quot;</span>
+                          <span class="s2">&quot;animation length will be truncated to: </span><span class="si">%i</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                          <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="n">alen</span><span class="p">))</span>
+
+        <span class="n">all_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">alen</span><span class="p">):</span>
+            <span class="c1"># y.clear()</span>
+            <span class="n">frameArgs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="n">vcs_ai</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">kw</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getAxisIds</span><span class="p">()):</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">kw</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">j</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span><span class="p">:</span>
+                        <span class="n">kw</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">](</span><span class="o">**</span><span class="n">kw</span><span class="p">),</span> <span class="p">]</span>
+                <span class="k">if</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">kw</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">getAxisIds</span><span class="p">()):</span>
+                        <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+                            <span class="n">kw</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">j</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_params</span><span class="o">.</span><span class="n">axis</span><span class="p">:</span>
+                            <span class="n">kw</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">break</span>
+                    <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="o">**</span><span class="n">kw</span><span class="p">))</span>
+                <span class="n">args</span> <span class="o">+=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">g_type</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">g_name</span><span class="p">]</span>
+                <span class="n">frameArgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">all_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frameArgs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_args</span>
+
+    <span class="k">def</span> <span class="nf">reset_file_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">animation_seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span> <span class="o">!=</span> <span class="p">[]:</span>
+                <span class="k">for</span> <span class="n">fnm</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fnm</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">animation_seed</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">render_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_args</span><span class="p">,</span> <span class="n">frame_num</span><span class="p">,</span> <span class="n">frame_kargs</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">animation_seed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">animation_seed</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10000000000</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.uvcdat&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;__uvcdat_</span><span class="si">%i</span><span class="s2">_</span><span class="si">%i</span><span class="s2">.png&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animation_seed</span><span class="p">,</span> <span class="n">frame_num</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+
+        <span class="c1"># BB: this clearing and replotting somehow fixes vcs internal state</span>
+        <span class="c1"># and prevents segfaults when running multiple animations</span>
+        <span class="c1"># self.vcs_self.replot()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="n">displays</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">iarg</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">frame_args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame_kargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">iarg</span><span class="p">:</span>
+                <span class="n">kargs</span> <span class="o">=</span> <span class="n">frame_kargs</span><span class="p">[</span><span class="n">iarg</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kargs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_canvas</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">draw_white_background</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">displays</span>
+
+    <span class="k">def</span> <span class="nf">draw_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_num</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">frame_num</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">=</span> <span class="n">frame_num</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">put_png_on_canvas</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_num</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">zoom_factor</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">vertical_factor</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">horizontal_factor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">signals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signals</span><span class="o">.</span><span class="n">drawn</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_num</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">movie</span><span class="p">,</span> <span class="n">bitrate</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save animation to a file&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="p">():</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_frames</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">draw_frame</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_frames</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">fps</span><span class="p">()</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="s2">&quot;anim_</span><span class="si">%d</span><span class="s2">.png&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcs_self</span><span class="o">.</span><span class="n">ffmpeg</span><span class="p">(</span><span class="n">movie</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">bitrate</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">animation_files</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">fps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Animation desired number of frame per seconds (might not be</span>
+<span class="sd">        achievable depending on your system)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">fps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Zoom factor for the animation&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">horizontal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Pan the window horizontaly (when zoomed). 100% means move so you can see the furthest right part of the picture&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">horizontal</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Pan the window verticaly (when zoomed). 100% means move so you can see the top part of the picture&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">playback_params</span><span class="o">.</span><span class="n">vertical</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

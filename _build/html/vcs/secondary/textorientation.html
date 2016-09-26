@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>textorientation &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="Secondary Graphics Methods" href="gms.html" />
+    <link rel="next" title="texttable" href="texttable.html" />
+    <link rel="prev" title="textcombined" href="textcombined.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="texttable.html" title="texttable"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="textcombined.html" title="textcombined"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="gms.html" accesskey="U">Secondary Graphics Methods</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs.textorientation">
+<span id="textorientation"></span><h1>textorientation<a class="headerlink" href="#module-vcs.textorientation" title="Permalink to this headline">¶</a></h1>
+<p># Text Orientation (To) module</p>
+<dl class="class">
+<dt id="vcs.textorientation.To">
+<em class="property">class </em><code class="descclassname">vcs.textorientation.</code><code class="descname">To</code><span class="sig-paren">(</span><em>To_name</em>, <em>To_name_src='default'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/textorientation.html#To"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.textorientation.To" title="Permalink to this definition">¶</a></dt>
+<dd><p>The (To) Text Orientation lists text attribute set names that define the font, spacing,
+expansion, and color index.</p>
+<p>This class is used to define an text orientation table entry used in VCS, or it
+can be used to change some or all of the text orientation attributes in an
+existing text orientation table entry.</p>
+<dl class="describe">
+<dt>
+<code class="descname">Useful Functions:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas Constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1"># Show predefined text orientation objects</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;textorientation&#39;</span><span class="p">)</span>
+<span class="c1"># Updates the VCS Canvas at user&#39;s request</span>
+<span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Make a canvas object to work with:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Create a new instance of text orientation:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Copies content of &#39;7left&#39; to &#39;new&#39;</span>
+<span class="n">to</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createtextorientation</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;7left&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">to</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createtextorientation</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Modify an existing textorientation:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">to</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">gettextorientation</span><span class="p">(</span><span class="s1">&#39;7left&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Overview of textorientation attributes:</code></dt>
+<dd><ul>
+<li><p class="first">Listing the attributes:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Will list all the textorientation attribute values</span>
+<span class="n">to</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Specify the text height:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># The height value must be an integer</span>
+<span class="n">to</span><span class="o">.</span><span class="n">height</span><span class="o">=</span><span class="mi">20</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Specify the text angle:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># The angle value must be in the range 0 to 360</span>
+<span class="n">to</span><span class="o">.</span><span class="n">angle</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Specify the text path:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Same as to.path=0</span>
+<span class="n">to</span><span class="o">.</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
+<span class="c1"># Same as to.path=1</span>
+<span class="n">to</span><span class="o">.</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;left&#39;</span>
+<span class="c1"># Same as to.path=2</span>
+<span class="n">to</span><span class="o">.</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;up&#39;</span>
+<span class="c1"># Same as to.path=3</span>
+<span class="n">to</span><span class="o">.</span><span class="n">path</span><span class="o">=</span><span class="s1">&#39;down&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Specify the text horizontal alignment:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Same as to.halign=0</span>
+<span class="n">to</span><span class="o">.</span><span class="n">halign</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
+<span class="c1"># Same as to.halign=1</span>
+<span class="n">to</span><span class="o">.</span><span class="n">halign</span><span class="o">=</span><span class="s1">&#39;center&#39;</span>
+<span class="c1"># Same as to.halign=2</span>
+<span class="n">to</span><span class="o">.</span><span class="n">halign</span><span class="o">=</span><span class="s1">&#39;right&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Specify the text vertical alignment:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Same as tovalign=0</span>
+<span class="n">to</span><span class="o">.</span><span class="n">valign</span><span class="o">=</span><span class="s1">&#39;top&#39;</span>
+<span class="c1"># Same as tovalign=1</span>
+<span class="n">to</span><span class="o">.</span><span class="n">valign</span><span class="o">=</span><span class="s1">&#39;cap&#39;</span>
+<span class="c1"># Same as tovalign=2</span>
+<span class="n">to</span><span class="o">.</span><span class="n">valign</span><span class="o">=</span><span class="s1">&#39;half&#39;</span>
+<span class="c1"># Same as tovalign=3</span>
+<span class="n">to</span><span class="o">.</span><span class="n">valign</span><span class="o">=</span><span class="s1">&#39;base&#39;</span>
+<span class="c1"># Same as tovalign=4</span>
+<span class="n">to</span><span class="o">.</span><span class="n">valign</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.textorientation.To.script">
+<code class="descname">script</code><span class="sig-paren">(</span><em>script_filename=None</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/textorientation.html#To.script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.textorientation.To.script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves out a copy of the textorientation secondary method in JSON, or Python format to a designated file.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the the filename has a &#8216;.py&#8217; at the end, it will produce a
+Python script. If no extension is given, then by default a
+.json file containing a JSON serialization of the object&#8217;s
+data will be produced.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">VCS Scripts Deprecated.
+SCR script files are no longer generated by this function.</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a Canvas object to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">gettextorientation</span><span class="p">()</span> <span class="c1"># Get default textorientation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename.py&#39;</span><span class="p">)</span> <span class="c1"># Append to a Python script named &#39;filename.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="c1"># Create or overwrite a JSON file &#39;filename.json&#39;.</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>script_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Output name of the script file. If no extension is specified, a .json object is created.</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Either &#8216;w&#8217; for replace, or &#8216;a&#8217; for append. Defaults to &#8216;a&#8217;, if not specified.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="textcombined.html"
+                        title="previous chapter">textcombined</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="texttable.html"
+                        title="next chapter">texttable</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/vcs/secondary/textorientation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="texttable.html" title="texttable"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="textcombined.html" title="textcombined"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="gms.html" >Secondary Graphics Methods</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>queries &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="Miscellaneous Modules" href="misc.html" />
+    <link rel="next" title="utils" href="utils.html" />
+    <link rel="prev" title="manageElements" href="manageElements.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="manageElements.html" title="manageElements"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="misc.html" accesskey="U">Miscellaneous Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs.queries">
+<span id="queries"></span><h1>queries<a class="headerlink" href="#module-vcs.queries" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="vcs.queries.graphicsmethodlist">
+<code class="descclassname">vcs.queries.</code><code class="descname">graphicsmethodlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#graphicsmethodlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.graphicsmethodlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>List available graphics methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">graphicsmethodlist</span><span class="p">()</span> <span class="c1"># Return graphics method list</span>
+<span class="go">[...]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of available grapics methods (i.e., boxfill, isofill, isoline, outfill,
+scatter, vector, xvsy, xyvsy, yxvsx, taylordiagram ).</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../graphics/boxfill.html#vcs.boxfill.Gfb.list" title="vcs.boxfill.Gfb.list">list</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.graphicsmethodtype">
+<code class="descclassname">vcs.queries.</code><code class="descname">graphicsmethodtype</code><span class="sig-paren">(</span><em>gobj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#graphicsmethodtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.graphicsmethodtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the type of a graphics object.</p>
+<p>Returns None if the object is not a graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">()</span> <span class="c1"># Get default boxfill graphics method</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisofill</span><span class="p">()</span> <span class="c1"># Get default isofill graphics method</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ln</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getline</span><span class="p">()</span><span class="c1"># Get default line element</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">graphicsmethodtype</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<span class="go">&#39;boxfill&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">graphicsmethodtype</span><span class="p">(</span><span class="n">iso</span><span class="p">)</span>
+<span class="go">&#39;isofill&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">graphicsmethodtype</span><span class="p">(</span><span class="n">ln</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">vcsError</span>: <span class="n">The object passed is not a graphics method object.</span>
+</pre></div>
+</div>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body">If gobj is a graphics method object, returns its type: &#8216;boxfill&#8217;, &#8216;isofill&#8217;, &#8216;isoline&#8217;,
+&#8216;scatter&#8217;, &#8216;vector&#8217;, &#8216;xvsy&#8217;, &#8216;xyvsy&#8217;, or &#8216;yxvsx&#8217;, &#8216;taylordiagram&#8217;.
+If gobj is not a graphics method object, raises an exception and prints a vcsError message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">str or None</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.is1d">
+<code class="descclassname">vcs.queries.</code><code class="descname">is1d</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#is1d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.is1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS 1d graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;1d&#39;</span><span class="p">)</span> <span class="c1"># Show all available 1d</span>
+<span class="go">*******************1d Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End 1d Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get1d</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># To  test an existing 1d object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">is1d</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a 1d graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.is3d_dual_scalar">
+<code class="descclassname">vcs.queries.</code><code class="descname">is3d_dual_scalar</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#is3d_dual_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.is3d_dual_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS 3d_dual_scalar graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;3d_dual_scalar&#39;</span><span class="p">)</span> <span class="c1"># Show all available 3d_dual_scalar</span>
+<span class="go">*******************3d_dual_scalar Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End 3d_dual_scalar Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get3d_dual_scalar</span><span class="p">()</span> <span class="c1"># To  test an existing 3d_dual_scalar object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">is3d_dual_scalar</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a 3d_dual_scalar graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.is3d_scalar">
+<code class="descclassname">vcs.queries.</code><code class="descname">is3d_scalar</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#is3d_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.is3d_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS 3d_scalar graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;3d_scalar&#39;</span><span class="p">)</span> <span class="c1"># Show all available 3d_scalar</span>
+<span class="go">*******************3d_scalar Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End 3d_scalar Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get3d_scalar</span><span class="p">()</span> <span class="c1"># To  test an existing 3d_scalar object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">is3d_scalar</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a 3d_scalar graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.is3d_vector">
+<code class="descclassname">vcs.queries.</code><code class="descname">is3d_vector</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#is3d_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.is3d_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS 3d_vector graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;3d_vector&#39;</span><span class="p">)</span> <span class="c1"># Show all available 3d_vector</span>
+<span class="go">*******************3d_vector Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End 3d_vector Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get3d_vector</span><span class="p">()</span> <span class="c1"># To  test an existing 3d_vector object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">is3d_vector</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a 3d_vector graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isboxfill">
+<code class="descclassname">vcs.queries.</code><code class="descname">isboxfill</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isboxfill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isboxfill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS boxfill graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;boxfill&#39;</span><span class="p">)</span> <span class="c1"># Show all available boxfill</span>
+<span class="go">*******************Boxfill Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Boxfill Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">()</span> <span class="c1"># To  test an existing boxfill object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isboxfill</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a boxfill graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.iscolormap">
+<code class="descclassname">vcs.queries.</code><code class="descname">iscolormap</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#iscolormap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.iscolormap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS colormap secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;colormap&#39;</span><span class="p">)</span> <span class="c1"># Show all available colormap</span>
+<span class="go">*******************Colormap Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Colormap Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getcolormap</span><span class="p">()</span> <span class="c1"># To  test an existing colormap object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">iscolormap</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a colormap secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isfillarea">
+<code class="descclassname">vcs.queries.</code><code class="descname">isfillarea</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isfillarea"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isfillarea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS fillarea secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;fillarea&#39;</span><span class="p">)</span> <span class="c1"># Show all available fillarea</span>
+<span class="go">*******************Fillarea Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Fillarea Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getfillarea</span><span class="p">()</span> <span class="c1"># To  test an existing fillarea object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isfillarea</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a fillarea secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isgraphicsmethod">
+<code class="descclassname">vcs.queries.</code><code class="descname">isgraphicsmethod</code><span class="sig-paren">(</span><em>gobj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isgraphicsmethod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isgraphicsmethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if the entered argument is one of the following graphics
+methods: boxfill, isofill, isoline,
+scatter, vector, xvsy, xyvsy, yxvsx.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">box</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">()</span> <span class="c1"># get default boxfill object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">isgraphicsmethod</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>gobj</strong> (<em>A VCS graphics object</em>) &#8211; A graphics object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Integer reperesenting whether gobj is one of the above graphics methods.
+1 indicates true, 0 indicates false.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isisofill">
+<code class="descclassname">vcs.queries.</code><code class="descname">isisofill</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isisofill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isisofill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS isofill graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;isofill&#39;</span><span class="p">)</span> <span class="c1"># Show all available isofill</span>
+<span class="go">*******************Isofill Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Isofill Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getisofill</span><span class="p">()</span> <span class="c1"># To  test an existing isofill object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isisofill</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a isofill graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isisoline">
+<code class="descclassname">vcs.queries.</code><code class="descname">isisoline</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isisoline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isisoline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS isoline graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;isoline&#39;</span><span class="p">)</span> <span class="c1"># Show all available isoline</span>
+<span class="go">*******************Isoline Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Isoline Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getisoline</span><span class="p">()</span> <span class="c1"># To  test an existing isoline object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isisoline</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a isoline graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isline">
+<code class="descclassname">vcs.queries.</code><code class="descname">isline</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS line secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span> <span class="c1"># Show all available line</span>
+<span class="go">*******************Line Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Line Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getline</span><span class="p">()</span> <span class="c1"># To  test an existing line object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isline</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a line secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.ismarker">
+<code class="descclassname">vcs.queries.</code><code class="descname">ismarker</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#ismarker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.ismarker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS marker secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;marker&#39;</span><span class="p">)</span> <span class="c1"># Show all available marker</span>
+<span class="go">*******************Marker Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Marker Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getmarker</span><span class="p">()</span> <span class="c1"># To  test an existing marker object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">ismarker</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a marker secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.ismeshfill">
+<code class="descclassname">vcs.queries.</code><code class="descname">ismeshfill</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#ismeshfill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.ismeshfill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS meshfill graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;meshfill&#39;</span><span class="p">)</span> <span class="c1"># Show all available meshfill</span>
+<span class="go">*******************Meshfill Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Meshfill Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getmeshfill</span><span class="p">()</span> <span class="c1"># To  test an existing meshfill object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">ismeshfill</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a meshfill graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isplot">
+<code class="descclassname">vcs.queries.</code><code class="descname">isplot</code><span class="sig-paren">(</span><em>pobj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS secondary display plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cdms2</span> <span class="c1"># need this to make a slab for a boxfill plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">cdms2</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">sample_data</span> <span class="o">+</span> <span class="s1">&#39;/clt.nc&#39;</span><span class="p">)</span> <span class="c1"># open a variable file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">)</span> <span class="c1"># create a slab from the variable file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dsp_plot</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">(),</span> <span class="n">v</span><span class="p">)</span> <span class="c1"># plot a boxfill. Should return vcs.displayplot.Dp.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isplot</span><span class="p">(</span><span class="n">dsp_plot</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a display plot (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isprojection">
+<code class="descclassname">vcs.queries.</code><code class="descname">isprojection</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isprojection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isprojection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS projection graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;projection&#39;</span><span class="p">)</span> <span class="c1"># Show all available projection</span>
+<span class="go">*******************Projection Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Projection Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getprojection</span><span class="p">()</span> <span class="c1"># To  test an existing projection object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isprojection</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a projection graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isscatter">
+<code class="descclassname">vcs.queries.</code><code class="descname">isscatter</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isscatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isscatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS scatter graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;scatter&#39;</span><span class="p">)</span> <span class="c1"># Show all available scatter</span>
+<span class="go">*******************Scatter Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Scatter Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getscatter</span><span class="p">(</span><span class="s1">&#39;default_scatter_&#39;</span><span class="p">)</span> <span class="c1"># To  test an existing scatter object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isscatter</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a scatter graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.issecondaryobject">
+<code class="descclassname">vcs.queries.</code><code class="descname">issecondaryobject</code><span class="sig-paren">(</span><em>sobj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#issecondaryobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.issecondaryobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS secondary object</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Secondary objects will be one of the following:
+1.) colormap: specification of combinations of 256 available</p>
+<blockquote>
+<div>colors</div></blockquote>
+<p>2.) fill area: style, style index, and color index
+3.) format: specifications for converting numbers to display</p>
+<blockquote>
+<div>strings</div></blockquote>
+<p>4.) line: line type, width, and color index
+5.) list: a sequence of pairs of numerical and character values
+6.) marker: marker type, size, and color index
+7.) text table: text font type, character spacing, expansion, and</p>
+<blockquote>
+<div>color index</div></blockquote>
+<dl class="docutils">
+<dt>8.) text orientation: character height, angle, path, and</dt>
+<dd>horizontal/vertical alignment</dd>
+</dl>
+<p class="last">9.) projections</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span> <span class="c1"># Show all available lines</span>
+<span class="go">*******************Line Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Line Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getprojection</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># To test an existing line object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">issecondaryobject</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a projection graphics object (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.istaylordiagram">
+<code class="descclassname">vcs.queries.</code><code class="descname">istaylordiagram</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#istaylordiagram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.istaylordiagram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS taylordiagram graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;taylordiagram&#39;</span><span class="p">)</span> <span class="c1"># Show all available taylordiagram</span>
+<span class="go">*******************Taylordiagram Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Taylordiagram Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gettaylordiagram</span><span class="p">()</span> <span class="c1"># To  test an existing taylordiagram object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istaylordiagram</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a taylordiagram graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.istemplate">
+<code class="descclassname">vcs.queries.</code><code class="descname">istemplate</code><span class="sig-paren">(</span><em>gobj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#istemplate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.istemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS template graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">)</span> <span class="c1"># Show all available template</span>
+<span class="go">*******************Template Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Template Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gettemplate</span><span class="p">()</span> <span class="c1"># To  test an existing template object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istemplate</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a template graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.istext">
+<code class="descclassname">vcs.queries.</code><code class="descname">istext</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.queries.istext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS textcombined secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">createtextcombined</span><span class="p">(</span><span class="s1">&#39;EXAMPLE_tt&#39;</span><span class="p">,</span> <span class="s1">&#39;qa&#39;</span><span class="p">,</span> <span class="s1">&#39;EXAMPLE_tto&#39;</span><span class="p">,</span> <span class="s1">&#39;7left&#39;</span><span class="p">)</span> <span class="c1"># Create &#39;EXAMPLE_tt&#39; and &#39;EXAMPLE_tto&#39;</span>
+<span class="go">&lt;vcs.textcombined.Tc ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;textcombined&#39;</span><span class="p">)</span> <span class="c1"># Show all available textcombined</span>
+<span class="go">*******************Textcombined Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Textcombined Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gettextcombined</span><span class="p">(</span><span class="s1">&#39;EXAMPLE_tt&#39;</span><span class="p">,</span> <span class="s1">&#39;EXAMPLE_tto&#39;</span><span class="p">)</span> <span class="c1"># To  test an existing textcombined object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istextcombined</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a textcombined secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.istextcombined">
+<code class="descclassname">vcs.queries.</code><code class="descname">istextcombined</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#istextcombined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.istextcombined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS textcombined secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">createtextcombined</span><span class="p">(</span><span class="s1">&#39;EXAMPLE_tt&#39;</span><span class="p">,</span> <span class="s1">&#39;qa&#39;</span><span class="p">,</span> <span class="s1">&#39;EXAMPLE_tto&#39;</span><span class="p">,</span> <span class="s1">&#39;7left&#39;</span><span class="p">)</span> <span class="c1"># Create &#39;EXAMPLE_tt&#39; and &#39;EXAMPLE_tto&#39;</span>
+<span class="go">&lt;vcs.textcombined.Tc ...&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;textcombined&#39;</span><span class="p">)</span> <span class="c1"># Show all available textcombined</span>
+<span class="go">*******************Textcombined Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Textcombined Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gettextcombined</span><span class="p">(</span><span class="s1">&#39;EXAMPLE_tt&#39;</span><span class="p">,</span> <span class="s1">&#39;EXAMPLE_tto&#39;</span><span class="p">)</span> <span class="c1"># To  test an existing textcombined object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istextcombined</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a textcombined secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.istextorientation">
+<code class="descclassname">vcs.queries.</code><code class="descname">istextorientation</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#istextorientation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.istextorientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS textorientation secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;textorientation&#39;</span><span class="p">)</span> <span class="c1"># Show all available textorientation</span>
+<span class="go">*******************Textorientation Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Textorientation Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gettextorientation</span><span class="p">()</span> <span class="c1"># To  test an existing textorientation object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istextorientation</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a textorientation secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.istexttable">
+<code class="descclassname">vcs.queries.</code><code class="descname">istexttable</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#istexttable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.istexttable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS texttable secondary method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;texttable&#39;</span><span class="p">)</span> <span class="c1"># Show all available texttable</span>
+<span class="go">*******************Texttable Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Texttable Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">gettexttable</span><span class="p">()</span> <span class="c1"># To  test an existing texttable object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istexttable</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a texttable secondary method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isvector">
+<code class="descclassname">vcs.queries.</code><code class="descname">isvector</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isvector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isvector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS 1d graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;1d&#39;</span><span class="p">)</span> <span class="c1"># Show all available 1d</span>
+<span class="go">*******************1d Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End 1d Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get1d</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># To  test an existing 1d object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">is1d</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a 1d graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isxvsy">
+<code class="descclassname">vcs.queries.</code><code class="descname">isxvsy</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isxvsy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isxvsy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS xvsy graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;xvsy&#39;</span><span class="p">)</span> <span class="c1"># Show all available xvsy</span>
+<span class="go">*******************Xvsy Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Xvsy Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getxvsy</span><span class="p">()</span> <span class="c1"># To  test an existing xvsy object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isxvsy</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a xvsy graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isxyvsy">
+<code class="descclassname">vcs.queries.</code><code class="descname">isxyvsy</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isxyvsy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isxyvsy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS xyvsy graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;xyvsy&#39;</span><span class="p">)</span> <span class="c1"># Show all available xyvsy</span>
+<span class="go">*******************Xyvsy Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Xyvsy Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getxyvsy</span><span class="p">(</span><span class="s1">&#39;default_xyvsy_&#39;</span><span class="p">)</span> <span class="c1"># To  test an existing xyvsy object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isxyvsy</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a xyvsy graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.queries.isyxvsx">
+<code class="descclassname">vcs.queries.</code><code class="descname">isyxvsx</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/queries.html#isyxvsx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.queries.isyxvsx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if this object is a VCS yxvsx graphics method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a VCS Canvas object to work with:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;yxvsx&#39;</span><span class="p">)</span> <span class="c1"># Show all available yxvsx</span>
+<span class="go">*******************Yxvsx Names List**********************</span>
+<span class="gp">...</span>
+<span class="go">*******************End Yxvsx Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getyxvsx</span><span class="p">()</span> <span class="c1"># To  test an existing yxvsx object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">isyxvsx</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>obj</strong> (<em>VCS Object</em>) &#8211; A VCS object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An integer indicating whether the object is a yxvsx graphics method (1), or not (0).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="manageElements.html"
+                        title="previous chapter">manageElements</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utils.html"
+                        title="next chapter">utils</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/vcs/misc/queries.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="manageElements.html" title="manageElements"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="misc.html" >Miscellaneous Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

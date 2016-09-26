@@ -1,0 +1,655 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>isoline &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="Graphics Methods" href="gm.html" />
+    <link rel="next" title="meshfill" href="meshfill.html" />
+    <link rel="prev" title="isofill" href="isofill.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="meshfill.html" title="meshfill"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="isofill.html" title="isofill"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="gm.html" accesskey="U">Graphics Methods</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs.isoline">
+<span id="isoline"></span><h1>isoline<a class="headerlink" href="#module-vcs.isoline" title="Permalink to this headline">¶</a></h1>
+<p># Isoline (Gi) module</p>
+<dl class="class">
+<dt id="vcs.isoline.Gi">
+<em class="property">class </em><code class="descclassname">vcs.isoline.</code><code class="descname">Gi</code><span class="sig-paren">(</span><em>Gi_name</em>, <em>Gi_name_src='default'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Isoline graphics method (Gi) draws lines of constant value at specified
+levels in order to graphically represent a two-dimensional array. It
+also labels the values of these isolines on the VCS Canvas. The example
+below shows how to plot isolines of different types at specified levels
+and how to create isoline labels having user-specified text and line type
+and color.</p>
+<p>This class is used to define an isoline table entry used in VCS, or it can
+be used to change some or all of the isoline attributes in an existing isoline
+table entry.</p>
+<dl class="describe">
+<dt>
+<code class="descname">Useful Functions:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas Constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1"># Show predefined isoline graphics methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;isoline&#39;</span><span class="p">)</span>
+<span class="c1"># Show predefined VCS line objects</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+<span class="c1"># Change the VCS color map</span>
+<span class="n">a</span><span class="o">.</span><span class="n">setcolormap</span><span class="p">(</span><span class="s2">&quot;AMIP&quot;</span><span class="p">)</span>
+<span class="c1"># Plot data &#39;s&#39; with isoline &#39;i&#39; and &#39;default&#39; template</span>
+<span class="n">a</span><span class="o">.</span><span class="n">isoline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="c1"># Updates the VCS Canvas at user&#39;s request</span>
+<span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Create a canvas object:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Create a new instance of isoline:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisoline</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;quick&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisoline</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Modify an existing isoline:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisoline</span><span class="p">(</span><span class="s1">&#39;AMIP_psl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<span class="target" id="isoline-attributes"></span><dl class="describe">
+<dt>
+<code class="descname">Overview of isoline attributes:</code></dt>
+<dd><ul>
+<li><p class="first">List all the isoline attribute values</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Set isoline attribute values:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span>
+<span class="n">lon30</span><span class="o">=</span><span class="p">{</span><span class="o">-</span><span class="mi">180</span><span class="p">:</span><span class="s1">&#39;180W&#39;</span><span class="p">,</span><span class="o">-</span><span class="mi">150</span><span class="p">:</span><span class="s1">&#39;150W&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;Eq&#39;</span><span class="p">}</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xticlabels1</span><span class="o">=</span><span class="n">lon30</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xticlabels2</span><span class="o">=</span><span class="n">lon30</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xticlabels</span><span class="p">(</span><span class="n">lon30</span><span class="p">,</span> <span class="n">lon30</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xmtics1</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xmtics2</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xmtics</span><span class="p">(</span><span class="n">lon30</span><span class="p">,</span> <span class="n">lon30</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yticlabels1</span><span class="o">=</span><span class="n">lat10</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yticlabels2</span><span class="o">=</span><span class="n">lat10</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">yticlabels</span><span class="p">(</span><span class="n">lat10</span><span class="p">,</span> <span class="n">lat10</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">ymtics1</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">ymtics2</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">ymtics</span><span class="p">(</span><span class="n">lat10</span><span class="p">,</span> <span class="n">lat10</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_y1</span><span class="o">=-</span><span class="mf">90.0</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_y2</span><span class="o">=</span><span class="mf">90.0</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_x1</span><span class="o">=-</span><span class="mf">180.0</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc_x2</span><span class="o">=</span><span class="mf">180.0</span>
+<span class="c1"># Will set them all</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">datawc</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+<span class="n">xaxisconvert</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span>
+<span class="n">yaxisconvert</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span>
+<span class="c1"># Will set them both</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">xyscale</span><span class="p">(</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;area_wt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Setting isoline <a class="reference internal" href="#vcs.isoline.Gi.level" title="vcs.isoline.Gi.level"><code class="xref py py-attr docutils literal"><span class="pre">level</span></code></a> values:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">#1) As a list of tuples (Examples):</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">[(</span><span class="mi">23</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">76</span><span class="p">),]</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">[(</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">66</span><span class="p">)]</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">[(</span><span class="mi">20</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),(</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">[(</span><span class="mi">23</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">76</span><span class="p">),</span> <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">55</span><span class="p">)]</span>
+<span class="c1">#2) As a tuple of lists (Examples):</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">76</span><span class="p">],)</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">66</span><span class="p">])</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">76</span><span class="p">],)</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">])</span>
+<span class="c1">#3) As a list of lists (Examples):</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">[[</span><span class="mi">20</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="c1">#4) As a tuple of tuples (Examples):</span>
+    <span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mf">0.0</span><span class="p">),(</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">60</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">70</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A combination of a pairs (i.e., (30,0) or [30,0])
+represents the isoline value plus its increment value.
+Thus, to let VCS generate &#8220;default&#8221; isolines:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Same as iso.level=((0,1e20),)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">level</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1e20</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Displaying isoline labels:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Same as iso.label=1, will display isoline labels</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;y&#39;</span>
+<span class="c1"># Same as iso.label=0, will turn isoline labels off</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;n&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Specify the isoline line style (or type):</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># The following two lines of code are equivalent.</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">line</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="c1"># Both specify the isoline style</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">line</span><span class="o">=</span><span class="p">([</span><span class="s1">&#39;solid, &#39;</span><span class="n">dash</span><span class="s1">&#39;, &#39;</span><span class="n">dot</span><span class="s1">&#39;, &#39;</span><span class="n">dash</span><span class="o">-</span><span class="n">dot</span><span class="s1">&#39;, &#39;</span><span class="nb">long</span><span class="o">-</span><span class="n">dash</span><span class="s1">&#39;])</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">There are three possibilities for setting the line color indices:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># The following two lines of code are equivalent</span>
+<span class="c1"># Both will set the isoline to a specific color index</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">linecolors</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="mi">77</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">linecolors</span><span class="o">=</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="mi">77</span><span class="p">])</span>
+<span class="c1"># Turns off the line color index</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">linecolors</span><span class="o">=</span><span class="bp">None</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">There are three possibilities for setting the line widths:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># The following two lines of code are equivalent</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">linewidths</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+<span class="c1"># Both will set the isoline to a specific width size</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">linewidths</span><span class="o">=</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="c1"># Turns off the line width size</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">linewidths</span><span class="o">=</span><span class="bp">None</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the number of line styles, colors or widths are less
+than the number of levels, we extend the attribute list
+using the last attribute value in the attribute list.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">There are three ways to specify the text or font number:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Font numbers are between 1 and 9</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">text</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">text</span><span class="o">=</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="c1"># Removes the text settings</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">text</span><span class="o">=</span><span class="bp">None</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">There are three possibilities for setting the text color indices:</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">iso</span><span class="o">.</span><span class="n">textcolors</span><span class="o">=</span><span class="p">([</span><span class="mi">22</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">66</span><span class="p">,</span><span class="mi">77</span><span class="p">])</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">textcolors</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">44</span><span class="p">)</span>
+<span class="c1"># Turns off the text color index</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">textcolors</span><span class="o">=</span><span class="bp">None</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<ul id="isoline-attribute-descriptions">
+<li><p class="first">Attribute descriptions:</p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="vcs.isoline.Gi.label">
+<code class="descname">label</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Turn on/off labels on isolines</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.labelskipdistance">
+<code class="descname">labelskipdistance</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.labelskipdistance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Minimum distance between isoline labels</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.labelbackgroundcolors">
+<code class="descname">labelbackgroundcolors</code><span class="sig-paren">(</span><span class="optional">[</span><em>float</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.labelbackgroundcolors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Background color for isoline labels</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.labelbackgroundopacities">
+<code class="descname">labelbackgroundopacities</code><span class="sig-paren">(</span><span class="optional">[</span><em>float</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.labelbackgroundopacities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Background opacity for isoline labels</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.level">
+<code class="descname">level</code><span class="sig-paren">(</span><span class="optional">[</span><em>float</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Isocountours to display</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.clockwise">
+<code class="descname">clockwise</code><span class="sig-paren">(</span><span class="optional">[</span><em>int</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.clockwise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Draw directional arrows
++-(0,1,2) Indicate none/clockwise/clokwise on y axis &gt;0.
+Clockwise on x axis positive negative value invert behaviour</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><span class="optional">[</span><em>float</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.scale" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Scales the directional arrow lengths</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.angle">
+<code class="descname">angle</code><span class="sig-paren">(</span><span class="optional">[</span><em>float</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Directional arrows head angle</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.spacing">
+<code class="descname">spacing</code><span class="sig-paren">(</span><span class="optional">[</span><em>float</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.spacing" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Scales spacing between directional arrows</p>
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.xmtics1">
+<code class="descname">xmtics1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.xmtics1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 1st side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.xmtics2">
+<code class="descname">xmtics2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.xmtics2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 2nd side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.ymtics1">
+<code class="descname">ymtics1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.ymtics1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 1st side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.ymtics2">
+<code class="descname">ymtics2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.ymtics2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;&#8217;) dictionary with location of intermediate tics as keys for 2nd side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.xticlabels1">
+<code class="descname">xticlabels1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.xticlabels1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 1st side of x axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.xticlabels2">
+<code class="descname">xticlabels2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.xticlabels2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 2nd side of x axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.yticlabels1">
+<code class="descname">yticlabels1</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.yticlabels1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 1st side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.yticlabels2">
+<code class="descname">yticlabels2</code><span class="sig-paren">(</span><em>str/{float:str}</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.yticlabels2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;*&#8217;) values for labels on 2nd side of y axis</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.projection">
+<code class="descname">projection</code><span class="sig-paren">(</span><em>str/vcs.projection.Proj</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;default&#8217;) projection to use, name or object</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.datawc_x1">
+<code class="descname">datawc_x1</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.datawc_x1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) first value of xaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.datawc_x2">
+<code class="descname">datawc_x2</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.datawc_x2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) second value of xaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.datawc_y1">
+<code class="descname">datawc_y1</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.datawc_y1" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) first value of yaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.datawc_y2">
+<code class="descname">datawc_y2</code><span class="sig-paren">(</span><em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.datawc_y2" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 1.E20) second value of yaxis on plot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.datawc_timeunits">
+<code class="descname">datawc_timeunits</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.datawc_timeunits" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: &#8216;days since 2000&#8217;) units to use when displaying time dimension auto tick</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="vcs.isoline.Gi.datawc_calendar">
+<code class="descname">datawc_calendar</code><span class="sig-paren">(</span><em>int</em><span class="sig-paren">)</span><a class="headerlink" href="#vcs.isoline.Gi.datawc_calendar" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Ex: 135441) calendar to use when displaying time dimension auto tick, default is proleptic gregorian calendar</p>
+<p>line :: ([str,...]/[vcs.line.Tl,...]/[int,...]) ([&#8216;solid&#8217;,]) line type to use for each isoline, can also pass a line object or line object name</p>
+</dd></dl>
+
+</div></blockquote>
+</li>
+</ul>
+</dd></dl>
+
+<p>linecolors :: ([int,...]) ([241]) colors to use for each isoline
+linewidths :: ([float,...]) ([1.0]) list of width for each isoline</p>
+<p>text :: (None/[vcs.textcombined.Tc,...]) (None) text objects or text objects names to use for each countour labels
+textcolors :: (None/[int,...]) (None) colors to use for each countour labels</p>
+<dl class="method">
+<dt id="vcs.isoline.Gi.datawc">
+<code class="descname">datawc</code><span class="sig-paren">(</span><em>dsp1=1e+20</em>, <em>dsp2=1e+20</em>, <em>dsp3=1e+20</em>, <em>dsp4=1e+20</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.datawc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.datawc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the data world coordinates for object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dsp1</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isoline.Gi.datawc_y1" title="vcs.isoline.Gi.datawc_y1"><code class="xref py py-attr docutils literal"><span class="pre">datawc_y1</span></code></a> property of the object.</li>
+<li><strong>dsp2</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isoline.Gi.datawc_y2" title="vcs.isoline.Gi.datawc_y2"><code class="xref py py-attr docutils literal"><span class="pre">datawc_y2</span></code></a> property of the object.</li>
+<li><strong>dsp3</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isoline.Gi.datawc_x1" title="vcs.isoline.Gi.datawc_x1"><code class="xref py py-attr docutils literal"><span class="pre">datawc_x1</span></code></a> property of the object.</li>
+<li><strong>dsp4</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Sets the <a class="reference internal" href="#vcs.isoline.Gi.datawc_x2" title="vcs.isoline.Gi.datawc_x2"><code class="xref py py-attr docutils literal"><span class="pre">datawc_x2</span></code></a> property of the object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.list">
+<code class="descname">list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists the current values of object attributes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.script">
+<code class="descname">script</code><span class="sig-paren">(</span><em>script_filename</em>, <em>mode='a'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves out a copy of the isoline graphics method in JSON, or Python format to a designated file.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the the filename has a &#8216;.py&#8217; at the end, it will produce a
+Python script. If no extension is given, then by default a
+.json file containing a JSON serialization of the object&#8217;s
+data will be produced.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">VCS Scripts Deprecated.
+SCR script files are no longer generated by this function.</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a Canvas object to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisoline</span><span class="p">()</span> <span class="c1"># Get default isoline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename.py&#39;</span><span class="p">)</span> <span class="c1"># Append to a Python script named &#39;filename.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="c1"># Create or overwrite a JSON file &#39;filename.json&#39;.</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>script_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Output name of the script file. If no extension is specified, a .json object is created.</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Either &#8216;w&#8217; for replace, or &#8216;a&#8217; for append. Defaults to &#8216;a&#8217;, if not specified.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.xmtics">
+<code class="descname">xmtics</code><span class="sig-paren">(</span><em>xmt1=''</em>, <em>xmt2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.xmtics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.xmtics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the xmtics1 and xmtics2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xmt1</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isoline.Gi.xmtics1" title="vcs.isoline.Gi.xmtics1"><code class="xref py py-attr docutils literal"><span class="pre">xmtics1</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+<li><strong>xmt2</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isoline.Gi.xmtics2" title="vcs.isoline.Gi.xmtics2"><code class="xref py py-attr docutils literal"><span class="pre">xmtics2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.xticlabels">
+<code class="descname">xticlabels</code><span class="sig-paren">(</span><em>xtl1=''</em>, <em>xtl2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.xticlabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.xticlabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the xticlabels1 and xticlabels2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xtl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isoline.Gi.xticlabels1" title="vcs.isoline.Gi.xticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels1</span></code></a>. Must be  a str, or a dictionary object with float:str mappings.</li>
+<li><strong>xtl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isoline.Gi.xticlabels2" title="vcs.isoline.Gi.xticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.xyscale">
+<code class="descname">xyscale</code><span class="sig-paren">(</span><em>xat=''</em>, <em>yat=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.xyscale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.xyscale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets xaxisconvert and yaxisconvert values for the object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createisoline</span><span class="p">(</span><span class="s1">&#39;xyscale_ex&#39;</span><span class="p">)</span> <span class="c1"># create a boxfill to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">xyscale</span><span class="p">(</span><span class="n">xat</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yat</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span> <span class="c1"># set xaxisconvert and yaxisconvert to &#39;linear&#39;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xat</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Set value for x axis conversion.</li>
+<li><strong>yat</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Set value for y axis conversion.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.ymtics">
+<code class="descname">ymtics</code><span class="sig-paren">(</span><em>ymt1=''</em>, <em>ymt2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.ymtics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.ymtics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the ymtics1 and ymtics2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ymt1</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isoline.Gi.ymtics1" title="vcs.isoline.Gi.ymtics1"><code class="xref py py-attr docutils literal"><span class="pre">ymtics1</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+<li><strong>ymt2</strong> (<em>{float:str} or str</em>) &#8211; Value for <a class="reference internal" href="#vcs.isoline.Gi.ymtics2" title="vcs.isoline.Gi.ymtics2"><code class="xref py py-attr docutils literal"><span class="pre">ymtics2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.isoline.Gi.yticlabels">
+<code class="descname">yticlabels</code><span class="sig-paren">(</span><em>ytl1=''</em>, <em>ytl2=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/isoline.html#Gi.yticlabels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.isoline.Gi.yticlabels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the yticlabels1 and yticlabels2 values on the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ytl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isoline.Gi.yticlabels1" title="vcs.isoline.Gi.yticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels1</span></code></a>. Must be  a str, or a dictionary object with float:str mappings.</li>
+<li><strong>ytl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.isoline.Gi.yticlabels2" title="vcs.isoline.Gi.yticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="isofill.html"
+                        title="previous chapter">isofill</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="meshfill.html"
+                        title="next chapter">meshfill</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/vcs/graphics/isoline.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="meshfill.html" title="meshfill"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="isofill.html" title="isofill"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="gm.html" >Graphics Methods</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

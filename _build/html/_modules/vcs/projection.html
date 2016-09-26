@@ -1,0 +1,1098 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.projection &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.projection</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Projection (Proj) module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">###############################################################################</span>
+<span class="c1"># Module:	projection (Proj) module				      #</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California		      #</span>
+<span class="c1">#               This software may not be distributed to others without	      #</span>
+<span class="c1">#               permission of the author.				      #</span>
+<span class="c1"># Author:       PCMDI Software Team                                           #</span>
+<span class="c1">#               Lawrence Livermore NationalLaboratory:                        #</span>
+<span class="c1">#               support@pcmdi.llnl.gov                                        #</span>
+<span class="c1"># Description:	Python command wrapper for VCS&#39;s projection secondary method. #</span>
+<span class="c1"># Version:      4.0							      #</span>
+<span class="c1">###############################################################################</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">xmldocs</span> <span class="k">import</span> <span class="n">scriptdocs</span>
+
+<span class="c1"># used to decide if we show longitude labels for round projections or</span>
+<span class="c1"># latitude labels for elliptical projections</span>
+<span class="n">round_projections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;polar (non gctp)&#39;</span><span class="p">,</span> <span class="s1">&#39;stereographic&#39;</span><span class="p">]</span>
+<span class="n">elliptical_projections</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;robinson&quot;</span><span class="p">,</span> <span class="s2">&quot;mollweide&quot;</span><span class="p">,</span> <span class="s1">&#39;orthographic&#39;</span><span class="p">,</span> <span class="s2">&quot;ortho&quot;</span><span class="p">]</span>
+<span class="c1"># projections in this list are not deformed based on the window size</span>
+<span class="n">no_deformation_projections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;polar (non gctp)&#39;</span><span class="p">,</span> <span class="s1">&#39;stereographic&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;orthographic&#39;</span><span class="p">,</span> <span class="s2">&quot;ortho&quot;</span><span class="p">,</span> <span class="p">]</span>
+
+<span class="n">no_over_proj4_parameter_projections</span> <span class="o">=</span> <span class="n">round_projections</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;aeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;lambert conformal c&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">process_src</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">gm</span> <span class="o">=</span> <span class="n">Proj</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">gm</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">)</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+    <span class="n">gm</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">gm</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">params</span>
+
+
+<div class="viewcode-block" id="Proj"><a class="viewcode-back" href="../../vcs/misc/projection.html#vcs.projection.Proj">[docs]</a><span class="k">class</span> <span class="nc">Proj</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The projection secondary method (Proj) is used when plotting 2D data, and define</span>
+<span class="sd">    how to project from lon/lat coord to another mapping system (lambert, mercator, mollweide, etc...)</span>
+
+<span class="sd">    This class is used to define a projection table entry used in VCS, or it</span>
+<span class="sd">    can be used to change some or all of the attributes in an existing</span>
+<span class="sd">    projection table entry.</span>
+
+<span class="sd">    .. describe:: Projection Transformation Package Projection Parameters</span>
+
+<span class="sd">        +-----------------------+---------------------------------------------------------+</span>
+<span class="sd">        |                       |                  Array Element                          |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |*Code &amp; Projection Id* |   1  |   2  |  3   |  4   |   5   |    6    |7 | 8|  9  |</span>
+<span class="sd">        +=======================+======+======+======+======+=======+=========+==+==+=====+</span>
+<span class="sd">        |0 Geographic           |      |      |      |      |       |         |  |  |     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |1 U T M                |Lon/Z |Lat/Z |      |      |       |         |  |  |     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |2 State Plane          |      |      |      |      |       |         |  |  |     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |3 Albers Equal Area    |SMajor|SMinor|STDPR1|STDPR2|CentMer|OriginLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |4 Lambert Conformal C  |SMajor|SMinor|STDPR1|STDPR2|CentMer|OriginLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |5 Mercator             |SMajor|SMinor|      |      |CentMer|TrueScale|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |6 Polar Stereographic  |SMajor|SMinor|      |      |LongPol|TrueScale|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |7 Polyconic            |SMajor|SMinor|      |      |CentMer|OriginLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |8 Equid. Conic A       |SMajor|SMinor|STDPAR|      |CentMer|OriginLat|FE|FN| zero|</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |  Equid. Conic B       |SMajor|SMinor|STDPR1|STDPR2|CentMer|OriginLat|FE|FN| one |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |9 Transverse Mercator  |SMajor|SMinor|Factor|      |CentMer|OriginLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |10 Stereographic       |Sphere|      |      |      |CentLon|CenterLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |11 Lambert Azimuthal   |Sphere|      |      |      |CentLon|CenterLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |12 Azimuthal           |Sphere|      |      |      |CentLon|CenterLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |13 Gnomonic            |Sphere|      |      |      |CentLon|CenterLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |14 Orthographic        |Sphere|      |      |      |CentLon|CenterLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |15 Gen. Vert. Near Per |Sphere|      |Height|      |CentLon|CenterLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |16 Sinusoidal          |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |17 Equirectangular     |Sphere|      |      |      |CentMer|TrueScale|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |18 Miller Cylindrical  |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |19 Van der Grinten     |Sphere|      |      |      |CentMer|OriginLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |20 Hotin Oblique Merc A|SMajor|SMinor|Factor|      |       |OriginLat|FE|FN|Long1|</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |   Hotin Oblique Merc B|SMajor|SMinor|Factor|AziAng|AzmthPt|OriginLat|FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |21 Robinson            |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |22 Space Oblique Merc A|SMajor|SMinor|      |IncAng|AscLong|         |FE|FN|PSRev|</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |   Space Oblique Merc B|SMajor|SMinor|Satnum|Path  |       |         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |23 Alaska Conformal    |SMajor|SMinor|      |      |       |         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |24 Interrupted Goode   |Sphere|      |      |      |       |         |  |  |     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |25 Mollweide           |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |26 Interrupt Mollweide |Sphere|      |      |      |       |         |  |  |     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |27 Hammer              |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |28 Wagner IV           |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |29 Wagner VII          |Sphere|      |      |      |CentMer|         |FE|FN|     |</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+<span class="sd">        |30 Oblated Equal Area  |Sphere|      |Shapem|Shapen|CentLon|CenterLat|FE|FN|Angle|</span>
+<span class="sd">        +-----------------------+------+------+------+------+-------+---------+--+--+-----+</span>
+
+<span class="sd">        +-----------------------+-----------------------+</span>
+<span class="sd">        |                       |       Array Element   |</span>
+<span class="sd">        +-----------------------+-----+-----+-----+-----+</span>
+<span class="sd">        |  Code &amp; Projection Id |  10 |  11 |  12 |  13 |</span>
+<span class="sd">        +=======================+=====+=====+=====+=====+</span>
+<span class="sd">        |20 Hotin Oblique Merc A|Lat1 |Long2|Lat2 |zero |</span>
+<span class="sd">        +-----------------------+-----+-----+-----+-----+</span>
+<span class="sd">        |   Hotin Oblique Merc B|     |     |     | one |</span>
+<span class="sd">        +-----------------------+-----+-----+-----+-----+</span>
+<span class="sd">        |22 Space Oblique Merc A|LRat |PFlag|     |zero |</span>
+<span class="sd">        +-----------------------+-----+-----+-----+-----+</span>
+<span class="sd">        |   Space Oblique Merc B|     |     |     | one |</span>
+<span class="sd">        +-----------------------+-----+-----+-----+-----+</span>
+
+<span class="sd">            .. note::</span>
+
+<span class="sd">                All other projections are blank (containing 0) for elements 10-13</span>
+
+
+
+<span class="sd">        .. glossary::</span>
+
+<span class="sd">            Lon/Z</span>
+
+<span class="sd">                Longitude of any point in the UTM zone or zero.  If zero,</span>
+<span class="sd">                a zone code must be specified.</span>
+
+<span class="sd">            Lat/Z</span>
+
+<span class="sd">                Latitude of any point in the UTM zone or zero.  If zero, a</span>
+<span class="sd">                zone code must be specified.</span>
+
+<span class="sd">            SMajor</span>
+
+<span class="sd">                Semi-major axis of ellipsoid.  If zero, Clarke 1866 in meters</span>
+<span class="sd">                is assumed.</span>
+
+<span class="sd">            SMinor</span>
+
+<span class="sd">                Eccentricity squared of the ellipsoid if less than zero,</span>
+<span class="sd">                if zero, a spherical form is assumed, or if greater than</span>
+<span class="sd">                zero, the semi-minor axis of ellipsoid.</span>
+
+<span class="sd">            Sphere</span>
+
+<span class="sd">                Radius of reference sphere.  If zero, 6370997 meters is used.</span>
+
+<span class="sd">            STDPAR</span>
+
+<span class="sd">                Latitude of the standard parallel</span>
+
+<span class="sd">            STDPR1</span>
+
+<span class="sd">                Latitude of the first standard parallel</span>
+
+<span class="sd">            STDPR2</span>
+
+<span class="sd">                Latitude of the second standard parallel</span>
+
+<span class="sd">            CentMer</span>
+
+<span class="sd">                Longitude of the central meridian</span>
+
+<span class="sd">            OriginLat</span>
+
+<span class="sd">                Latitude of the projection origin</span>
+
+<span class="sd">            FE</span>
+
+<span class="sd">                False easting in the same units as the semi-major axis</span>
+
+<span class="sd">            FN</span>
+
+<span class="sd">                False northing in the same units as the semi-major axis</span>
+
+<span class="sd">            TrueScale</span>
+
+<span class="sd">                Latitude of true scale</span>
+
+<span class="sd">            LongPol</span>
+
+<span class="sd">                Longitude down below pole of map</span>
+
+<span class="sd">            Factor</span>
+
+<span class="sd">                Scale factor at central meridian (Transverse Mercator) or</span>
+<span class="sd">                center of projection (Hotine Oblique Mercator)</span>
+
+<span class="sd">            CentLon</span>
+
+<span class="sd">                Longitude of center of projection</span>
+
+<span class="sd">            CenterLat</span>
+
+<span class="sd">                Latitude of center of projection</span>
+
+<span class="sd">            Height</span>
+
+<span class="sd">                Height of perspective point</span>
+
+<span class="sd">            Long1</span>
+
+<span class="sd">                Longitude of first point on center line (Hotine Oblique</span>
+<span class="sd">                Mercator, format A)</span>
+
+<span class="sd">            Long2</span>
+
+<span class="sd">                Longitude of second point on center line (Hotine Oblique</span>
+<span class="sd">                Mercator, format A)</span>
+
+<span class="sd">            Lat1</span>
+
+<span class="sd">                Latitude of first point on center line (Hotine Oblique</span>
+<span class="sd">                Mercator, format A)</span>
+
+<span class="sd">            Lat2</span>
+
+<span class="sd">                Latitude of second point on center line (Hotine Oblique</span>
+<span class="sd">                Mercator, format A)</span>
+
+<span class="sd">            AziAng</span>
+
+<span class="sd">                Azimuth angle east of north of center line (Hotine Oblique</span>
+<span class="sd">                Mercator, format B)</span>
+
+<span class="sd">            AzmthPt</span>
+
+<span class="sd">                Longitude of point on central meridian where azimuth occurs</span>
+<span class="sd">                (Hotine Oblique Mercator, format B)</span>
+
+<span class="sd">            IncAng</span>
+
+<span class="sd">                Inclination of orbit at ascending node, counter-clockwise</span>
+<span class="sd">                from equator (SOM, format A)</span>
+
+<span class="sd">            AscLong</span>
+
+<span class="sd">                Longitude of ascending orbit at equator (SOM, format A)</span>
+
+<span class="sd">            PSRev</span>
+
+<span class="sd">                Period of satellite revolution in minutes (SOM, format A)</span>
+
+<span class="sd">            LRat</span>
+
+<span class="sd">                Landsat ratio to compensate for confusion at northern end</span>
+<span class="sd">                of orbit (SOM, format A -- use 0.5201613)</span>
+
+<span class="sd">            PFlag</span>
+
+<span class="sd">                End of path flag for Landsat:  0 = start of path,</span>
+<span class="sd">                1 = end of path (SOM, format A)</span>
+
+<span class="sd">            Satnum</span>
+
+<span class="sd">                Landsat Satellite Number (SOM, format B)</span>
+
+<span class="sd">            Path</span>
+
+<span class="sd">                Landsat Path Number (Use WRS-1 for Landsat 1, 2 and 3 and</span>
+<span class="sd">                WRS-2 for Landsat 4, 5 and 6.)  (SOM, format B)</span>
+
+<span class="sd">            Shapem</span>
+
+<span class="sd">                Oblated Equal Area oval shape parameter m</span>
+
+<span class="sd">            Shapen</span>
+
+<span class="sd">                Oblated Equal Area oval shape parameter n</span>
+
+<span class="sd">            Angle</span>
+
+<span class="sd">                Oblated Equal Area oval rotation angle</span>
+
+
+<span class="sd">        .. describe:: Array Elements:</span>
+
+<span class="sd">            * Array elements 14 and 15 are set to zero</span>
+
+<span class="sd">            * All array elements with blank fields are set to zero</span>
+
+<span class="sd">            * All angles (latitudes, longitudes, azimuths, etc.) are entered in packed</span>
+<span class="sd">                degrees/ minutes/ seconds (DDDMMMSSS.SS) format</span>
+
+<span class="sd">        .. describe:: Space Oblique Mercator A projection:</span>
+
+<span class="sd">            * A portion of Landsat rows 1 and 2 may also be seen as parts of rows</span>
+<span class="sd">                246 or 247.  To place these locations at rows 246 or 247, set the end of</span>
+<span class="sd">                path flag (parameter 11) to 1--end of path.  This flag defaults to zero.</span>
+
+<span class="sd">            * When Landsat-1,2,3 orbits are being used, use the following values</span>
+<span class="sd">                for the specified parameters:</span>
+
+<span class="sd">                * Parameter 4   099005031.2</span>
+<span class="sd">                * Parameter 5   128.87 degrees - (360/251 * path number) in packed DMS format</span>
+
+<span class="sd">                * Parameter 9   103.2669323</span>
+<span class="sd">                * Parameter 10  0.5201613</span>
+
+<span class="sd">            * When Landsat-4,5 orbits are being used, use the following values</span>
+<span class="sd">                for the specified parameters:</span>
+
+<span class="sd">                * Parameter 4   098012000.0</span>
+<span class="sd">                * Parameter 5   129.30 degrees - (360/233 * path number) in packed DMS format</span>
+<span class="sd">                * Parameter 9   98.884119</span>
+<span class="sd">                * Parameter 10  0.5201613</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            In vcs angles can be entered either in DDDMMMSSS or regular angle format.</span>
+
+<span class="sd">    .. describe:: Useful Functions:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # VCS Canvas Constructor</span>
+<span class="sd">            a=vcs.init()</span>
+<span class="sd">            # Show predefined projection secondary methods</span>
+<span class="sd">            a.show(&#39;projection&#39;)</span>
+
+<span class="sd">    .. describe:: Create a Canvas object to work with:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            a=vcs.init()</span>
+
+<span class="sd">    .. describe:: Create a new instance of projection:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="sd">            p=a.createprojection(&#39;new&#39;,&#39;quick&#39;)</span>
+<span class="sd">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="sd">            p=a.createprojection(&#39;new&#39;)</span>
+
+<span class="sd">    .. describe:: Modify an existing projection:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            p=a.getprojection(&#39;lambert&#39;)</span>
+<span class="sd">            # List all the projection attribute values</span>
+<span class="sd">            p.list()</span>
+<span class="sd">            p.type=&#39;lambert&#39;</span>
+<span class="sd">            # Fill a list with projection parameter values</span>
+<span class="sd">            params= []</span>
+<span class="sd">            for _ in range(0,14):</span>
+<span class="sd">               params.append(1.e20)</span>
+<span class="sd">            # params now a list with 1.e20, 15 times</span>
+<span class="sd">            p.parameters= params</span>
+<span class="sd">            iso=x.createisoline(&#39;new&#39;)</span>
+<span class="sd">            iso.projection=p</span>
+<span class="sd">            # or</span>
+<span class="sd">            iso.projection=&#39;lambert&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Proj_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Proj_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+
+        <span class="c1"># Initialize the projection class and its members</span>
+        <span class="c1"># The getProjmember function retrieves the values of the</span>
+        <span class="c1"># projection members in the C structure and passes back the</span>
+        <span class="c1"># appropriate Python Object.</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Proj_name_src</span><span class="p">,</span> <span class="n">Proj</span><span class="p">):</span>
+            <span class="n">Proj_name_src</span> <span class="o">=</span> <span class="n">Proj_name_src</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">Proj_name_src</span> <span class="o">!=</span> <span class="s2">&quot;default&quot;</span> <span class="ow">and</span> <span class="n">Proj_name_src</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span>
+                <span class="s2">&quot;projection&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Projection &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exists&quot;</span> <span class="o">%</span> <span class="n">Proj_name_src</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Proj_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Must provide a projection name.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Proj_name</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;The projection &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists, use getprojection instead&quot;</span> <span class="o">%</span>
+                    <span class="n">Proj_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">Proj_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s_name</span> <span class="o">=</span> <span class="s1">&#39;Proj&#39;</span>
+        <span class="c1">#                                                         #</span>
+        <span class="c1">###########################################################</span>
+        <span class="c1"># Inherits core secondary method attributes.		  #</span>
+        <span class="c1">###########################################################</span>
+        <span class="c1">#                                                         #</span>
+        <span class="c1"># graphics_secondary method_core.__init__(self, parent)</span>
+        <span class="c1"># Doesn&#39;t make sense to inherit. This would mean writing more code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span>
+            <span class="mi">1</span><span class="n">e</span><span class="o">+</span><span class="mi">20</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">Proj_name</span> <span class="o">!=</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="n">Proj_name_src</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">type</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="n">Proj_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># List out projection secondary method members (attributes).                    #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;__removed_from_VCS__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;This instance has been removed from VCS.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="s1">&#39; ---------- Projection (Proj) member (attribute) listings ---------&#39;</span>
+        <span class="nb">print</span> <span class="s1">&#39;secondary method =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_name</span>
+        <span class="nb">print</span> <span class="s1">&#39;name =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s1">&#39;type =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+        <span class="c1"># print &#39;parameters =&#39;,self.parameters</span>
+
+        <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="n">att</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">att</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;standardparallel1&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;standardparallel2&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;truescale&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlongitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;truescale&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;subtype&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;standardparallel&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;standardparallel1&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;standardparallel2&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;factor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">]:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlongitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlongitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">]:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">17</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;truescale&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">19</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;subtype&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;factor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;longitude1&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;latitude1&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;longitude2&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;latitude2&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;azimuthalangle&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;azimuthallongitude&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">22</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;subtype&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subtype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;orbitinclination&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;orbitlongitude&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;satelliterevolutionperiod&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;landsatcompensationratio&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;pathflag&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;satellite&#39;</span><span class="p">)</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">23</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">26</span><span class="p">]:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">==</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;shapem&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;shapen&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlongitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;centerlatitude&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1"># Script out primary projection secondary method in VCS to a file.              #</span>
+    <span class="c1">#                                                                           #</span>
+    <span class="c1">##########################################################################</span>
+<div class="viewcode-block" id="Proj.script"><a class="viewcode-back" href="../../vcs/misc/projection.html#vcs.projection.Proj.script">[docs]</a>    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in python script mode</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+            <span class="mi">4</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in json</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+            <span class="k">if</span> <span class="n">script_filename</span> <span class="o">!=</span> <span class="s2">&quot;initial.attributes&quot;</span><span class="p">:</span>
+                <span class="n">script_filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s1">&#39;.scr&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;scr script are no longer generated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s2">&quot;py&quot;</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">py_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+                <span class="mi">3</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">py_type</span> <span class="o">!=</span> <span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+                <span class="n">script_filename</span> <span class="o">=</span> <span class="n">script_filename</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+            <span class="c1"># Write to file</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># Must be a new file, so include below</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#####################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                                 #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Import and Initialize VCS     #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                             #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#############################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;import vcs</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;v=vcs.init()</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">unique_name</span> <span class="o">=</span> <span class="s1">&#39;__Proj__&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;#----------Projection (Proj) member (attribute) listings ----------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;proj_list=v.listelements(&#39;projection&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;if (&#39;</span><span class="si">%s</span><span class="s2">&#39; in proj_list):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.getprojection(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;else:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.createprojection(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="c1"># Common core secondary method attributes</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.type = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.parameters = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Json type</span>
+            <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;+&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">dumpToJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="n">script</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">scriptdocs</span><span class="p">[</span><span class="s1">&#39;projection&#39;</span><span class="p">]</span>
+
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;s_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;smajor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sminor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;centralmeridian&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;truescale&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;falseeasting&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;falsenorthing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;factor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;originlatitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;azimuthalangle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;azimuthlongitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;longitude1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;longitude2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;latitude1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;latitude2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;subtype&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;orbitinclination&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;orbitlongitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;satelliterevolutionperiod&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;landsatcompensationratio&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pathflag&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;path&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;satellite&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sphere&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;centerlongitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;centerlatitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;standardparallel1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;standardparallel2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;standardparallel&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;height&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;angle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;shapem&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;shapen&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;parent&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;type&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;parameters&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_smajor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_sminor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_centralmeridian&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_truescale&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_falseeasting&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_falsenorthing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_factor&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_originlatitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_azimuthalangle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_azimuthlongitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_longitude1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_longitude2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_latitude1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_latitude2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_subtype&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_orbitinclination&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_orbitlongitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_satelliterevolutionperiod&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_landsatcompensationratio&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_pathflag&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_path&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_satellite&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_sphere&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_centerlongitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_centerlatitude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_standardparallel1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_standardparallel2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_standardparallel&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_height&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_angle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_shapem&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_shapen&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_type&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_parameters&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">checkPP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">setProjParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsmajor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smajor</span>
+
+    <span class="k">def</span> <span class="nf">_setsmajor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;smajor&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">smajor</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getsmajor</span><span class="p">,</span> <span class="n">_setsmajor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsminor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sminor</span>
+
+    <span class="k">def</span> <span class="nf">_setsminor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;sminor&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">sminor</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getsminor</span><span class="p">,</span> <span class="n">_setsminor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcentralmeridian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_centralmeridian</span>
+
+    <span class="k">def</span> <span class="nf">_setcentralmeridian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;centralmeridian&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">centralmeridian</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcentralmeridian</span><span class="p">,</span> <span class="n">_setcentralmeridian</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettruescale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_truescale</span>
+
+    <span class="k">def</span> <span class="nf">_settruescale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;truescale&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">truescale</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettruescale</span><span class="p">,</span> <span class="n">_settruescale</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getfalseeasting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_falseeasting</span>
+
+    <span class="k">def</span> <span class="nf">_setfalseeasting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;falseeasting&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">falseeasting</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getfalseeasting</span><span class="p">,</span> <span class="n">_setfalseeasting</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getfalsenorthing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_falsenorthing</span>
+
+    <span class="k">def</span> <span class="nf">_setfalsenorthing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;falsenorthing&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">falsenorthing</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getfalsenorthing</span><span class="p">,</span> <span class="n">_setfalsenorthing</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getfactor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span>
+
+    <span class="k">def</span> <span class="nf">_setfactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;factor&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getfactor</span><span class="p">,</span> <span class="n">_setfactor</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getoriginlatitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_originlatitude</span>
+
+    <span class="k">def</span> <span class="nf">_setoriginlatitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;originlatitude&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">originlatitude</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getoriginlatitude</span><span class="p">,</span> <span class="n">_setoriginlatitude</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getazimuthalangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_azimuthalangle</span>
+
+    <span class="k">def</span> <span class="nf">_setazimuthalangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;azimuthalangle&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">azimuthalangle</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getazimuthalangle</span><span class="p">,</span> <span class="n">_setazimuthalangle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getazimuthallongitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_azimuthallongitude</span>
+
+    <span class="k">def</span> <span class="nf">_setazimuthallongitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;azimuthallongitude&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">azimuthallongitude</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_getazimuthallongitude</span><span class="p">,</span>
+        <span class="n">_setazimuthallongitude</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlongitude1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_longitude1</span>
+
+    <span class="k">def</span> <span class="nf">_setlongitude1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;longitude1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">longitude1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlongitude1</span><span class="p">,</span> <span class="n">_setlongitude1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlongitude2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_longitude2</span>
+
+    <span class="k">def</span> <span class="nf">_setlongitude2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;longitude2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">longitude2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlongitude2</span><span class="p">,</span> <span class="n">_setlongitude2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlatitude1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latitude1</span>
+
+    <span class="k">def</span> <span class="nf">_setlatitude1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;latitude1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">latitude1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlatitude1</span><span class="p">,</span> <span class="n">_setlatitude1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlatitude2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latitude2</span>
+
+    <span class="k">def</span> <span class="nf">_setlatitude2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;latitude2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">latitude2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlatitude2</span><span class="p">,</span> <span class="n">_setlatitude2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsubtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subtype</span>
+
+    <span class="k">def</span> <span class="nf">_setsubtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;subtype&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">subtype</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getsubtype</span><span class="p">,</span> <span class="n">_setsubtype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getorbitinclination</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orbitinclination</span>
+
+    <span class="k">def</span> <span class="nf">_setorbitinclination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;orbitinclination&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">orbitinclination</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getorbitinclination</span><span class="p">,</span> <span class="n">_setorbitinclination</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getorbitlongitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orbitlongitude</span>
+
+    <span class="k">def</span> <span class="nf">_setorbitlongitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;orbitlongitude&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">orbitlongitude</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getorbitlongitude</span><span class="p">,</span> <span class="n">_setorbitlongitude</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsatelliterevolutionperiod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_satelliterevolutionperiod</span>
+
+    <span class="k">def</span> <span class="nf">_setsatelliterevolutionperiod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;satelliterevolutionperiod&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">satelliterevolutionperiod</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_getsatelliterevolutionperiod</span><span class="p">,</span>
+        <span class="n">_setsatelliterevolutionperiod</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlandsatcompensationratio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_landsatcompensationratio</span>
+
+    <span class="k">def</span> <span class="nf">_setlandsatcompensationratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;landsatcompensationratio&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">landsatcompensationratio</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
+        <span class="n">_getlandsatcompensationratio</span><span class="p">,</span>
+        <span class="n">_setlandsatcompensationratio</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getpathflag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pathflag</span>
+
+    <span class="k">def</span> <span class="nf">_setpathflag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;pathflag&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">pathflag</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getpathflag</span><span class="p">,</span> <span class="n">_setpathflag</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getpath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span>
+
+    <span class="k">def</span> <span class="nf">_setpath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getpath</span><span class="p">,</span> <span class="n">_setpath</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsatellite</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_satellite</span>
+
+    <span class="k">def</span> <span class="nf">_setsatellite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;satellite&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">satellite</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getsatellite</span><span class="p">,</span> <span class="n">_setsatellite</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getsphere</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sphere</span>
+
+    <span class="k">def</span> <span class="nf">_setsphere</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getsphere</span><span class="p">,</span> <span class="n">_setsphere</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcenterlongitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_centerlongitude</span>
+
+    <span class="k">def</span> <span class="nf">_setcenterlongitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;centerlongitude&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">centerlongitude</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcenterlongitude</span><span class="p">,</span> <span class="n">_setcenterlongitude</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcenterlatitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_centerlatitude</span>
+
+    <span class="k">def</span> <span class="nf">_setcenterlatitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;centerlatitude&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">centerlatitude</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcenterlatitude</span><span class="p">,</span> <span class="n">_setcenterlatitude</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getstandardparallel1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_standardparallel1</span>
+
+    <span class="k">def</span> <span class="nf">_setstandardparallel1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;standardparallel1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">standardparallel1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getstandardparallel1</span><span class="p">,</span> <span class="n">_setstandardparallel1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getstandardparallel2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_standardparallel2</span>
+
+    <span class="k">def</span> <span class="nf">_setstandardparallel2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;standardparallel2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">standardparallel2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getstandardparallel2</span><span class="p">,</span> <span class="n">_setstandardparallel2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getstandardparallel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_standardparallel</span>
+
+    <span class="k">def</span> <span class="nf">_setstandardparallel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;standardparallel&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">standardparallel</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getstandardparallel</span><span class="p">,</span> <span class="n">_setstandardparallel</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getheight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_height</span>
+
+    <span class="k">def</span> <span class="nf">_setheight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getheight</span><span class="p">,</span> <span class="n">_setheight</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span>
+
+    <span class="k">def</span> <span class="nf">_setangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;angle&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getangle</span><span class="p">,</span> <span class="n">_setangle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getshapem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapem</span>
+
+    <span class="k">def</span> <span class="nf">_setshapem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;shapem&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">shapem</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getshapem</span><span class="p">,</span> <span class="n">_setshapem</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getshapen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapen</span>
+
+    <span class="k">def</span> <span class="nf">_setshapen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkPP</span><span class="p">(</span><span class="s1">&#39;shapen&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">shapen</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getshapen</span><span class="p">,</span> <span class="n">_setshapen</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_settype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkProjType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_gettype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">getProjType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettype</span><span class="p">,</span> <span class="n">_settype</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getparameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span>
+
+    <span class="k">def</span> <span class="nf">_setparameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkProjParameters</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;parameters&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getparameters</span><span class="p">,</span> <span class="n">_setparameters</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

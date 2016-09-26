@@ -9,7 +9,6 @@ __pycache__/
 .Python
 env/
 build/
-_build/
 develop-eggs/
 dist/
 downloads/
@@ -61,6 +60,9 @@ target/
 .idea/
 
 # vcs script() output
-filename.py
-filename.json
+filename.*
+example.*
+ex_*
+my_png*
+mymovie*
 .DS_Store

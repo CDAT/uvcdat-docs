@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>template &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="Templating" href="templ.html" />
+    <link rel="next" title="Pboxeslines" href="Pboxeslines.html" />
+    <link rel="prev" title="Templating" href="templ.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Pboxeslines.html" title="Pboxeslines"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="templ.html" title="Templating"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="templ.html" accesskey="U">Templating</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs.template">
+<span id="template"></span><h1>template<a class="headerlink" href="#module-vcs.template" title="Permalink to this headline">¶</a></h1>
+<p># Template (P) module</p>
+<dl class="class">
+<dt id="vcs.template.P">
+<em class="property">class </em><code class="descclassname">vcs.template.</code><code class="descname">P</code><span class="sig-paren">(</span><em>Pic_name=None</em>, <em>Pic_name_src='default'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#P"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.P" title="Permalink to this definition">¶</a></dt>
+<dd><p>The template primary method (P) determines the location of each picture
+segment, the space to be allocated to it, and related properties relevant
+to its display.</p>
+<blockquote>
+<div><dl class="describe">
+<dt>
+<code class="descname">Useful Functions:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Show predefined templates</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">)</span>
+<span class="c1"># Show predefined text table methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;texttable&#39;</span><span class="p">)</span>
+<span class="c1"># Show predefined text orientation methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;textorientation&#39;</span><span class="p">)</span>
+<span class="c1"># Show predefined line methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span>
+<span class="c1"># Show templates as a Python list</span>
+<span class="n">a</span><span class="o">.</span><span class="n">listelements</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">)</span>
+<span class="c1"># Updates the VCS Canvas at user&#39;s request</span>
+<span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div></blockquote>
+<dl class="describe">
+<dt>
+<code class="descname">Make a Canvas object to work with:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Create a new instance of template:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Two ways to create a templates:</span>
+<span class="c1"># Copies content of &#39;hovmuller&#39; to &#39;new&#39;</span>
+<span class="n">temp</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createtemplate</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;hovmuller&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">temp</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createtemplate</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Modify an existing template:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">temp</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">gettemplate</span><span class="p">(</span><span class="s1">&#39;hovmuller&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.template.P.blank">
+<code class="descname">blank</code><span class="sig-paren">(</span><em>attribute=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#P.blank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.P.blank" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>This function turns off elements of a template object.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attribute</strong> (<em>None, str, list</em>) &#8211; String or list, indicating the elements of a template which should be turned off.
+If attribute is left blank, or is None, all elements of the template will be turned off.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.template.P.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>p</em>, <em>axis</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#P.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.P.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move a template by p% along the axis &#8216;x&#8217; or &#8216;y&#8217;.
+Positive values of p mean movement toward right/top
+Negative values of p mean movement toward left/bottom
+The reference point is t.data.x1/y1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">createtemplate</span><span class="p">(</span><span class="s1">&#39;example1&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># Create template &#39;example1&#39;, inherits from &#39;default&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">)</span> <span class="c1"># Move everything right by 20%</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">)</span> <span class="c1"># Move everything up by 20%</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Float indicating the percentage by which the template should move. i.e. 0.2 = 20%.</li>
+<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; One of [&#8216;x&#8217;, &#8216;y&#8217;]. The axis along which the template will move.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.template.P.moveto">
+<code class="descname">moveto</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#P.moveto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.P.moveto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move a template to point (x,y), adjusting all attributes so data.x1 = x, and data.y1 = y.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">createtemplate</span><span class="p">(</span><span class="s1">&#39;example1&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># Create template &#39;example1&#39;, inherits from &#39;default&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">moveto</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span> <span class="c1"># Move everything so that data.x1= 0.2 and data.y1= 0.2</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Float representing the new coordinate of the template&#8217;s data.x1 attribute.</li>
+<li><strong>y</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Float representing the new coordinate of the template&#8217;s data.y1 attribute.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.template.P.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><em>scale</em>, <em>axis='xy'</em>, <em>font=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#P.scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.P.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale a template along the axis &#8216;x&#8217; or &#8216;y&#8217; by scale
+Positive values of scale mean increase
+Negative values of scale mean decrease
+The reference point is t.data.x1/y1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">createtemplate</span><span class="p">(</span><span class="s1">&#39;example1&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># Create template &#39;example1&#39;, inherits from &#39;default&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># Halves the template size</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span> <span class="c1"># Upsize everything to 20% more than the original size</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">)</span> <span class="c1"># Double the x axis</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Float representing the factor by which to scale the template.</li>
+<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; One of [&#8216;x&#8217;, &#8216;y&#8217;, &#8216;xy&#8217;]. Represents the axis/axes along which the template should be scaled.</li>
+<li><strong>font</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Integer flag indicating what should be done with the template&#8217;s fonts. One of [-1, 0, 1].
+0: means do not scale the fonts. 1: means scale the fonts.
+-1: means do not scale the fonts unless axis=&#8217;xy&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.template.P.script">
+<code class="descname">script</code><span class="sig-paren">(</span><em>script_filename=None</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#P.script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.P.script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves out a copy of the template graphics method in JSON, or Python format to a designated file.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the the filename has a &#8216;.py&#8217; at the end, it will produce a
+Python script. If no extension is given, then by default a
+.json file containing a JSON serialization of the object&#8217;s
+data will be produced.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">VCS Scripts Deprecated.
+SCR script files are no longer generated by this function.</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a Canvas object to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">gettemplate</span><span class="p">()</span> <span class="c1"># Get default template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename.py&#39;</span><span class="p">)</span> <span class="c1"># Append to a Python script named &#39;filename.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="c1"># Create or overwrite a JSON file &#39;filename.json&#39;.</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>script_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Output name of the script file. If no extension is specified, a .json object is created.</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Either &#8216;w&#8217; for replace, or &#8216;a&#8217; for append. Defaults to &#8216;a&#8217;, if not specified.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.template.epsilon_gte">
+<code class="descclassname">vcs.template.</code><code class="descname">epsilon_gte</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#epsilon_gte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.epsilon_gte" title="Permalink to this definition">¶</a></dt>
+<dd><p>a &gt;= b, using floating point epsilon value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="vcs.template.epsilon_lte">
+<code class="descclassname">vcs.template.</code><code class="descname">epsilon_lte</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/template.html#epsilon_lte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.template.epsilon_lte" title="Permalink to this definition">¶</a></dt>
+<dd><p>a &lt;= b, using floating point epsilon value.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="templ.html"
+                        title="previous chapter">Templating</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Pboxeslines.html"
+                        title="next chapter">Pboxeslines</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/vcs/template/template.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Pboxeslines.html" title="Pboxeslines"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="templ.html" title="Templating"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="templ.html" >Templating</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

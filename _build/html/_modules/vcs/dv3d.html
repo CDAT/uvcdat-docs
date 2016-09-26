@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.dv3d &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.dv3d</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on Jun 18, 2014</span>
+
+<span class="sd">@author: tpmaxwel</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">DV3D.ConfigurationFunctions</span> <span class="k">import</span> <span class="n">ConfigManager</span>
+
+
+<div class="viewcode-block" id="Gfdv3d"><a class="viewcode-back" href="../../vcs/graphics/dv3d.html#vcs.dv3d.Gfdv3d">[docs]</a><span class="k">class</span> <span class="nc">Gfdv3d</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;axes&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;g_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ncores&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;plot_attributes&#39;</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getaxes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span>
+
+    <span class="k">def</span> <span class="nf">_setaxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="c1">#        value=VCS_validation_functions.checkOnOff(self,&#39;axes&#39;,value)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getaxes</span><span class="p">,</span> <span class="n">_setaxes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getNumCores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncores</span>
+
+    <span class="k">def</span> <span class="nf">_setNumCores</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ncores</span> <span class="o">=</span> <span class="n">nc</span>
+    <span class="n">NumCores</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getNumCores</span><span class="p">,</span> <span class="n">_setNumCores</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in json</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+            <span class="k">if</span> <span class="n">script_filename</span> <span class="o">!=</span> <span class="s2">&quot;initial.attributes&quot;</span><span class="p">:</span>
+                <span class="n">script_filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s1">&#39;.scr&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;scr script are no longer generated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s2">&quot;.py&quot;</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">py_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+                <span class="mi">3</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">py_type</span> <span class="o">!=</span> <span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+                <span class="n">script_filename</span> <span class="o">=</span> <span class="n">script_filename</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+            <span class="c1"># Write to file</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># Must be a new file, so include below</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#####################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                                 #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Import and Initialize VCS     #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                             #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#############################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;import vcs</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;v=vcs.init()</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">gtype</span> <span class="o">=</span> <span class="s1">&#39;xyt&#39;</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">==</span> <span class="s2">&quot;Hovmoller3D&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;default&#39;</span>
+            <span class="n">unique_name</span> <span class="o">=</span> <span class="s1">&#39;gm3d_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">==</span> <span class="s1">&#39;3d_scalar&#39;</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = vcs.get3d_scalar( </span><span class="si">%s</span><span class="s1"> )</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="n">gtype</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">==</span> <span class="s1">&#39;3d_vector&#39;</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = vcs.get3d_vector( </span><span class="si">%s</span><span class="s1"> )</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="n">gtype</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">==</span> <span class="s1">&#39;3d_dual_scalar&#39;</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> = vcs.get3d_dual_scalar( </span><span class="si">%s</span><span class="s1"> )</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="n">gtype</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span>
+                     <span class="n">param_name</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">getParameterValue</span><span class="p">(</span><span class="n">param_name</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Json type</span>
+            <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;+&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">dumpToJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;DV3D name must be a string&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Gfdv3d_name</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_name</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;DV3D graphic method &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists&quot;</span> <span class="o">%</span>
+                <span class="n">Gfdv3d_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">Gfdv3d_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_attributes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">projection</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provenanceHandler</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_name</span><span class="p">][</span><span class="n">Gfdv3d_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span>
+
+        <span class="c1"># Use parent config values if possible</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Gfdv3d_name_src</span><span class="p">,</span> <span class="p">(</span><span class="n">unicode</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="c1"># Make sure we aren&#39;t inheriting from ourself</span>
+            <span class="k">if</span> <span class="n">Gfdv3d_name_src</span> <span class="o">!=</span> <span class="n">Gfdv3d_name</span><span class="p">:</span>
+                <span class="n">parent_cfg</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_name</span><span class="p">][</span><span class="n">Gfdv3d_name_src</span><span class="p">]</span><span class="o">.</span><span class="n">cfgManager</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">g_name</span><span class="p">][</span><span class="n">Gfdv3d_name_src</span><span class="p">]</span><span class="o">.</span><span class="n">_axes</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parent_cfg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Make sure we aren&#39;t inheriting from ourself</span>
+            <span class="k">if</span> <span class="n">Gfdv3d_name_src</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="n">parent_cfg</span> <span class="o">=</span> <span class="n">Gfdv3d_name_src</span><span class="o">.</span><span class="n">cfgManager</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="n">Gfdv3d_name_src</span><span class="o">.</span><span class="n">_axes</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parent_cfg</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">(</span><span class="n">cm</span><span class="o">=</span><span class="n">parent_cfg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">Gfdv3d_name</span> <span class="o">==</span> <span class="s2">&quot;Hovmoller3D&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="s2">&quot;xyt&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ncores</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">addParameters</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_attributes</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_attributes</span><span class="p">[</span><span class="s1">&#39;template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Gfdv3d_name</span>
+
+    <span class="k">def</span> <span class="nf">setProvenanceHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">provenanceHandler</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provenanceHandler</span> <span class="o">=</span> <span class="n">provenanceHandler</span>
+
+    <span class="k">def</span> <span class="nf">getStateData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">getStateData</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">getConfigurationData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">getConfigurationData</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getConfigurationParms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">getConfigurationParms</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getConfigurationState</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pname</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">getConfigurationState</span><span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">fget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">fset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setParameter</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="n">fget</span><span class="p">,</span> <span class="n">fset</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Gfdv3d</span><span class="o">.</span><span class="n">__slots__</span><span class="p">:</span>
+            <span class="n">Gfdv3d</span><span class="o">.</span><span class="n">__slots__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">addPlotAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_attributes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">getPlotAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_attributes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getPlotAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_attributes</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">getParameterList</span><span class="p">():</span>
+        <span class="kn">from</span> <span class="nn">DV3D.DV3DPlot</span> <span class="k">import</span> <span class="n">PlotButtonNames</span>
+        <span class="n">cfgManager</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">()</span>
+        <span class="n">parameterList</span> <span class="o">=</span> <span class="n">cfgManager</span><span class="o">.</span><span class="n">getParameterList</span><span class="p">(</span><span class="n">extras</span><span class="o">=</span><span class="n">PlotButtonNames</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parameterList</span>
+
+    <span class="k">def</span> <span class="nf">addParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameterList</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_property</span><span class="p">(</span><span class="n">pname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pname</span><span class="p">)</span>
+<span class="c1">#            print &quot;  -------------&gt;&gt; Adding parameter: &quot;, pname</span>
+
+    <span class="k">def</span> <span class="nf">getParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">getParameterValue</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">setParameter</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">restoreState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">restoreState</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">initDefaultState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cfgManager</span><span class="o">.</span><span class="n">initDefaultState</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="s1">&#39; ---------- DV3D (Gfdv3d) member (attribute) listings ---------&#39;</span>
+        <span class="nb">print</span> <span class="s1">&#39;name =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s1">&#39;axes =&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_names</span><span class="p">:</span>
+            <span class="n">pval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getParameter</span><span class="p">(</span><span class="n">pname</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="n">pname</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">pval</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">Gf3Dvector</span><span class="p">(</span><span class="n">Gfdv3d</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="s1">&#39;3d_vector&#39;</span>
+        <span class="n">Gfdv3d</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="n">Gfdv3d_name_src</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Gf3Dscalar</span><span class="p">(</span><span class="n">Gfdv3d</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="s1">&#39;3d_scalar&#39;</span>
+        <span class="n">Gfdv3d</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="n">Gfdv3d_name_src</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VectorDisplay</span> <span class="o">=</span> <span class="n">Gfdv3d_name</span>
+
+
+<span class="k">class</span> <span class="nc">Gf3DDualScalar</span><span class="p">(</span><span class="n">Gfdv3d</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="s1">&#39;3d_dual_scalar&#39;</span>
+        <span class="n">Gfdv3d</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfdv3d_name</span><span class="p">,</span> <span class="n">Gfdv3d_name_src</span><span class="o">=</span><span class="n">Gfdv3d_name_src</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">dv3d</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">get3d_scalar</span><span class="p">()</span>
+    <span class="n">dv3d</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;/tmp/test.json&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

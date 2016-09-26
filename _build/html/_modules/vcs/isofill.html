@@ -1,0 +1,986 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>vcs.isofill &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="vcs" href="../vcs.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" accesskey="U">vcs</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for vcs.isofill</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Isofill (Gfi) module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Module:       isofill (Gfi) module                                          #</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright:    2000, Regents of the University of California                 #</span>
+<span class="c1"># This software may not be distributed to others without        #</span>
+<span class="c1"># permission of the author.                                     #</span>
+<span class="c1">#</span>
+<span class="c1"># Author:       PCMDI Software Team                                           #</span>
+<span class="c1"># Lawrence Livermore NationalLaboratory:                        #</span>
+<span class="c1"># support@pcmdi.llnl.gov                                        #</span>
+<span class="c1">#</span>
+<span class="c1"># Description:  Python command wrapper for VCS&#39;s isofill graphics method.     #</span>
+<span class="c1">#</span>
+<span class="c1"># Version:      5.0                                                           #</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Import: VCS C extension module.                                             #</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">vcs</span>
+<span class="kn">import</span> <span class="nn">VCS_validation_functions</span>
+<span class="kn">import</span> <span class="nn">cdtime</span>
+<span class="kn">import</span> <span class="nn">xmldocs</span>
+
+
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">json_dict</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">process_src</span><span class="p">(</span><span class="n">nm</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+
+    <span class="c1"># Takes VCS script code (string) as input and generates isofill gm from it</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">Gfi</span><span class="p">(</span><span class="n">nm</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isofill&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span>
+    <span class="c1"># process attributes with = as assignement</span>
+    <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xticlabels#1&quot;</span><span class="p">,</span> <span class="s2">&quot;xticlabels#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xmtics#1&quot;</span><span class="p">,</span> <span class="s2">&quot;xmtics#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;yticlabels#1&quot;</span><span class="p">,</span> <span class="s2">&quot;yticlabels#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ymtics#1&quot;</span><span class="p">,</span> <span class="s2">&quot;ymtics#2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;xaxisconvert&quot;</span><span class="p">,</span> <span class="s2">&quot;yaxisconvert&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;boxfill_type&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;legend&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ext_1&quot;</span><span class="p">,</span> <span class="s2">&quot;ext_2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;missing&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;datawc_calendar&quot;</span><span class="p">]:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">att</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>  <span class="c1"># last one no comma</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">scode</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">scode</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">nm</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;datawc_tunits&quot;</span><span class="p">:</span>
+            <span class="n">nm</span> <span class="o">=</span> <span class="s2">&quot;datawc_timeunits&quot;</span>
+        <span class="k">if</span> <span class="n">nm</span> <span class="o">==</span> <span class="s2">&quot;legend&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;()&quot;</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">legend</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">continue</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># int will be converted</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># int and floats will be converted</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="nb">eval</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># strings</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># oh well we stick to default value</span>
+    <span class="c1"># Datawc</span>
+    <span class="n">idwc</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot; datawc(&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idwc</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">jdwc</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">idwc</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span> <span class="o">+</span> <span class="mi">8</span><span class="p">:</span><span class="n">jdwc</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="c1"># idatawc</span>
+    <span class="n">idwc</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;idatawc(&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">idwc</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">jdwc</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">idwc</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">idwc</span> <span class="o">+</span> <span class="mi">8</span><span class="p">:</span><span class="n">jdwc</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">cd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">,</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">)</span><span class="o">.</span><span class="n">tocomp</span><span class="p">(</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">)</span>
+
+    <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">process_range_from_old_scr</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Gfi"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi">[docs]</a><span class="k">class</span> <span class="nc">Gfi</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    The Isofill graphics method fills the area between selected isolevels</span>
+<span class="s2">    (levels of constant value) of a two-dimensional array with a</span>
+<span class="s2">    user-specified color. The example below shows how to display an isofill</span>
+<span class="s2">    plot on the VCS Canvas and how to create and remove isofill isolevels.</span>
+
+<span class="s2">    This class is used to define an isofill table entry used in VCS, or it</span>
+<span class="s2">    can be used to change some or all of the isofill attributes in an</span>
+<span class="s2">    existing isofill table entry.</span>
+
+<span class="s2">    .. describe:: Useful Functions:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            # VCS Canvas Constructor</span>
+<span class="s2">            a=vcs.init()</span>
+<span class="s2">            # Show predefined isofill graphics methods</span>
+<span class="s2">            a.show(&#39;isofill&#39;)</span>
+<span class="s2">            # Show predefined fillarea objects</span>
+<span class="s2">            a.show(&#39;fillarea&#39;)</span>
+<span class="s2">            # Show predefined template objects</span>
+<span class="s2">            a.show(&#39;template&#39;)</span>
+<span class="s2">            # Change the VCS color map</span>
+<span class="s2">            a.setcolormap(&quot;AMIP&quot;)</span>
+<span class="s2">            # Create a template</span>
+<span class="s2">            a.createtemplate(&#39;test&#39;)</span>
+<span class="s2">            # Create a fillarea</span>
+<span class="s2">            a.createfillarea(&#39;fill&#39;)</span>
+<span class="s2">            # Get an existing template</span>
+<span class="s2">            a.gettemplate(&#39;AMIP&#39;)</span>
+<span class="s2">            # Get an existing fillarea</span>
+<span class="s2">            a.getfillarea(&#39;def37&#39;)</span>
+<span class="s2">            # Plot array &#39;s&#39; with isofill &#39;i&#39; and template &#39;t&#39;</span>
+<span class="s2">            a.isofill(s,i,t)</span>
+<span class="s2">            # Updates the VCS Canvas at user&#39;s request</span>
+<span class="s2">            a.update()</span>
+
+<span class="s2">    .. describe:: Creating an isofill object:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            #Create a VCS Canvas</span>
+<span class="s2">            a=vcs.init()</span>
+<span class="s2">            #Create a new instance of isofill:</span>
+<span class="s2">            # Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="s2">            iso=a.createisofill(&#39;new&#39;,&#39;quick&#39;)</span>
+<span class="s2">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="s2">            iso=a.createisofill(&#39;new&#39;)</span>
+
+<span class="s2">    .. describe:: Modifying an existing isofill:</span>
+
+<span class="s2">        .. code-block:: python</span>
+
+<span class="s2">            iso=a.getisofill(&#39;AMIP_psl&#39;)</span>
+
+<span class="s2">    .. describe:: Overview of isofill attributes:</span>
+
+<span class="s2">        * List all isofill attribute values:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.list()</span>
+
+<span class="s2">        * Set isofill attributes:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.projection=&#39;linear&#39;</span>
+<span class="s2">                lon30={-180:&#39;180W&#39;,-150:&#39;150W&#39;,0:&#39;Eq&#39;}</span>
+<span class="s2">                iso.xticlabels1=lon30</span>
+<span class="s2">                iso.xticlabels2=lon30</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.xticlabels(lon30, lon30)</span>
+<span class="s2">                iso.xmtics1=&#39;&#39;</span>
+<span class="s2">                iso.xmtics2=&#39;&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.xmtics(lon30, lon30)</span>
+<span class="s2">                iso.yticlabels1=lat10</span>
+<span class="s2">                iso.yticlabels2=lat10</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.yticlabels(lat10, lat10)</span>
+<span class="s2">                iso.ymtics1=&#39;&#39;</span>
+<span class="s2">                iso.ymtics2=&#39;&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.ymtics(lat10, lat10)</span>
+<span class="s2">                iso.datawc_y1=-90.0</span>
+<span class="s2">                iso.datawc_y2=90.0</span>
+<span class="s2">                iso.datawc_x1=-180.0</span>
+<span class="s2">                iso.datawc_x2=180.0</span>
+<span class="s2">                # Will set them all</span>
+<span class="s2">                iso.datawc(-90, 90, -180, 180)</span>
+<span class="s2">                iso.xaxisconvert=&#39;linear&#39;</span>
+<span class="s2">                iso.yaxisconvert=&#39;linear&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.xyscale(&#39;linear&#39;, &#39;area_wt&#39;)</span>
+<span class="s2">                # Color index value range 0 to 255</span>
+<span class="s2">                iso.missing=241</span>
+<span class="s2">                iso.legend=None</span>
+<span class="s2">                ext_1=&#39;n&#39;</span>
+<span class="s2">                ext_2=&#39;y&#39;</span>
+<span class="s2">                # Will set them both</span>
+<span class="s2">                iso.exts(&#39;n&#39;, &#39;y&#39; )</span>
+
+<span class="s2">        * Setting the isofill levels:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                # 1) When levels are all contiguous:</span>
+<span class="s2">                    iso.levels=([0,20,25,30,35,40],)</span>
+<span class="s2">                    iso.levels=([0,20,25,30,35,40,45,50])</span>
+<span class="s2">                    iso.levels=[0,20,25,30,35,40]</span>
+<span class="s2">                    iso.levels=(0.0,20.0,25.0,30.0,35.0,40.0,50.0)</span>
+
+<span class="s2">                # 2) When levels are not contiguous:</span>
+<span class="s2">                    iso.levels=([0,20],[30,40],[50,60])</span>
+<span class="s2">                    iso.levels=([0,20,25,30,35,40],[30,40],[50,60])</span>
+
+<span class="s2">        * Setting the fillarea color indices:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.fillareacolors=([22,33,44,55,66,77])</span>
+<span class="s2">                iso.fillareacolors=(16,19,33,44)</span>
+<span class="s2">                iso.fillareacolors=None</span>
+
+<span class="s2">        * Setting the fillarea style:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.fillareastyle = &#39;solid&#39;</span>
+<span class="s2">                iso.fillareastyle = &#39;hatch&#39;</span>
+<span class="s2">                iso.fillareastyle = &#39;pattern&#39;</span>
+
+<span class="s2">        * Setting the fillarea hatch or pattern indices:</span>
+
+<span class="s2">            .. code-block:: python</span>
+
+<span class="s2">                iso.fillareaindices=([1,3,5,6,9,20])</span>
+<span class="s2">                iso.fillareaindices=(7,1,4,9,6,15)</span>
+
+<span class="s2">    .. describe:: Using the fillarea secondary object (Ex):</span>
+
+<span class="s2">            * Create a new instance of fillarea:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    f=createfillarea(&#39;fill1&#39;)</span>
+
+<span class="s2">            * Create a new isofill:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    # Copies &#39;quick&#39; to &#39;new&#39;</span>
+<span class="s2">                    fill=a.createisofill(&#39;new&#39;,&#39;quick&#39;)</span>
+<span class="s2">                    # Copies &#39;default&#39; to &#39;new&#39;</span>
+<span class="s2">                    fill=a.createisofill(&#39;new&#39;)</span>
+
+<span class="s2">            * Modify an existing isofill:</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    fill=a.getisofill(&#39;def37&#39;)</span>
+
+<span class="s2">            * Set index using fillarea</span>
+
+<span class="s2">                .. code-block:: python</span>
+
+<span class="s2">                    iso.fillareaindices=(7,fill,4,9,fill,15)</span>
+<span class="s2">                    # list fillarea attributes</span>
+<span class="s2">                    fill.list()</span>
+<span class="s2">                    # change style</span>
+<span class="s2">                    fill.style=&#39;hatch&#39;</span>
+<span class="s2">                    # change color</span>
+<span class="s2">                    fill.color=241</span>
+<span class="s2">                    # change style index</span>
+<span class="s2">                    fill.index=3</span>
+
+<span class="s2">    .. describe:: Attribute descriptions:</span>
+
+<span class="s2">        </span><span class="si">%s</span><span class="s2"></span>
+<span class="s2">        </span><span class="si">%s</span><span class="s2">&quot;&quot;&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">isofill_doc</span><span class="p">)</span>
+    <span class="n">colormap</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">colormap</span>
+    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;colormap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_colormap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;g_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;levels&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fillareacolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fillareastyle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fillareaindices&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fillareaopacity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ext_1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ext_2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;missing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yaxisconvert&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_levels&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_fillareacolors&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_fillareastyle&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_fillareaindices&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_fillareaopacity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ext_1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ext_2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_missing&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_projection&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yticlabels1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_yticlabels2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xmtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_xmtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ymtics1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_ymtics2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_x1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_x2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_y1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_y2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_legend&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_timeunits&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_datawc_calendar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;info&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_getname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="k">def</span> <span class="nf">_setname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getname</span><span class="p">,</span> <span class="n">_setname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getcalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span>
+
+    <span class="k">def</span> <span class="nf">_setcalendar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkCalendar</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_calendar</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getcalendar</span><span class="p">,</span> <span class="n">_setcalendar</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_gettimeunits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span>
+
+    <span class="k">def</span> <span class="nf">_settimeunits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkTimeUnits</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_timeunits</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettimeunits</span><span class="p">,</span> <span class="n">_settimeunits</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span>
+
+    <span class="k">def</span> <span class="nf">_setxaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxaxisconvert</span><span class="p">,</span> <span class="n">_setxaxisconvert</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span>
+
+    <span class="k">def</span> <span class="nf">_setyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyaxisconvert</span><span class="p">,</span> <span class="n">_setyaxisconvert</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getfillareacolors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fillareacolors</span>
+
+    <span class="k">def</span> <span class="nf">_setfillareacolors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColorList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;fillareacolors&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fillareacolors</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">fillareacolors</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">fillareacolors</span>
+
+    <span class="k">def</span> <span class="nf">_getfillareaindices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fillareaindices</span>
+
+    <span class="k">def</span> <span class="nf">_setfillareaindices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkIndicesList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;fillareaindices&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fillareaindices</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">fillareaindices</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getfillareaindices</span><span class="p">,</span> <span class="n">_setfillareaindices</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getfillareastyle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fillareastyle</span>
+
+    <span class="k">def</span> <span class="nf">_setfillareastyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkFillAreaStyle</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;fillareastyle&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fillareastyle</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">fillareastyle</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getfillareastyle</span><span class="p">,</span> <span class="n">_setfillareastyle</span><span class="p">)</span>
+
+    <span class="n">fillareaopacity</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">fillareaopacity</span>
+
+    <span class="n">ext_1</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">ext_1</span>
+    <span class="n">ext_2</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">ext_2</span>
+
+    <span class="k">def</span> <span class="nf">_getmissing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span>
+
+    <span class="k">def</span> <span class="nf">_setmissing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;missing&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getmissing</span><span class="p">,</span> <span class="n">_setmissing</span><span class="p">)</span>
+
+    <span class="n">legend</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">legend</span>
+
+    <span class="n">projection</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">projection</span>
+
+    <span class="k">def</span> <span class="nf">_getxticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span>
+
+    <span class="k">def</span> <span class="nf">_setxticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xticlabels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxticlabels1</span><span class="p">,</span> <span class="n">_setxticlabels1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span>
+
+    <span class="k">def</span> <span class="nf">_setxticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xticlabels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxticlabels2</span><span class="p">,</span> <span class="n">_setxticlabels2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span>
+
+    <span class="k">def</span> <span class="nf">_setyticlabels1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yticlabels1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyticlabels1</span><span class="p">,</span> <span class="n">_setyticlabels1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getyticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span>
+
+    <span class="k">def</span> <span class="nf">_setyticlabels2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">yticlabels2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyticlabels2</span><span class="p">,</span> <span class="n">_setyticlabels2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxmtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span>
+
+    <span class="k">def</span> <span class="nf">_setxmtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xmtics1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxmtics1</span><span class="p">,</span> <span class="n">_setxmtics1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getxmtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span>
+
+    <span class="k">def</span> <span class="nf">_setxmtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">xmtics2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getxmtics2</span><span class="p">,</span> <span class="n">_setxmtics2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getymtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span>
+
+    <span class="k">def</span> <span class="nf">_setymtics1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">ymtics1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getymtics1</span><span class="p">,</span> <span class="n">_setymtics1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getymtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span>
+
+    <span class="k">def</span> <span class="nf">_setymtics2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkStringDictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">ymtics2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getymtics2</span><span class="p">,</span> <span class="n">_setymtics2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_x1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_x1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_x1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_x1</span><span class="p">,</span> <span class="n">_setdatawc_x1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_x2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_x2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_x2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_x2</span><span class="p">,</span> <span class="n">_setdatawc_x2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_y1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_y1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_y1</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y1</span><span class="p">,</span> <span class="n">_setdatawc_y1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getdatawc_y2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span>
+
+    <span class="k">def</span> <span class="nf">_setdatawc_y2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkDatawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y2</span><span class="p">,</span> <span class="n">_setdatawc_y2</span><span class="p">)</span>
+
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">levels</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Gfi_name</span><span class="p">,</span> <span class="n">Gfi_name_src</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+                <span class="c1">#</span>
+                <span class="c1">#</span>
+                <span class="c1"># Initialize the isofill class and its members            #</span>
+                <span class="c1"># The getGfimember function retrieves the values of the   #</span>
+                <span class="c1"># isofill members in the C structure and passes back the  #</span>
+                <span class="c1"># appropriate Python Object.                              #</span>
+                <span class="c1">#</span>
+                <span class="c1">#</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Gfi_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isofill name must be a string&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Gfi_name</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isofill&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;isofill graphic method &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists&quot;</span> <span class="o">%</span>
+                <span class="n">Gfi_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">Gfi_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span> <span class="o">=</span> <span class="s1">&#39;Gfi&#39;</span>
+
+        <span class="k">if</span> <span class="n">Gfi_name</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels1</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xticlabels2</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xmtics2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels1</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yticlabels2</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ymtics2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y1</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x1</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="mf">1.e20</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="mi">241</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ext_1</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ext_2</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;solid&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fillareaindices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fillareacolors</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fillareaopacity</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_levels</span> <span class="o">=</span> <span class="p">([</span><span class="mf">1.0000000200408773e+20</span><span class="p">,</span> <span class="mf">1.0000000200408773e+20</span><span class="p">],)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_legend</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="s2">&quot;days since 2000&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="mi">135441</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_colormap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Gfi_name_src</span><span class="p">,</span> <span class="n">Gfi</span><span class="p">):</span>
+                <span class="n">Gfi_name_src</span> <span class="o">=</span> <span class="n">Gfi_name_src</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">if</span> <span class="n">Gfi_name_src</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isofill&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Isofill method &#39;</span><span class="si">%s</span><span class="s2">&#39; does not exists&quot;</span> <span class="o">%</span>
+                    <span class="n">Gfi_name_src</span><span class="p">)</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isofill&quot;</span><span class="p">][</span><span class="n">Gfi_name_src</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ext_1</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ext_2</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;projection&#39;</span><span class="p">,</span> <span class="s1">&#39;colormap&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="s1">&#39;levels&#39;</span><span class="p">,</span> <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;missing&#39;</span><span class="p">,</span> <span class="s1">&#39;ext_1&#39;</span><span class="p">,</span> <span class="s1">&#39;ext_2&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;fillareastyle&#39;</span><span class="p">,</span> <span class="s1">&#39;fillareaindices&#39;</span><span class="p">,</span> <span class="s1">&#39;fillareacolors&#39;</span><span class="p">,</span> <span class="s1">&#39;fillareaopacity&#39;</span><span class="p">,</span> <span class="s1">&#39;legend&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">]:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">att</span><span class="p">))</span>
+
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;isofill&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="c1">#</span>
+        <span class="c1">#</span>
+        <span class="c1"># Find and set the isofill structure in VCS C pointer     #</span>
+        <span class="c1"># list. If the isofill name does not exist, then use      #</span>
+        <span class="c1"># default isofill.                                        #</span>
+        <span class="c1">#</span>
+        <span class="c1">#</span>
+
+<div class="viewcode-block" id="Gfi.colors"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.colors">[docs]</a>    <span class="k">def</span> <span class="nf">colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color1</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="mi">239</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fillareacolors</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">color1</span><span class="p">,</span> <span class="n">color2</span><span class="p">)</span></div>
+    <span class="n">colors</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">colorsdoc</span>
+
+<div class="viewcode-block" id="Gfi.exts"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.exts">[docs]</a>    <span class="k">def</span> <span class="nf">exts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext1</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="n">ext2</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext_1</span> <span class="o">=</span> <span class="n">ext1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext_2</span> <span class="o">=</span> <span class="n">ext2</span></div>
+    <span class="n">exts</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">extsdoc</span>
+<span class="c1">#</span>
+<span class="c1"># Doesn&#39;t make sense to inherit. This would mean more coding in C.</span>
+<span class="c1"># I put this code back.</span>
+<span class="c1">#</span>
+
+<div class="viewcode-block" id="Gfi.xticlabels"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.xticlabels">[docs]</a>    <span class="k">def</span> <span class="nf">xticlabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xtl1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xtl2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span> <span class="o">=</span> <span class="n">xtl1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span> <span class="o">=</span> <span class="n">xtl2</span></div>
+    <span class="n">xticlabels</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xticlabelsdoc</span>
+
+<div class="viewcode-block" id="Gfi.xmtics"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.xmtics">[docs]</a>    <span class="k">def</span> <span class="nf">xmtics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmt1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xmt2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span> <span class="o">=</span> <span class="n">xmt1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span> <span class="o">=</span> <span class="n">xmt2</span></div>
+    <span class="n">xmtics</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xmticsdoc</span>
+
+<div class="viewcode-block" id="Gfi.yticlabels"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.yticlabels">[docs]</a>    <span class="k">def</span> <span class="nf">yticlabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ytl1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ytl2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span> <span class="o">=</span> <span class="n">ytl1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span> <span class="o">=</span> <span class="n">ytl2</span></div>
+    <span class="n">yticlabels</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">yticlabelsdoc</span>
+
+<div class="viewcode-block" id="Gfi.ymtics"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.ymtics">[docs]</a>    <span class="k">def</span> <span class="nf">ymtics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ymt1</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ymt2</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span> <span class="o">=</span> <span class="n">ymt1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span> <span class="o">=</span> <span class="n">ymt2</span></div>
+    <span class="n">ymtics</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">ymticsdoc</span>
+
+<div class="viewcode-block" id="Gfi.datawc"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.datawc">[docs]</a>    <span class="k">def</span> <span class="nf">datawc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsp1</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp2</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp3</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">,</span> <span class="n">dsp4</span><span class="o">=</span><span class="mi">1</span><span class="n">e20</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span> <span class="o">=</span> <span class="n">dsp1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span> <span class="o">=</span> <span class="n">dsp2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span> <span class="o">=</span> <span class="n">dsp3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span> <span class="o">=</span> <span class="n">dsp4</span></div>
+    <span class="n">datawc</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">datawcdoc</span>
+
+<div class="viewcode-block" id="Gfi.xyscale"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.xyscale">[docs]</a>    <span class="k">def</span> <span class="nf">xyscale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xat</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">yat</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span> <span class="o">=</span> <span class="n">xat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span> <span class="o">=</span> <span class="n">yat</span></div>
+    <span class="n">xyscale</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">xyscaledoc</span> <span class="o">%</span> <span class="p">((</span><span class="s1">&#39;isofill&#39;</span><span class="p">,)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Gfi.list"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;----------Isofill (Gfi) member (attribute) listings ----------&quot;</span>
+        <span class="nb">print</span> <span class="s2">&quot;graphics method =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_name</span>
+        <span class="nb">print</span> <span class="s2">&quot;name =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="nb">print</span> <span class="s2">&quot;projection =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span>
+        <span class="nb">print</span> <span class="s2">&quot;xticlabels1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span>
+        <span class="nb">print</span> <span class="s2">&quot;xticlabels2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span>
+        <span class="nb">print</span> <span class="s2">&quot;xmtics1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span>
+        <span class="nb">print</span> <span class="s2">&quot;xmtics2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span>
+        <span class="nb">print</span> <span class="s2">&quot;yticlabels1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span>
+        <span class="nb">print</span> <span class="s2">&quot;yticlabels2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span>
+        <span class="nb">print</span> <span class="s2">&quot;ymtics1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span>
+        <span class="nb">print</span> <span class="s2">&quot;ymtics2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_x1 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_y1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_x2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_y2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_timeunits = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_timeunits</span>
+        <span class="nb">print</span> <span class="s2">&quot;datawc_calendar = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_calendar</span>
+        <span class="nb">print</span> <span class="s2">&quot;xaxisconvert = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span>
+        <span class="nb">print</span> <span class="s2">&quot;yaxisconvert = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span>
+        <span class="nb">print</span> <span class="s2">&quot;missing = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span>
+        <span class="nb">print</span> <span class="s2">&quot;ext_1 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_1</span>
+        <span class="nb">print</span> <span class="s2">&quot;ext_2 = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_2</span>
+        <span class="nb">print</span> <span class="s2">&quot;fillareastyle = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareastyle</span>
+        <span class="nb">print</span> <span class="s2">&quot;fillareaindices = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareaindices</span>
+        <span class="nb">print</span> <span class="s2">&quot;fillareacolors = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareacolors</span>
+        <span class="nb">print</span> <span class="s2">&quot;fillareaopacity = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareaopacity</span>
+        <span class="nb">print</span> <span class="s2">&quot;levels = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span>
+        <span class="nb">print</span> <span class="s2">&quot;legend = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span></div>
+    <span class="nb">list</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">listdoc</span>
+
+    <span class="c1">#</span>
+    <span class="c1">#</span>
+    <span class="c1"># Script out primary isofill graphics method in VCS to a file.            #</span>
+    <span class="c1">#</span>
+    <span class="c1">#</span>
+<div class="viewcode-block" id="Gfi.script"><a class="viewcode-back" href="../../vcs/graphics/isofill.html#vcs.isofill.Gfi.script">[docs]</a>    <span class="k">def</span> <span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">script_filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Must provide an output script file name.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Error - Mode can only be &quot;w&quot; for replace or &quot;a&quot; for append.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># By default, save file in json</span>
+        <span class="n">scr_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="s2">&quot;json&quot;</span>
+            <span class="k">if</span> <span class="n">script_filename</span> <span class="o">!=</span> <span class="s2">&quot;initial.attributes&quot;</span><span class="p">:</span>
+                <span class="n">script_filename</span> <span class="o">+=</span> <span class="s2">&quot;.json&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scr_type</span> <span class="o">=</span> <span class="n">scr_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s1">&#39;.scr&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;scr script are no longer generated&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scr_type</span> <span class="o">==</span> <span class="s2">&quot;py&quot;</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="o">+</span> <span class="s1">&#39;+&#39;</span>
+            <span class="n">py_type</span> <span class="o">=</span> <span class="n">script_filename</span><span class="p">[</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)</span> <span class="o">-</span>
+                <span class="mi">3</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">script_filename</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">py_type</span> <span class="o">!=</span> <span class="s1">&#39;.py&#39;</span><span class="p">):</span>
+                <span class="n">script_filename</span> <span class="o">=</span> <span class="n">script_filename</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
+
+            <span class="c1"># Write to file</span>
+            <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>  <span class="c1"># Must be a new file, so include below</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#####################################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                                 #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Import and Initialize VCS     #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#                             #</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#############################</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;import vcs</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;v=vcs.init()</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">unique_name</span> <span class="o">=</span> <span class="s1">&#39;__Gfi__&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;#----------Isofill (Gfi) member (attribute) listings ----------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;gfi_list=v.listelements(&#39;isofill&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;if (&#39;</span><span class="si">%s</span><span class="s2">&#39; in gfi_list):</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.getisofill(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;else:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;   </span><span class="si">%s</span><span class="s2"> = v.createisofill(&#39;</span><span class="si">%s</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="c1"># Common core graphics method attributes</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.projection = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">projection</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xticlabels1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xticlabels2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xticlabels2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xmtics1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xmtics2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmtics2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yticlabels1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yticlabels2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yticlabels2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ymtics1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ymtics2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymtics2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x1 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y1 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x2 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_x2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_x2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y2 = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_y2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_y2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_calendar = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_calendar</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.datawc_timeunits = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datawc_timeunits</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.xaxisconvert = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxisconvert</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.yaxisconvert = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxisconvert</span><span class="p">))</span>
+            <span class="c1"># Unique attribute for isofill</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.missing = </span><span class="si">%g</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">missing</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ext_1 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_1</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.ext_2 = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_2</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.fillareastyle = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareastyle</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.fillareaindices = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareaindices</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.fillareacolors = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareacolors</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.fillareaopacity = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fillareaopacity</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.levels = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.legend = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.colormap = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Json type</span>
+            <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;+&quot;</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">script_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">dumpToJson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+    <span class="n">script</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">scriptdocs</span><span class="p">[</span><span class="s1">&#39;isofill&#39;</span><span class="p">]</span></div>
+
+
+<span class="c1">#</span>
+<span class="c1"># END OF FILE						              #</span>
+<span class="c1">#</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../vcs.html" >vcs</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

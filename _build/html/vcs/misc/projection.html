@@ -1,0 +1,834 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>projection &#8212; VCS 2.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
+    <link rel="up" title="Miscellaneous Modules" href="misc.html" />
+    <link rel="next" title="colormap" href="colormap.html" />
+    <link rel="prev" title="animate_helper" href="animate_helper.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="colormap.html" title="colormap"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="animate_helper.html" title="animate_helper"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="misc.html" accesskey="U">Miscellaneous Modules</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-vcs.projection">
+<span id="projection"></span><h1>projection<a class="headerlink" href="#module-vcs.projection" title="Permalink to this headline">¶</a></h1>
+<p># Projection (Proj) module</p>
+<dl class="class">
+<dt id="vcs.projection.Proj">
+<em class="property">class </em><code class="descclassname">vcs.projection.</code><code class="descname">Proj</code><span class="sig-paren">(</span><em>Proj_name=None</em>, <em>Proj_name_src='default'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/projection.html#Proj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.projection.Proj" title="Permalink to this definition">¶</a></dt>
+<dd><p>The projection secondary method (Proj) is used when plotting 2D data, and define
+how to project from lon/lat coord to another mapping system (lambert, mercator, mollweide, etc...)</p>
+<p>This class is used to define a projection table entry used in VCS, or it
+can be used to change some or all of the attributes in an existing
+projection table entry.</p>
+<dl class="describe">
+<dt>
+<code class="descname">Projection Transformation Package Projection Parameters</code></dt>
+<dd><table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="8%" />
+<col width="10%" />
+<col width="13%" />
+<col width="3%" />
+<col width="3%" />
+<col width="7%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head" colspan="9">Array Element</th>
+</tr>
+<tr class="row-even"><th class="head"><em>Code &amp; Projection Id</em></th>
+<th class="head">1</th>
+<th class="head">2</th>
+<th class="head">3</th>
+<th class="head">4</th>
+<th class="head">5</th>
+<th class="head">6</th>
+<th class="head">7</th>
+<th class="head">8</th>
+<th class="head">9</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>0 Geographic</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>1 U T M</td>
+<td>Lon/Z</td>
+<td>Lat/Z</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>2 State Plane</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>3 Albers Equal Area</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>STDPR1</td>
+<td>STDPR2</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>4 Lambert Conformal C</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>STDPR1</td>
+<td>STDPR2</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>5 Mercator</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>TrueScale</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>6 Polar Stereographic</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>LongPol</td>
+<td>TrueScale</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>7 Polyconic</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>8 Equid. Conic A</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>STDPAR</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>zero</td>
+</tr>
+<tr class="row-even"><td>Equid. Conic B</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>STDPR1</td>
+<td>STDPR2</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>one</td>
+</tr>
+<tr class="row-odd"><td>9 Transverse Mercator</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>Factor</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>10 Stereographic</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>11 Lambert Azimuthal</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>12 Azimuthal</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>13 Gnomonic</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>14 Orthographic</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>15 Gen. Vert. Near Per</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>Height</td>
+<td>&nbsp;</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>16 Sinusoidal</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>17 Equirectangular</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>TrueScale</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>18 Miller Cylindrical</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>19 Van der Grinten</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>20 Hotin Oblique Merc A</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>Factor</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>Long1</td>
+</tr>
+<tr class="row-odd"><td>Hotin Oblique Merc B</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>Factor</td>
+<td>AziAng</td>
+<td>AzmthPt</td>
+<td>OriginLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>21 Robinson</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>22 Space Oblique Merc A</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>&nbsp;</td>
+<td>IncAng</td>
+<td>AscLong</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>PSRev</td>
+</tr>
+<tr class="row-even"><td>Space Oblique Merc B</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>Satnum</td>
+<td>Path</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>23 Alaska Conformal</td>
+<td>SMajor</td>
+<td>SMinor</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>24 Interrupted Goode</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>25 Mollweide</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>26 Interrupt Mollweide</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>27 Hammer</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>28 Wagner IV</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>29 Wagner VII</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>CentMer</td>
+<td>&nbsp;</td>
+<td>FE</td>
+<td>FN</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>30 Oblated Equal Area</td>
+<td>Sphere</td>
+<td>&nbsp;</td>
+<td>Shapem</td>
+<td>Shapen</td>
+<td>CentLon</td>
+<td>CenterLat</td>
+<td>FE</td>
+<td>FN</td>
+<td>Angle</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head" colspan="4">Array Element</th>
+</tr>
+<tr class="row-even"><th class="head">Code &amp; Projection Id</th>
+<th class="head">10</th>
+<th class="head">11</th>
+<th class="head">12</th>
+<th class="head">13</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>20 Hotin Oblique Merc A</td>
+<td>Lat1</td>
+<td>Long2</td>
+<td>Lat2</td>
+<td>zero</td>
+</tr>
+<tr class="row-even"><td>Hotin Oblique Merc B</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>one</td>
+</tr>
+<tr class="row-odd"><td>22 Space Oblique Merc A</td>
+<td>LRat</td>
+<td>PFlag</td>
+<td>&nbsp;</td>
+<td>zero</td>
+</tr>
+<tr class="row-even"><td>Space Oblique Merc B</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>one</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All other projections are blank (containing 0) for elements 10-13</p>
+</div>
+</div></blockquote>
+<dl class="glossary docutils">
+<dt id="term-lon-z">Lon/Z</dt>
+<dd>Longitude of any point in the UTM zone or zero.  If zero,
+a zone code must be specified.</dd>
+<dt id="term-lat-z">Lat/Z</dt>
+<dd>Latitude of any point in the UTM zone or zero.  If zero, a
+zone code must be specified.</dd>
+<dt id="term-smajor">SMajor</dt>
+<dd>Semi-major axis of ellipsoid.  If zero, Clarke 1866 in meters
+is assumed.</dd>
+<dt id="term-sminor">SMinor</dt>
+<dd>Eccentricity squared of the ellipsoid if less than zero,
+if zero, a spherical form is assumed, or if greater than
+zero, the semi-minor axis of ellipsoid.</dd>
+<dt id="term-sphere">Sphere</dt>
+<dd>Radius of reference sphere.  If zero, 6370997 meters is used.</dd>
+<dt id="term-stdpar">STDPAR</dt>
+<dd>Latitude of the standard parallel</dd>
+<dt id="term-stdpr1">STDPR1</dt>
+<dd>Latitude of the first standard parallel</dd>
+<dt id="term-stdpr2">STDPR2</dt>
+<dd>Latitude of the second standard parallel</dd>
+<dt id="term-centmer">CentMer</dt>
+<dd>Longitude of the central meridian</dd>
+<dt id="term-originlat">OriginLat</dt>
+<dd>Latitude of the projection origin</dd>
+<dt id="term-fe">FE</dt>
+<dd>False easting in the same units as the semi-major axis</dd>
+<dt id="term-fn">FN</dt>
+<dd>False northing in the same units as the semi-major axis</dd>
+<dt id="term-truescale">TrueScale</dt>
+<dd>Latitude of true scale</dd>
+<dt id="term-longpol">LongPol</dt>
+<dd>Longitude down below pole of map</dd>
+<dt id="term-factor">Factor</dt>
+<dd>Scale factor at central meridian (Transverse Mercator) or
+center of projection (Hotine Oblique Mercator)</dd>
+<dt id="term-centlon">CentLon</dt>
+<dd>Longitude of center of projection</dd>
+<dt id="term-centerlat">CenterLat</dt>
+<dd>Latitude of center of projection</dd>
+<dt id="term-height">Height</dt>
+<dd>Height of perspective point</dd>
+<dt id="term-long1">Long1</dt>
+<dd>Longitude of first point on center line (Hotine Oblique
+Mercator, format A)</dd>
+<dt id="term-long2">Long2</dt>
+<dd>Longitude of second point on center line (Hotine Oblique
+Mercator, format A)</dd>
+<dt id="term-lat1">Lat1</dt>
+<dd>Latitude of first point on center line (Hotine Oblique
+Mercator, format A)</dd>
+<dt id="term-lat2">Lat2</dt>
+<dd>Latitude of second point on center line (Hotine Oblique
+Mercator, format A)</dd>
+<dt id="term-aziang">AziAng</dt>
+<dd>Azimuth angle east of north of center line (Hotine Oblique
+Mercator, format B)</dd>
+<dt id="term-azmthpt">AzmthPt</dt>
+<dd>Longitude of point on central meridian where azimuth occurs
+(Hotine Oblique Mercator, format B)</dd>
+<dt id="term-incang">IncAng</dt>
+<dd>Inclination of orbit at ascending node, counter-clockwise
+from equator (SOM, format A)</dd>
+<dt id="term-asclong">AscLong</dt>
+<dd>Longitude of ascending orbit at equator (SOM, format A)</dd>
+<dt id="term-psrev">PSRev</dt>
+<dd>Period of satellite revolution in minutes (SOM, format A)</dd>
+<dt id="term-lrat">LRat</dt>
+<dd>Landsat ratio to compensate for confusion at northern end
+of orbit (SOM, format A &#8211; use 0.5201613)</dd>
+<dt id="term-pflag">PFlag</dt>
+<dd>End of path flag for Landsat:  0 = start of path,
+1 = end of path (SOM, format A)</dd>
+<dt id="term-satnum">Satnum</dt>
+<dd>Landsat Satellite Number (SOM, format B)</dd>
+<dt id="term-path">Path</dt>
+<dd>Landsat Path Number (Use WRS-1 for Landsat 1, 2 and 3 and
+WRS-2 for Landsat 4, 5 and 6.)  (SOM, format B)</dd>
+<dt id="term-shapem">Shapem</dt>
+<dd>Oblated Equal Area oval shape parameter m</dd>
+<dt id="term-shapen">Shapen</dt>
+<dd>Oblated Equal Area oval shape parameter n</dd>
+<dt id="term-angle">Angle</dt>
+<dd>Oblated Equal Area oval rotation angle</dd>
+</dl>
+<dl class="describe">
+<dt>
+<code class="descname">Array Elements:</code></dt>
+<dd><ul>
+<li><p class="first">Array elements 14 and 15 are set to zero</p>
+</li>
+<li><p class="first">All array elements with blank fields are set to zero</p>
+</li>
+<li><dl class="first docutils">
+<dt>All angles (latitudes, longitudes, azimuths, etc.) are entered in packed</dt>
+<dd><p class="first last">degrees/ minutes/ seconds (DDDMMMSSS.SS) format</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Space Oblique Mercator A projection:</code></dt>
+<dd><ul>
+<li><dl class="first docutils">
+<dt>A portion of Landsat rows 1 and 2 may also be seen as parts of rows</dt>
+<dd><p class="first last">246 or 247.  To place these locations at rows 246 or 247, set the end of
+path flag (parameter 11) to 1&#8211;end of path.  This flag defaults to zero.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>When Landsat-1,2,3 orbits are being used, use the following values</dt>
+<dd><p class="first">for the specified parameters:</p>
+<ul class="last simple">
+<li>Parameter 4   099005031.2</li>
+<li>Parameter 5   128.87 degrees - (360/251 * path number) in packed DMS format</li>
+<li>Parameter 9   103.2669323</li>
+<li>Parameter 10  0.5201613</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>When Landsat-4,5 orbits are being used, use the following values</dt>
+<dd><p class="first">for the specified parameters:</p>
+<ul class="last simple">
+<li>Parameter 4   098012000.0</li>
+<li>Parameter 5   129.30 degrees - (360/233 * path number) in packed DMS format</li>
+<li>Parameter 9   98.884119</li>
+<li>Parameter 10  0.5201613</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In vcs angles can be entered either in DDDMMMSSS or regular angle format.</p>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Useful Functions:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas Constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1"># Show predefined projection secondary methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;projection&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Create a Canvas object to work with:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Create a new instance of projection:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createprojection</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;quick&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createprojection</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">Modify an existing projection:</code></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getprojection</span><span class="p">(</span><span class="s1">&#39;lambert&#39;</span><span class="p">)</span>
+<span class="c1"># List all the projection attribute values</span>
+<span class="n">p</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">type</span><span class="o">=</span><span class="s1">&#39;lambert&#39;</span>
+<span class="c1"># Fill a list with projection parameter values</span>
+<span class="n">params</span><span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">14</span><span class="p">):</span>
+   <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.e20</span><span class="p">)</span>
+<span class="c1"># params now a list with 1.e20, 15 times</span>
+<span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="o">=</span> <span class="n">params</span>
+<span class="n">iso</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">createisoline</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">projection</span><span class="o">=</span><span class="n">p</span>
+<span class="c1"># or</span>
+<span class="n">iso</span><span class="o">.</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;lambert&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.projection.Proj.script">
+<code class="descname">script</code><span class="sig-paren">(</span><em>script_filename=None</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/projection.html#Proj.script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.projection.Proj.script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves out a copy of the projection graphics method in JSON, or Python format to a designated file.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the the filename has a &#8216;.py&#8217; at the end, it will produce a
+Python script. If no extension is given, then by default a
+.json file containing a JSON serialization of the object&#8217;s
+data will be produced.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">VCS Scripts Deprecated.
+SCR script files are no longer generated by this function.</p>
+</div>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span> <span class="c1"># Make a Canvas object to work with</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getprojection</span><span class="p">()</span> <span class="c1"># Get default projection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename.py&#39;</span><span class="p">)</span> <span class="c1"># Append to a Python script named &#39;filename.py&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="c1"># Create or overwrite a JSON file &#39;filename.json&#39;.</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>script_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Output name of the script file. If no extension is specified, a .json object is created.</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Either &#8216;w&#8217; for replace, or &#8216;a&#8217; for append. Defaults to &#8216;a&#8217;, if not specified.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/uvcdat.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="animate_helper.html"
+                        title="previous chapter">animate_helper</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="colormap.html"
+                        title="next chapter">colormap</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/vcs/misc/projection.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="colormap.html" title="colormap"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="animate_helper.html" title="animate_helper"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">VCS 2.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../vcs.html" >VCS</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="misc.html" >Miscellaneous Modules</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, LLNL.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
