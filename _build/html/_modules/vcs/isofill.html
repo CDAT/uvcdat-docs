@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -273,8 +275,7 @@
 <span class="s2">                iso.yaxisconvert=&#39;linear&#39;</span>
 <span class="s2">                # Will set them both</span>
 <span class="s2">                iso.xyscale(&#39;linear&#39;, &#39;area_wt&#39;)</span>
-<span class="s2">                # Color index value range 0 to 255</span>
-<span class="s2">                iso.missing=241</span>
+<span class="s2">                iso.missing=&#39;black&#39;</span>
 <span class="s2">                iso.legend=None</span>
 <span class="s2">                ext_1=&#39;n&#39;</span>
 <span class="s2">                ext_2=&#39;y&#39;</span>
@@ -351,14 +352,15 @@
 <span class="s2">                    # change style</span>
 <span class="s2">                    fill.style=&#39;hatch&#39;</span>
 <span class="s2">                    # change color</span>
-<span class="s2">                    fill.color=241</span>
+<span class="s2">                    fill.color=&#39;black&#39;</span>
 <span class="s2">                    # change style index</span>
 <span class="s2">                    fill.index=3</span>
 
 <span class="s2">    .. describe:: Attribute descriptions:</span>
 
 <span class="s2">        </span><span class="si">%s</span><span class="s2"></span>
-<span class="s2">        </span><span class="si">%s</span><span class="s2">&quot;&quot;&quot;</span><span class="o">%</span> <span class="p">(</span><span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">isofill_doc</span><span class="p">)</span>
+<span class="s2">        </span><span class="si">%s</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">isofill_doc</span><span class="p">)</span>
+
     <span class="n">colormap</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">colormap</span>
     <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span>
@@ -467,10 +469,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span>
 
     <span class="k">def</span> <span class="nf">_setyaxisconvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span>
-            <span class="n">value</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkAxisConvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="n">value</span>
     <span class="n">yaxisconvert</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getyaxisconvert</span><span class="p">,</span> <span class="n">_setyaxisconvert</span><span class="p">)</span>
 
@@ -682,7 +681,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="mf">1.e20</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="mi">241</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ext_1</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ext_2</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;solid&#39;</span>
@@ -980,7 +979,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/globe.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" /> 
   </head>
@@ -113,8 +115,9 @@
 <span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># noqa</span>
 <span class="kn">from</span> <span class="nn">manageElements</span> <span class="k">import</span> <span class="o">*</span>  <span class="c1"># noqa</span>
 <span class="kn">import</span> <span class="nn">collections</span>  <span class="c1"># noqa</span>
+<span class="kn">import</span> <span class="nn">testing</span>  <span class="c1"># noqa</span>
 
-<span class="n">_colorMap</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
+<span class="n">_colorMap</span> <span class="o">=</span> <span class="s2">&quot;viridis&quot;</span>
 
 <span class="n">_default_time_units</span> <span class="o">=</span> <span class="s1">&#39;days since 2000&#39;</span>
 
@@ -188,8 +191,7 @@
 <span class="n">dic</span><span class="p">[</span><span class="mi">90</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;90N&quot;</span>
 <span class="n">elements</span><span class="p">[</span><span class="s2">&quot;list&quot;</span><span class="p">][</span><span class="s2">&quot;Lat20&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dic</span>
 
-<span class="n">d</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">getdotdirectory</span><span class="p">()</span>
-<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="k">for</span> <span class="n">nm</span><span class="p">,</span> <span class="n">fnt</span> <span class="ow">in</span> <span class="p">[</span>
     <span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;AvantGarde-Book_Bold.ttf&quot;</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">&quot;Clarendon&quot;</span><span class="p">,</span> <span class="s2">&quot;Clarendon.ttf&quot;</span><span class="p">),</span>
@@ -208,15 +210,15 @@
     <span class="p">(</span><span class="s2">&quot;Maths4&quot;</span><span class="p">,</span> <span class="s2">&quot;blsy.ttf&quot;</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">&quot;AvantGarde&quot;</span><span class="p">,</span> <span class="s2">&quot;AvantGarde-Book_Bold.ttf&quot;</span><span class="p">),</span>
 <span class="p">]:</span>
-    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">pth</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="n">d</span><span class="p">,</span> <span class="n">fnt</span><span class="p">)</span>
-    <span class="n">pthe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">fnt</span><span class="p">)</span>
+    <span class="n">pth</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span>
+        <span class="s2">&quot;share&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;vcs&quot;</span><span class="p">,</span>
+        <span class="n">fnt</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pth</span><span class="p">):</span>
         <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;font&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">pth</span>
         <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;fontNumber&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nm</span>
-    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pthe</span><span class="p">):</span>
-        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;font&quot;</span><span class="p">][</span><span class="n">nm</span><span class="p">]</span> <span class="o">=</span> <span class="n">pthe</span>
-        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;fontNumber&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">nm</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
 <span class="n">p</span> <span class="o">=</span> <span class="n">projection</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">projection</span><span class="o">.</span><span class="n">Proj</span><span class="p">(</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
@@ -389,7 +391,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="Miscellaneous Modules" href="misc.html" />
     <link rel="next" title="queries" href="queries.html" />
@@ -383,7 +385,7 @@ names must be unique.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the fillarea will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -621,11 +623,11 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the line will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
-<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates into 2D coordinates.</li>
+<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates to 2D coordinates.</li>
 </ul>
 </td>
 </tr>
@@ -678,7 +680,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the marker will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -996,7 +998,8 @@ names must be unique.</p>
 <li><strong>Tt_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of created object</li>
 <li><strong>Tt_source</strong> (<em>str or vcs.texttable.Tt</em>) &#8211; Texttable object to inherit from. Can be a texttable, or a string name of a texttable.</li>
 <li><strong>To_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of the textcombined&#8217;s text orientation  (to be created)</li>
-<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit. Can be a textorientation, or a string name of a textorientation.</li>
+<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit.
+Can be a textorientation, or a string name of a textorientation.</li>
 <li><strong>font</strong> (<em>int or str</em>) &#8211; Which font to use (index or name).</li>
 <li><strong>spacing</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>expansion</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
@@ -1004,7 +1007,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -1013,7 +1016,7 @@ or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,
 <li><strong>path</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>halign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Horizontal alignment of the text. One of [&#8220;left&#8221;, &#8220;center&#8221;, &#8220;right&#8221;].</li>
 <li><strong>valign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Vertical alignment of the text. One of [&#8220;top&#8221;, &#8220;center&#8221;, &#8220;botom&#8221;].</li>
-<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates into 2D coordinates.</li>
+<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates to 2D coordinates.</li>
 </ul>
 </td>
 </tr>
@@ -1059,7 +1062,8 @@ names must be unique.</p>
 <li><strong>Tt_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of created object</li>
 <li><strong>Tt_source</strong> (<em>str or vcs.texttable.Tt</em>) &#8211; Texttable object to inherit from. Can be a texttable, or a string name of a texttable.</li>
 <li><strong>To_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of the textcombined&#8217;s text orientation  (to be created)</li>
-<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit. Can be a textorientation, or a string name of a textorientation.</li>
+<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit.
+Can be a textorientation, or a string name of a textorientation.</li>
 <li><strong>font</strong> (<em>int or str</em>) &#8211; Which font to use (index or name).</li>
 <li><strong>spacing</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>expansion</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
@@ -1067,7 +1071,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -1076,7 +1080,7 @@ or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,
 <li><strong>path</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>halign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Horizontal alignment of the text. One of [&#8220;left&#8221;, &#8220;center&#8221;, &#8220;right&#8221;].</li>
 <li><strong>valign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Vertical alignment of the text. One of [&#8220;top&#8221;, &#8220;center&#8221;, &#8220;botom&#8221;].</li>
-<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates into 2D coordinates.</li>
+<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates to 2D coordinates.</li>
 </ul>
 </td>
 </tr>
@@ -1175,7 +1179,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the texttable will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -1792,7 +1796,7 @@ Accepts ints from 1-20.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the texttable will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2028,7 +2032,7 @@ different name can be modified. (See the <a class="reference internal" href="#vc
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the marker will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2083,7 +2087,7 @@ different name can be modified. (See the <a class="reference internal" href="#vc
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the marker will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2406,7 +2410,7 @@ different name can be modified. (See the <a class="reference internal" href="#vc
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2468,7 +2472,7 @@ different name can be modified. (See the <a class="reference internal" href="#vc
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2563,7 +2567,7 @@ different name can be modified. (See the <a class="reference internal" href="#vc
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the texttable will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2926,6 +2930,13 @@ object.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="vcs.manageElements.setLineAttributes">
+<code class="descclassname">vcs.manageElements.</code><code class="descname">setLineAttributes</code><span class="sig-paren">(</span><em>to</em>, <em>l</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/manageElements.html#setLineAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.manageElements.setLineAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes linecolor, linewidth and linetype from line l.
+l can be a line name defined in vcs.elements or a line object</p>
+</dd></dl>
+
 </div>
 
 
@@ -2986,7 +2997,7 @@ object.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

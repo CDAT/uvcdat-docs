@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/globe.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../index.html" />
     <link rel="up" title="VCS" href="vcs.html" />
     <link rel="next" title="Graphics Methods" href="graphics/gm.html" />
@@ -665,7 +667,7 @@ names must be unique.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the fillarea will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -903,11 +905,11 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the line will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
-<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates into 2D coordinates.</li>
+<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates to 2D coordinates.</li>
 </ul>
 </td>
 </tr>
@@ -960,7 +962,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the marker will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -1278,7 +1280,8 @@ names must be unique.</p>
 <li><strong>Tt_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of created object</li>
 <li><strong>Tt_source</strong> (<em>str or vcs.texttable.Tt</em>) &#8211; Texttable object to inherit from. Can be a texttable, or a string name of a texttable.</li>
 <li><strong>To_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of the textcombined&#8217;s text orientation  (to be created)</li>
-<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit. Can be a textorientation, or a string name of a textorientation.</li>
+<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit.
+Can be a textorientation, or a string name of a textorientation.</li>
 <li><strong>font</strong> (<em>int or str</em>) &#8211; Which font to use (index or name).</li>
 <li><strong>spacing</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>expansion</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
@@ -1286,7 +1289,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -1295,7 +1298,7 @@ or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,
 <li><strong>path</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>halign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Horizontal alignment of the text. One of [&#8220;left&#8221;, &#8220;center&#8221;, &#8220;right&#8221;].</li>
 <li><strong>valign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Vertical alignment of the text. One of [&#8220;top&#8221;, &#8220;center&#8221;, &#8220;botom&#8221;].</li>
-<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates into 2D coordinates.</li>
+<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates to 2D coordinates.</li>
 </ul>
 </td>
 </tr>
@@ -1341,7 +1344,8 @@ names must be unique.</p>
 <li><strong>Tt_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of created object</li>
 <li><strong>Tt_source</strong> (<em>str or vcs.texttable.Tt</em>) &#8211; Texttable object to inherit from. Can be a texttable, or a string name of a texttable.</li>
 <li><strong>To_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of the textcombined&#8217;s text orientation  (to be created)</li>
-<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit. Can be a textorientation, or a string name of a textorientation.</li>
+<li><strong>To_source</strong> (<em>str or vcs.textorientation.To</em>) &#8211; Name of the textorientation to inherit.
+Can be a textorientation, or a string name of a textorientation.</li>
 <li><strong>font</strong> (<em>int or str</em>) &#8211; Which font to use (index or name).</li>
 <li><strong>spacing</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>expansion</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
@@ -1349,7 +1353,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -1358,7 +1362,7 @@ or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,
 <li><strong>path</strong> (<em>DEPRECATED</em>) &#8211; DEPRECATED</li>
 <li><strong>halign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Horizontal alignment of the text. One of [&#8220;left&#8221;, &#8220;center&#8221;, &#8220;right&#8221;].</li>
 <li><strong>valign</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Vertical alignment of the text. One of [&#8220;top&#8221;, &#8220;center&#8221;, &#8220;botom&#8221;].</li>
-<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates into 2D coordinates.</li>
+<li><strong>projection</strong> (<em>str or projection object</em>) &#8211; Specify a geographic projection used to convert x/y from spherical coordinates to 2D coordinates.</li>
 </ul>
 </td>
 </tr>
@@ -1457,7 +1461,7 @@ names must be unique.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the texttable will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2028,7 +2032,8 @@ These specify the area that the X/Y values are mapped to inside of the canvas</l
 <span class="go">*******************Texttable Names List**********************</span>
 <span class="gp">...</span>
 <span class="go">*******************End Texttable Names List**********************</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tc</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">drawtextcombined</span><span class="p">(</span><span class="n">Tt_name</span> <span class="o">=</span> <span class="s1">&#39;std_example&#39;</span><span class="p">,</span> <span class="n">To_name</span><span class="o">=</span><span class="s1">&#39;7left_example&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Hello example!&#39;</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tc</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">drawtextcombined</span><span class="p">(</span><span class="n">Tt_name</span> <span class="o">=</span> <span class="s1">&#39;std_example&#39;</span><span class="p">,</span> <span class="n">To_name</span><span class="o">=</span><span class="s1">&#39;7left_example&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                  <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Hello example!&#39;</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="gp">... </span>                  <span class="n">color</span><span class="o">=</span><span class="mi">242</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">viewport</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
 <span class="gp">... </span>                  <span class="n">worldcoordinate</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span>
 <span class="gp">... </span>                  <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
@@ -2081,7 +2086,8 @@ False =&gt; object shown on canvas.</li>
 <span class="go">*******************Texttable Names List**********************</span>
 <span class="gp">...</span>
 <span class="go">*******************End Texttable Names List**********************</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tc</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">drawtextcombined</span><span class="p">(</span><span class="n">Tt_name</span> <span class="o">=</span> <span class="s1">&#39;std_example&#39;</span><span class="p">,</span> <span class="n">To_name</span><span class="o">=</span><span class="s1">&#39;7left_example&#39;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Hello example!&#39;</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tc</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">drawtextcombined</span><span class="p">(</span><span class="n">Tt_name</span> <span class="o">=</span> <span class="s1">&#39;std_example&#39;</span><span class="p">,</span> <span class="n">To_name</span><span class="o">=</span><span class="s1">&#39;7left_example&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                  <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Hello example!&#39;</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
 <span class="gp">... </span>                  <span class="n">color</span><span class="o">=</span><span class="mi">242</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">viewport</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
 <span class="gp">... </span>                  <span class="n">worldcoordinate</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">50</span><span class="p">],</span>
 <span class="gp">... </span>                  <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
@@ -2697,7 +2703,7 @@ Accepts ints from 1-20.</p>
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the texttable will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -2998,7 +3004,7 @@ different name can be modified. (See the <a class="reference internal" href="mis
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the marker will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -3053,7 +3059,7 @@ different name can be modified. (See the <a class="reference internal" href="mis
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the marker will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -3405,7 +3411,7 @@ different name can be modified. (See the <a class="reference internal" href="mis
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -3467,7 +3473,7 @@ different name can be modified. (See the <a class="reference internal" href="mis
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the object will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -3594,7 +3600,7 @@ different name can be modified. (See the <a class="reference internal" href="mis
 or an integer value from 0-255, or an RGB/RGBA tuple/list (e.g. (0,100,0), (100,100,0,50))</p>
 </li>
 <li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The layer on which the texttable will be drawn.</li>
-<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1. These specify the area that the X/Y values are mapped to inside of the canvas</li>
+<li><strong>viewport</strong> (<em>list of floats</em>) &#8211; 4 floats between 0 and 1 which specify the area that X/Y values are mapped to inside of the canvas.</li>
 <li><strong>worldcoordinate</strong> (<em>list of floats</em>) &#8211; List of 4 floats (xmin, xmax, ymin, ymax)</li>
 <li><strong>x</strong> (<em>list of floats</em>) &#8211; List of lists of x coordinates. Values must be between worldcoordinate[0] and worldcoordinate[1].</li>
 <li><strong>y</strong> (<em>list of floats</em>) &#8211; List of lists of y coordinates. Values must be between worldcoordinate[2] and worldcoordinate[3].</li>
@@ -4594,7 +4600,8 @@ popup the VCS Canvas for viewing. It can be used to display the VCS Canvas.</p>
 <li><strong>file</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Desired string name of the output file</li>
 <li><strong>width</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Integer specifying the desired width of the output, measured in the chosen units</li>
 <li><strong>height</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Integer specifying the desired height of the output, measured in the chosen units</li>
-<li><strong>units</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Must be one of [&#8216;inches&#8217;, &#8216;in&#8217;, &#8216;cm&#8217;, &#8216;mm&#8217;, &#8216;pixel&#8217;, &#8216;pixels&#8217;, &#8216;dot&#8217;, &#8216;dots&#8217;]. Default is &#8216;inches&#8217;.</li>
+<li><strong>units</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Must be one of [&#8216;inches&#8217;, &#8216;in&#8217;, &#8216;cm&#8217;, &#8216;mm&#8217;, &#8216;pixel&#8217;, &#8216;pixels&#8217;, &#8216;dot&#8217;, &#8216;dots&#8217;].
+Default is &#8216;inches&#8217;.</li>
 <li><strong>textAsPaths</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Specifies whether to render text objects as paths.</li>
 </ul>
 </td>
@@ -5054,6 +5061,49 @@ routine allows the user to convert a postscript file to a gif file.</p>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><p>???</p>
 </p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="vcs.Canvas.Canvas.put_png_on_canvas">
+<code class="descname">put_png_on_canvas</code><span class="sig-paren">(</span><em>filename</em>, <em>zoom=1</em>, <em>xOffset=0</em>, <em>yOffset=0</em>, <em>units='percent'</em>, <em>fitToHeight=True</em>, <em>*args</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vcs/Canvas.html#Canvas.put_png_on_canvas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.Canvas.Canvas.put_png_on_canvas" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Display a PNG file on the canvas</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>a=vcs.init()
+# Put a png on Canvas
+a.put_on_png_on_canvas(&#8220;path.png&#8221;,zoom=1, xOffset=0, yOffset=0, units=&#8221;percent&#8221;, fitToHeight=True)</p>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Input image filename</li>
+<li><strong>zoom</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; scale factor</li>
+<li><strong>xOffset</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Horizontal Offset</li>
+<li><strong>yOffset</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Vertical Offset</li>
+<li><strong>units</strong> &#8211; Offsets units percent or pixels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>:type units&#8221; str</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fitToHeight</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; fits the picture (before scaling) to the canvas full height, if False then use png original size</td>
 </tr>
 </tbody>
 </table>
@@ -6171,7 +6221,7 @@ then the &#8216;default&#8217; template is used.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

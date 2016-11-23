@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -2304,7 +2306,8 @@
 <span class="sd">                *******************Texttable Names List**********************</span>
 <span class="sd">                ...</span>
 <span class="sd">                *******************End Texttable Names List**********************</span>
-<span class="sd">                &gt;&gt;&gt; tc=a.drawtextcombined(Tt_name = &#39;std_example&#39;, To_name=&#39;7left_example&#39;, string=&#39;Hello example!&#39;, spacing=5,</span>
+<span class="sd">                &gt;&gt;&gt; tc=a.drawtextcombined(Tt_name = &#39;std_example&#39;, To_name=&#39;7left_example&#39;,</span>
+<span class="sd">                ...                   string=&#39;Hello example!&#39;, spacing=5,</span>
 <span class="sd">                ...                   color=242, priority=1, viewport=[0, 1.0, 0, 1.0],</span>
 <span class="sd">                ...                   worldcoordinate=[0,100, 0,50],</span>
 <span class="sd">                ...                   x=[0,20,40,60,80,100],</span>
@@ -4707,15 +4710,47 @@
         <span class="k">return</span></div>
     <span class="c1"># display ping</span>
 
-    <span class="k">def</span> <span class="nf">put_png_on_canvas</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xOffset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yOffset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Canvas.put_png_on_canvas"><a class="viewcode-back" href="../../vcs/Canvas.html#vcs.Canvas.Canvas.put_png_on_canvas">[docs]</a>    <span class="k">def</span> <span class="nf">put_png_on_canvas</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xOffset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">yOffset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">units</span><span class="o">=</span><span class="s2">&quot;percent&quot;</span><span class="p">,</span> <span class="n">fitToHeight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display a PNG file on the canvas</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">            ::</span>
+
+<span class="sd">        a=vcs.init()</span>
+<span class="sd">        # Put a png on Canvas</span>
+<span class="sd">        a.put_on_png_on_canvas(&quot;path.png&quot;,zoom=1, xOffset=0, yOffset=0, units=&quot;percent&quot;, fitToHeight=True)</span>
+
+<span class="sd">:param file: Input image filename</span>
+<span class="sd">:type file: str</span>
+
+<span class="sd">:param zoom: scale factor</span>
+<span class="sd">:type zoom: int</span>
+
+<span class="sd">:param xOffset: Horizontal Offset</span>
+<span class="sd">:type xOffset: float</span>
+
+<span class="sd">:param yOffset: Vertical Offset</span>
+<span class="sd">:type yOffset: float</span>
+
+<span class="sd">:param units: Offsets units percent or pixels</span>
+<span class="sd">:type units&quot; str</span>
+
+<span class="sd">:param fitToHeight: fits the picture (before scaling) to the canvas full height, if False then use png original size</span>
+<span class="sd">:type fitToHeight: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">put_png_on_canvas</span><span class="p">(</span>
             <span class="n">filename</span><span class="p">,</span>
             <span class="n">zoom</span><span class="p">,</span>
             <span class="n">xOffset</span><span class="p">,</span>
             <span class="n">yOffset</span><span class="p">,</span>
+            <span class="n">units</span><span class="p">,</span>
+            <span class="n">fitToHeight</span><span class="p">,</span>
             <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
+            <span class="o">**</span><span class="n">kargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Canvas.png"><a class="viewcode-back" href="../../vcs/Canvas.html#vcs.Canvas.Canvas.png">[docs]</a>    <span class="k">def</span> <span class="nf">png</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">draw_white_background</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
@@ -4791,7 +4826,8 @@
 <span class="sd">        :param height: Integer specifying the desired height of the output, measured in the chosen units</span>
 <span class="sd">        :type height: int</span>
 
-<span class="sd">        :param units: Must be one of [&#39;inches&#39;, &#39;in&#39;, &#39;cm&#39;, &#39;mm&#39;, &#39;pixel&#39;, &#39;pixels&#39;, &#39;dot&#39;, &#39;dots&#39;]. Default is &#39;inches&#39;.</span>
+<span class="sd">        :param units: Must be one of [&#39;inches&#39;, &#39;in&#39;, &#39;cm&#39;, &#39;mm&#39;, &#39;pixel&#39;, &#39;pixels&#39;, &#39;dot&#39;, &#39;dots&#39;].</span>
+<span class="sd">                      Default is &#39;inches&#39;.</span>
 <span class="sd">        :type units: str</span>
 
 <span class="sd">        :param textAsPaths: Specifies whether to render text objects as paths.</span>
@@ -5036,7 +5072,6 @@
             <span class="n">H</span> <span class="o">=</span> <span class="n">tmp</span>
         <span class="k">return</span> <span class="n">W</span><span class="p">,</span> <span class="n">H</span>
 
-
 <div class="viewcode-block" id="Canvas.postscript"><a class="viewcode-back" href="../../vcs/Canvas.html#vcs.Canvas.Canvas.postscript">[docs]</a>    <span class="k">def</span> <span class="nf">postscript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;inches&#39;</span><span class="p">,</span> <span class="n">textAsPaths</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Postscript output is another form of vector graphics. It is larger than its CGM output</span>
@@ -5150,6 +5185,7 @@
         <span class="c1">#   updateVCSsegments_flag = args[1]</span>
         <span class="c1"># except:</span>
         <span class="c1">#   updateVCSsegments_flag = 1</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="k">return</span></div>
@@ -5639,7 +5675,9 @@
             <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span>
                 <span class="s2">&quot;Error you must pass either a number or font name!, you passed for font 2: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
                 <span class="n">font2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">switchfontnumbers</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">))</span></div>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s1">&#39;fontNumber&#39;</span><span class="p">][</span><span class="n">index1</span><span class="p">]</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s1">&#39;fontNumber&#39;</span><span class="p">][</span><span class="n">index1</span><span class="p">]</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s1">&#39;fontNumber&#39;</span><span class="p">][</span><span class="n">index2</span><span class="p">]</span>
+        <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s1">&#39;fontNumber&#39;</span><span class="p">][</span><span class="n">index2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span></div>
 
 <div class="viewcode-block" id="Canvas.copyfontto"><a class="viewcode-back" href="../../vcs/Canvas.html#vcs.Canvas.Canvas.copyfontto">[docs]</a>    <span class="k">def</span> <span class="nf">copyfontto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">font1</span><span class="p">,</span> <span class="n">font2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -5771,7 +5809,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

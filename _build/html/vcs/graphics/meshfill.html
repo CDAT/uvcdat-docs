@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="Graphics Methods" href="gm.html" />
     <link rel="next" title="taylor" href="taylor.html" />
@@ -70,49 +72,43 @@ meshfill table entry.</p>
 <dl class="describe">
 <dt>
 <code class="descname">Useful Functions:</code></dt>
-<dd><div class="highlight-python"><div class="highlight"><pre><span></span>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># VCS Canvas Constructor</span>
+<span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="c1"># Show predefined meshfill graphics methods</span>
+<span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;meshfill&#39;</span><span class="p">)</span>
+<span class="c1"># Change the VCS color map</span>
+<span class="n">a</span><span class="o">.</span><span class="n">setcolormap</span><span class="p">(</span><span class="s2">&quot;AMIP&quot;</span><span class="p">)</span>
+<span class="c1"># Plot data &#39;s&#39; with meshfill &#39;b&#39; and &#39;default&#39; template</span>
+<span class="n">a</span><span class="o">.</span><span class="n">meshfill</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="c1"># Updates the VCS Canvas at user&#39;s request</span>
+<span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 </pre></div>
 </div>
-<p># VCS Canvas Constructor
-a=vcs.init()
-# Show predefined meshfill graphics methods
-a.show(&#8216;meshfill&#8217;)
-# Change the VCS color map
-a.setcolormap(&#8220;AMIP&#8221;)
-# Plot data &#8216;s&#8217; with meshfill &#8216;b&#8217; and &#8216;default&#8217; template
-a.meshfill(s,b,&#8217;default&#8217;)
-# Updates the VCS Canvas at user&#8217;s request
-a.update()</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <code class="descname">Create a new instance of meshfill:</code></dt>
-<dd><div class="highlight-python"><div class="highlight"><pre><span></span>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="n">mesh</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createmeshfill</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">,</span><span class="s1">&#39;quick&#39;</span><span class="p">)</span>
+<span class="c1"># Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="n">mesh</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">createmeshfill</span><span class="p">(</span><span class="s1">&#39;new&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p># Copies content of &#8216;quick&#8217; to &#8216;new&#8217;
-mesh=a.createmeshfill(&#8216;new&#8217;,&#8217;quick&#8217;)
-# Copies content of &#8216;default&#8217; to &#8216;new&#8217;
-mesh=a.createmeshfill(&#8216;new&#8217;)</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <code class="descname">Modify an existing meshfill:</code></dt>
-<dd><div class="highlight-python"><div class="highlight"><pre><span></span>
+<dd><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getmeshfill</span><span class="p">(</span><span class="s1">&#39;AMIP_psl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>mesh=a.getmeshfill(&#8216;AMIP_psl&#8217;)</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
 <code class="descname">Overview of meshfill object attributes:</code></dt>
-<dd><div class="highlight-python"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<ul>
+<dd><ul>
 <li><p class="first">List all the meshfill attribute values</p>
 <blockquote>
 <div><div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">mesh</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
@@ -389,7 +385,7 @@ indicating first and last value of the range.</p>
 </dd></dl>
 
 <p>mesh :: (str/int) (0) Draws the mesh
-wrap :: ([float,float]) ([0.,0.]) Modulo to wrap around on either axis (automatically sets to 360 for longitude axes)</p>
+wrap :: ([float,float]) ([0.,0.]) Modulo to wrap around on either axis (automatically set to 360 for longitude axes)</p>
 <dl class="method">
 <dt id="vcs.meshfill.Gfm.colors">
 <code class="descname">colors</code><span class="sig-paren">(</span><em>color1=16</em>, <em>color2=239</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/meshfill.html#Gfm.colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.meshfill.Gfm.colors" title="Permalink to this definition">¶</a></dt>
@@ -428,6 +424,18 @@ wrap :: ([float,float]) ([0.,0.]) Modulo to wrap around on either axis (automati
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt>
+<code class="descname">ext_1</code></dt>
+<dd><p>Turns on extensions arrows for values before the first level</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">ext_2</code></dt>
+<dd><p>Turns on extensions arrows for values after the last level</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="vcs.meshfill.Gfm.exts">
 <code class="descname">exts</code><span class="sig-paren">(</span><em>ext1='n'</em>, <em>ext2='y'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vcs/meshfill.html#Gfm.exts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#vcs.meshfill.Gfm.exts" title="Permalink to this definition">¶</a></dt>
@@ -444,6 +452,12 @@ wrap :: ([float,float]) ([0.,0.]) Modulo to wrap around on either axis (automati
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">levels</code></dt>
+<dd><p>Sets the levels on a graphic method, optionally turns on/off extensions arrows</p>
 </dd></dl>
 
 <dl class="method">
@@ -519,8 +533,10 @@ SCR script files are no longer generated by this function.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>xtl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.xticlabels1" title="vcs.meshfill.Gfm.xticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels1</span></code></a>. Must be  a str, or a dictionary object with float:str mappings.</li>
-<li><strong>xtl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.xticlabels2" title="vcs.meshfill.Gfm.xticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+<li><strong>xtl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.xticlabels1" title="vcs.meshfill.Gfm.xticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels1</span></code></a>.
+Must be  a str, or a dictionary object with float:str mappings.</li>
+<li><strong>xtl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.xticlabels2" title="vcs.meshfill.Gfm.xticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">xticlabels2</span></code></a>.
+Must be a str, or a dictionary object with float:str mappings.</li>
 </ul>
 </td>
 </tr>
@@ -580,8 +596,10 @@ SCR script files are no longer generated by this function.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ytl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.yticlabels1" title="vcs.meshfill.Gfm.yticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels1</span></code></a>. Must be  a str, or a dictionary object with float:str mappings.</li>
-<li><strong>ytl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.yticlabels2" title="vcs.meshfill.Gfm.yticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels2</span></code></a>. Must be a str, or a dictionary object with float:str mappings.</li>
+<li><strong>ytl1</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.yticlabels1" title="vcs.meshfill.Gfm.yticlabels1"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels1</span></code></a>.
+Must be  a str, or a dictionary object with float:str mappings.</li>
+<li><strong>ytl2</strong> (<em>{float:str} or str</em>) &#8211; Sets the object&#8217;s value for <a class="reference internal" href="#vcs.meshfill.Gfm.yticlabels2" title="vcs.meshfill.Gfm.yticlabels2"><code class="xref py py-attr docutils literal"><span class="pre">yticlabels2</span></code></a>.
+Must be a str, or a dictionary object with float:str mappings.</li>
 </ul>
 </td>
 </tr>
@@ -651,7 +669,7 @@ SCR script files are no longer generated by this function.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

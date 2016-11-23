@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -119,6 +121,7 @@
     <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">j</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span>
         <span class="n">f</span><span class="o">.</span><span class="n">projection</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">11</span><span class="p">:</span><span class="n">j</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="Tl"><a class="viewcode-back" href="../../vcs/secondary/line.html#vcs.line.Tl">[docs]</a><span class="k">class</span> <span class="nc">Tl</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
@@ -261,9 +264,9 @@
     <span class="k">def</span> <span class="nf">_settype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">,</span> <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLinesList</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLineTypeList</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="s1">&#39;index&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">,</span>
             <span class="n">value</span><span class="p">)</span>
 
     <span class="nb">type</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_gettype</span><span class="p">,</span> <span class="n">_settype</span><span class="p">)</span>
@@ -403,7 +406,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;solid&#39;</span><span class="p">,</span> <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_projection</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_width</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_color</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_color</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">],</span> <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_priority</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_viewport</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_worldcoordinate</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
@@ -568,7 +571,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

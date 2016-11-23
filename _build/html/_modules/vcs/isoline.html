@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -217,9 +219,9 @@
             <span class="n">iid</span> <span class="o">=</span> <span class="n">scode</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;(id=&quot;</span><span class="p">)</span>
     <span class="n">g</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="n">levs</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">g</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">tl</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">g</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="n">tl</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">setLineAttributes</span><span class="p">(</span><span class="n">tl</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">g</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">to</span>
     <span class="k">except</span><span class="p">:</span>
@@ -488,7 +490,7 @@
         <span class="s1">&#39;labelbackgroundcolors&#39;</span><span class="p">,</span>
         <span class="s1">&#39;labelbackgroundopacities&#39;</span><span class="p">,</span>
         <span class="s1">&#39;linecolors&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;linetypes&#39;</span><span class="p">,</span>
         <span class="s1">&#39;linewidths&#39;</span><span class="p">,</span>
         <span class="s1">&#39;text&#39;</span><span class="p">,</span>
         <span class="s1">&#39;textcolors&#39;</span><span class="p">,</span>
@@ -520,7 +522,7 @@
         <span class="s1">&#39;_labelbackgroundcolors&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_labelbackgroundopacities&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_linecolors&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;_line&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_linetypes&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_linewidths&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_text&#39;</span><span class="p">,</span>
         <span class="s1">&#39;_textcolors&#39;</span><span class="p">,</span>
@@ -767,28 +769,70 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_linecolors</span> <span class="o">=</span> <span class="n">value</span>
     <span class="n">linecolors</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlinecolors</span><span class="p">,</span> <span class="n">_setlinecolors</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_getlinetypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linetypes</span>
+
+    <span class="k">def</span> <span class="nf">_setlinetypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLineTypeList</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;linetypes&#39;</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_linetypes</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="n">linetypes</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getlinetypes</span><span class="p">,</span> <span class="n">_setlinetypes</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_getline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span>
+        <span class="nb">print</span> <span class="s1">&#39;DEPRECATED: Use linetypes or setLineAttributes instead.&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linetypes</span>
 
     <span class="k">def</span> <span class="nf">_setline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">value</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">wvalue</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLinesList</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span>
-                <span class="s1">&#39;line&#39;</span><span class="p">,</span>
-                <span class="n">value</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cvalue</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span> <span class="o">=</span> <span class="n">cvalue</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">wvalue</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span> <span class="o">=</span> <span class="n">wvalue</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="nb">print</span> <span class="s1">&#39;DEPRECATED: Use linetypes or setLineAttributes instead.&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setLineAttributes</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="n">line</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getline</span><span class="p">,</span> <span class="n">_setline</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Gi.setLineAttributes"><a class="viewcode-back" href="../../vcs/graphics/isoline.html#vcs.isoline.Gi.setLineAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">setLineAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixed</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Add either a (linetype, 1, 1) or (linetype, linecolor, linewidth)</span>
+<span class="sd">        based on if mixed[i] is a linetype or a line object name.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="kn">import</span> <span class="nn">queries</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">widths</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mixed</span><span class="p">):</span>
+            <span class="c1"># first try a line type</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">lineType</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">checkLineType</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;invalid&#39;</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+                <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lineType</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="c1"># then try a line object or a line object name</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">queries</span><span class="o">.</span><span class="n">isline</span><span class="p">(</span><span class="n">l</span><span class="p">)):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">basestring</span><span class="p">)</span> <span class="ow">and</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">]):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">][</span><span class="n">l</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expecting a line object or &quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;a line name defined in in &quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;vcs.elements, got type </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">type</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">widths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">width</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linetypes</span> <span class="o">=</span> <span class="n">types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span> <span class="o">=</span> <span class="n">colors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span> <span class="o">=</span> <span class="n">widths</span></div>
 
     <span class="k">def</span> <span class="nf">_gettext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span>
@@ -948,8 +992,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="mf">1.e20</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;solid&#39;</span><span class="p">,</span> <span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_linecolors</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_linetypes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;solid&#39;</span><span class="p">,</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_linecolors</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">),</span> <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_linewidths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_textcolors</span> <span class="o">=</span> <span class="kc">None</span>
@@ -976,7 +1020,7 @@
             <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;colormap&#39;</span><span class="p">,</span> <span class="s1">&#39;projection&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;xticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;xmtics2&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;yticlabels1&#39;</span><span class="p">,</span> <span class="s1">&#39;yticlabels2&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics1&#39;</span><span class="p">,</span> <span class="s1">&#39;ymtics2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y1&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_y2&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_x1&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;datawc_x2&#39;</span><span class="p">,</span> <span class="s1">&#39;xaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;yaxisconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;datawc_timeunits&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="s2">&quot;linecolors&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidths&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;textcolors&quot;</span><span class="p">,</span>
+                        <span class="s1">&#39;datawc_calendar&#39;</span><span class="p">,</span> <span class="s2">&quot;linetypes&quot;</span><span class="p">,</span> <span class="s2">&quot;linecolors&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidths&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;textcolors&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;clockwise&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;angle&quot;</span><span class="p">,</span> <span class="s2">&quot;spacing&quot;</span><span class="p">,</span> <span class="s2">&quot;labelskipdistance&quot;</span><span class="p">,</span> <span class="s2">&quot;labelbackgroundcolors&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;labelbackgroundopacities&quot;</span><span class="p">]:</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
@@ -1046,7 +1090,7 @@
         <span class="nb">print</span> <span class="s2">&quot;labelskipdistance = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelskipdistance</span>
         <span class="nb">print</span> <span class="s2">&quot;labelbackgroundcolors = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundcolors</span>
         <span class="nb">print</span> <span class="s2">&quot;labelbackgroundopacities = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundopacities</span>
-        <span class="nb">print</span> <span class="s2">&quot;line = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span>
+        <span class="nb">print</span> <span class="s2">&quot;linetypes = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linetypes</span>
         <span class="nb">print</span> <span class="s2">&quot;linecolors = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span>
         <span class="nb">print</span> <span class="s2">&quot;linewidths = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span>
         <span class="nb">print</span> <span class="s2">&quot;text = &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
@@ -1175,7 +1219,7 @@
                      <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundcolors</span><span class="p">))</span>
             <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.labelbackgroundopacities = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>
                      <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labelbackgroundopacities</span><span class="p">))</span>
-            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.line = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">))</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linetypes = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linetypes</span><span class="p">))</span>
             <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linecolors = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linecolors</span><span class="p">))</span>
             <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.linewidths = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linewidths</span><span class="p">))</span>
             <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">.text = </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">unique_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
@@ -1241,7 +1285,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

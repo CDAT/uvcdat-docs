@@ -34,32 +34,45 @@ extensions = [
 doctest_path = sys.path
 
 doctest_global_setup = """
-import vcs
-import cdms2
+import vcs, cdms2
 ex = ex1 = ex2 = None
 __examples = [ex, ex1, ex2]
 # Copy vcs.elements so we can do a diff later.
-elts = dict(vcs.elements)
-for key in elts.keys():
-    elts[key] = dict(vcs.elements[key])
+elts = {}
+for key in vcs.elements.keys():
+    if type(vcs.elements[key]) == 'dict':
+        elts[key]=dict(vcs.elements[key])
+    else:
+        elts[key]=vcs.elements[key]
     """
 
 doctest_global_cleanup = """
-if(ex is not None):
-    if(vcs.istextcombined(ex)):
-        vcs.removeobject(ex.To)
-        vcs.removeobject(ex.Tt)
-        del(vcs.elements["textcombined"][ex.name])
+import os, glob
+gb = glob.glob
+patterns = ["example.*", "*.json", "*.svg", "ex_*"]
+files = []
+for pattern in patterns:
+    files.append(gb(pattern))
+for file in files:
+    try:
+        os.remove(file)
+    except:
+        continue
+for example in __examples:
+    if(example is not None):
+        if(vcs.istextcombined(example)):
+            vcs.removeobject(example.To)
+            vcs.removeobject(example.Tt)
+            del(vcs.elements["textcombined"][example.name])
 for key in vcs.elements.keys():
     for _ in vcs.elements[key].keys():
         try:
             elts[key][_]
         except:
-            stmt = "vcs.removeobject(vcs.get%s('%s'))" % (key,_)
             try:
-                exec(stmt)
+                vcs.removeobject(vcs.elements[key][_])
             except:
-                continue
+                print ("COULD NOT REMOVE: vcs.elements["+str(key)+"]["+str(_)+"]")
 """
 
 # Add any paths that contain templates here, relative to this directory.
@@ -158,12 +171,12 @@ html_theme_options = { "stickysidebar" : "true" }
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = 'uvcdat.png'
+html_logo = 'img/uvcdat.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = 'globe.png'
+html_favicon = 'img/globe.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -156,8 +158,8 @@
 <span class="sd">            &gt;&gt;&gt; vcs.graphicsmethodlist() # Return graphics method list</span>
 <span class="sd">            [...]</span>
 
-<span class="sd">    :returns: A list of available grapics methods (i.e., boxfill, isofill, isoline, outfill,</span>
-<span class="sd">              scatter, vector, xvsy, xyvsy, yxvsx, taylordiagram ).</span>
+<span class="sd">    :returns: A list of available grapics methods (i.e., &#39;boxfill&#39;, &#39;isofill&#39;, &#39;isoline&#39;, &#39;meshfill&#39;, &#39;scatter&#39;,</span>
+<span class="sd">            &#39;vector&#39;, &#39;xvsy&#39;, &#39;xyvsy&#39;, &#39;yxvsx&#39;, &#39;taylordiagram&#39;, &#39;1d&#39;, &#39;3d_scalar&#39;, &#39;3d_dual_scalar&#39;, &#39;3d_vector&#39;).</span>
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;boxfill&#39;</span><span class="p">,</span> <span class="s1">&#39;isofill&#39;</span><span class="p">,</span> <span class="s1">&#39;isoline&#39;</span><span class="p">,</span> <span class="s1">&#39;meshfill&#39;</span><span class="p">,</span> <span class="s1">&#39;scatter&#39;</span><span class="p">,</span>
@@ -177,7 +179,7 @@
 <span class="sd">            &gt;&gt;&gt; a=vcs.init()</span>
 <span class="sd">            &gt;&gt;&gt; box=a.getboxfill() # Get default boxfill graphics method</span>
 <span class="sd">            &gt;&gt;&gt; iso=a.getisofill() # Get default isofill graphics method</span>
-<span class="sd">            &gt;&gt;&gt; ln=a.getline()# Get default line element</span>
+<span class="sd">            &gt;&gt;&gt; ln=a.getline() # Get default line element</span>
 <span class="sd">            &gt;&gt;&gt; vcs.graphicsmethodtype(box)</span>
 <span class="sd">            &#39;boxfill&#39;</span>
 <span class="sd">            &gt;&gt;&gt; vcs.graphicsmethodtype(iso)</span>
@@ -187,10 +189,11 @@
 <span class="sd">            ...</span>
 <span class="sd">            vcsError: The object passed is not a graphics method object.</span>
 
-<span class="sd">        :returns: If gobj is a graphics method object, returns its type: &#39;boxfill&#39;, &#39;isofill&#39;, &#39;isoline&#39;,</span>
-<span class="sd">                  &#39;scatter&#39;, &#39;vector&#39;, &#39;xvsy&#39;, &#39;xyvsy&#39;, or &#39;yxvsx&#39;, &#39;taylordiagram&#39;.</span>
-<span class="sd">                  If gobj is not a graphics method object, raises an exception and prints a vcsError message.</span>
-<span class="sd">        :rtype: str or None</span>
+<span class="sd">    :returns: If gobj is a graphics method object, returns its type: &#39;boxfill&#39;, &#39;isofill&#39;, &#39;isoline&#39;, &#39;meshfill&#39;,</span>
+<span class="sd">            &#39;scatter&#39;, &#39;vector&#39;, &#39;xvsy&#39;, &#39;xyvsy&#39;, &#39;yxvsx&#39;, &#39;taylordiagram&#39;, &#39;1d&#39;, &#39;3d_scalar&#39;, &#39;3d_dual_scalar&#39;,</span>
+<span class="sd">            &#39;3d_vector&#39;.</span>
+<span class="sd">            If gobj is not a graphics method object, raises an exception and prints a vcsError message.</span>
+<span class="sd">    :rtype: str or None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">vcsaddons</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">gobj</span><span class="p">,</span> <span class="n">boxfill</span><span class="o">.</span><span class="n">Gfb</span><span class="p">)):</span>
@@ -218,6 +221,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">vcsError</span><span class="p">(</span><span class="s1">&#39;The object passed is not a graphics method object.&#39;</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="isplot"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isplot">[docs]</a><span class="k">def</span> <span class="nf">isplot</span><span class="p">(</span><span class="n">pobj</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check to see if this object is a VCS secondary display plot.</span>
@@ -244,6 +248,7 @@
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
+
 
 <div class="viewcode-block" id="iscolormap"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.iscolormap">[docs]</a><span class="k">def</span> <span class="nf">iscolormap</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vcs</span><span class="o">.</span><span class="n">colormap</span><span class="o">.</span><span class="n">Cp</span><span class="p">)):</span>
@@ -287,10 +292,10 @@
 <span class="sd">        .. doctest:: queries_issecondary</span>
 
 <span class="sd">            &gt;&gt;&gt; a=vcs.init()</span>
-<span class="sd">            &gt;&gt;&gt; a.show(&#39;line&#39;) # Show all available lines</span>
-<span class="sd">            *******************Line Names List**********************</span>
+<span class="sd">            &gt;&gt;&gt; a.show(&#39;projection&#39;) # Show all available projections</span>
+<span class="sd">            *******************Projection Names List**********************</span>
 <span class="sd">            ...</span>
-<span class="sd">            *******************End Line Names List**********************</span>
+<span class="sd">            *******************End Projection Names List**********************</span>
 <span class="sd">            &gt;&gt;&gt; ex = a.getprojection(&#39;default&#39;) # To test an existing line object</span>
 <span class="sd">            &gt;&gt;&gt; vcs.issecondaryobject(ex)</span>
 <span class="sd">            1</span>
@@ -322,12 +327,14 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 
+
 <div class="viewcode-block" id="isprojection"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isprojection">[docs]</a><span class="k">def</span> <span class="nf">isprojection</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">projection</span><span class="o">.</span><span class="n">Proj</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isprojection</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;projection&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="istaylordiagram"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.istaylordiagram">[docs]</a><span class="k">def</span> <span class="nf">istaylordiagram</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">taylor</span><span class="o">.</span><span class="n">Gtd</span><span class="p">)):</span>
@@ -336,12 +343,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">istaylordiagram</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;taylordiagram&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="ismeshfill"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.ismeshfill">[docs]</a><span class="k">def</span> <span class="nf">ismeshfill</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">meshfill</span><span class="o">.</span><span class="n">Gfm</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">ismeshfill</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;meshfill&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="isboxfill"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isboxfill">[docs]</a><span class="k">def</span> <span class="nf">isboxfill</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">boxfill</span><span class="o">.</span><span class="n">Gfb</span><span class="p">)):</span>
@@ -350,12 +359,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isboxfill</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;boxfill&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="is3d_scalar"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.is3d_scalar">[docs]</a><span class="k">def</span> <span class="nf">is3d_scalar</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">dv3d</span><span class="o">.</span><span class="n">Gf3Dscalar</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">dv3d</span><span class="o">.</span><span class="n">Gf3DDualScalar</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">is3d_scalar</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;3d_scalar&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="is3d_dual_scalar"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.is3d_dual_scalar">[docs]</a><span class="k">def</span> <span class="nf">is3d_dual_scalar</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">dv3d</span><span class="o">.</span><span class="n">Gf3DDualScalar</span><span class="p">):</span>
@@ -364,12 +375,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">is3d_dual_scalar</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;3d_dual_scalar&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="is3d_vector"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.is3d_vector">[docs]</a><span class="k">def</span> <span class="nf">is3d_vector</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">dv3d</span><span class="o">.</span><span class="n">Gf3Dvector</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">is3d_vector</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;3d_vector&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="isisofill"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isisofill">[docs]</a><span class="k">def</span> <span class="nf">isisofill</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">isofill</span><span class="o">.</span><span class="n">Gfi</span><span class="p">)):</span>
@@ -378,12 +391,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isisofill</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;isofill&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="isisoline"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isisoline">[docs]</a><span class="k">def</span> <span class="nf">isisoline</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">isoline</span><span class="o">.</span><span class="n">Gi</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isisoline</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;isoline&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="isscatter"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isscatter">[docs]</a><span class="k">def</span> <span class="nf">isscatter</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unified1D</span><span class="o">.</span><span class="n">G1d</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">g_type</span> <span class="o">==</span> <span class="s2">&quot;scatter&quot;</span><span class="p">:</span>
@@ -392,12 +407,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isscatter</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;scatter&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="isxyvsy"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isxyvsy">[docs]</a><span class="k">def</span> <span class="nf">isxyvsy</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unified1D</span><span class="o">.</span><span class="n">G1d</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">g_type</span> <span class="o">==</span> <span class="s2">&quot;xyvsy&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isxyvsy</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;xyvsy&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="isyxvsx"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isyxvsx">[docs]</a><span class="k">def</span> <span class="nf">isyxvsx</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unified1D</span><span class="o">.</span><span class="n">G1d</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">g_type</span> <span class="o">==</span> <span class="s2">&quot;yxvsx&quot;</span><span class="p">:</span>
@@ -406,12 +423,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isyxvsx</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;yxvsx&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="isxvsy"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isxvsy">[docs]</a><span class="k">def</span> <span class="nf">isxvsy</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unified1D</span><span class="o">.</span><span class="n">G1d</span><span class="p">))</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">g_type</span> <span class="o">==</span> <span class="s2">&quot;yxvsx&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isxvsy</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;xvsy&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="is1d"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.is1d">[docs]</a><span class="k">def</span> <span class="nf">is1d</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unified1D</span><span class="o">.</span><span class="n">G1d</span><span class="p">)):</span>
@@ -420,12 +439,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">is1d</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;1d&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="isvector"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isvector">[docs]</a><span class="k">def</span> <span class="nf">isvector</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vector</span><span class="o">.</span><span class="n">Gv</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isvector</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;1d&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="isline"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isline">[docs]</a><span class="k">def</span> <span class="nf">isline</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">Tl</span><span class="p">)):</span>
@@ -434,12 +455,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isline</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;line&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="ismarker"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.ismarker">[docs]</a><span class="k">def</span> <span class="nf">ismarker</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">marker</span><span class="o">.</span><span class="n">Tm</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">ismarker</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;marker&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="isfillarea"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.isfillarea">[docs]</a><span class="k">def</span> <span class="nf">isfillarea</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">fillarea</span><span class="o">.</span><span class="n">Tf</span><span class="p">)):</span>
@@ -448,6 +471,7 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">isfillarea</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;fillarea&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="istexttable"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.istexttable">[docs]</a><span class="k">def</span> <span class="nf">istexttable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">texttable</span><span class="o">.</span><span class="n">Tt</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
@@ -455,12 +479,14 @@
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">istexttable</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;texttable&#39;</span><span class="p">]</span>
 
+
 <div class="viewcode-block" id="istextorientation"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.istextorientation">[docs]</a><span class="k">def</span> <span class="nf">istextorientation</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">textorientation</span><span class="o">.</span><span class="n">To</span><span class="p">)):</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span></div>
 <span class="n">istextorientation</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">is_docs</span><span class="p">[</span><span class="s1">&#39;textorientation&#39;</span><span class="p">]</span>
+
 
 <div class="viewcode-block" id="istextcombined"><a class="viewcode-back" href="../../vcs/misc/queries.html#vcs.queries.istextcombined">[docs]</a><span class="k">def</span> <span class="nf">istextcombined</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">textcombined</span><span class="o">.</span><span class="n">Tc</span><span class="p">)):</span>
@@ -512,7 +538,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -178,6 +180,7 @@
 <span class="c1">#############################################################################</span>
 <span class="c1"># class Gfb(graphics_method_core):</span>
 
+
 <div class="viewcode-block" id="Gfb"><a class="viewcode-back" href="../../vcs/graphics/boxfill.html#vcs.boxfill.Gfb">[docs]</a><span class="k">class</span> <span class="nc">Gfb</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="n">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -235,7 +238,7 @@
 <span class="s2">            # change style</span>
 <span class="s2">            fill.style=&#39;hatch&#39;</span>
 <span class="s2">            # change color</span>
-<span class="s2">            fill.color=241</span>
+<span class="s2">            fill.color=&#39;black&#39;</span>
 <span class="s2">            # change style index</span>
 <span class="s2">            fill.index=3</span>
 
@@ -281,10 +284,10 @@
 <span class="s2">                box.xyscale(&#39;linear&#39;, &#39;area_wt&#39;)</span>
 <span class="s2">                box.level_1=1e20</span>
 <span class="s2">                box.level_2=1e20</span>
-<span class="s2">                box.color_1=16</span>
-<span class="s2">                box.color_2=239</span>
+<span class="s2">                box.color_1=0</span>
+<span class="s2">                box.color_2=255</span>
 <span class="s2">                # Will set them both</span>
-<span class="s2">                box.colors(16, 239 )</span>
+<span class="s2">                box.colors(0, 255 )</span>
 <span class="s2">                # &#39;linear&#39; - compute or specify legend</span>
 <span class="s2">                box.boxfill_type=&#39;linear&#39;</span>
 <span class="s2">                # &#39;log10&#39; - plot using log10</span>
@@ -299,8 +302,7 @@
 <span class="s2">                box.ext_2=&#39;y&#39;</span>
 <span class="s2">                # Will set them both</span>
 <span class="s2">                box.exts(&#39;n&#39;, &#39;y&#39; )</span>
-<span class="s2">                # Color index value range 0 to 255</span>
-<span class="s2">                box.missing=241</span>
+<span class="s2">                box.missing=&#39;black&#39;</span>
 
 <span class="s2">        * Setting the boxfill levels:</span>
 
@@ -388,8 +390,8 @@
 
 <span class="s2">            .. py:attribute:: legend ({float:str})</span>
 
-<span class="s2">                Used in conjunction with boxfill_type linear/log10, replaces the legend values in the dictionary keys with</span>
-<span class="s2">                their associated string.</span>
+<span class="s2">                Used in conjunction with boxfill_type linear/log10, replaces the</span>
+<span class="s2">                legend values in the dictionary keys with their associated string.</span>
 
 <span class="s2">            .. py:attribute:: ext_1 (str)</span>
 
@@ -404,7 +406,7 @@
 <span class="s2">                Color to use for missing value or values not in defined ranges.</span>
 
 <span class="s2">            </span><span class="si">%s</span><span class="s2"></span>
-<span class="s2">            &quot;&quot;&quot;</span><span class="o">%</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span> <span class="c1">#noq</span>
+<span class="s2">            &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span>  <span class="c1"># noqa</span>
 
 <div class="viewcode-block" id="Gfb.rename"><a class="viewcode-back" href="../../vcs/graphics/boxfill.html#vcs.boxfill.Gfb.rename">[docs]</a>    <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -446,7 +448,8 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">&quot;You were trying to rename the &#39;deafult&#39; boxfill method, it was merely copied not renamed&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;boxfill&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;boxfill&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">newname</span>
         <span class="bp">self</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;boxfill&quot;</span><span class="p">][</span><span class="n">newname</span><span class="p">]</span>
         <span class="k">return</span></div>
 
@@ -562,7 +565,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ext_1</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ext_2</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;solid&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fillareaindices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fillareaopacity</span> <span class="o">=</span> <span class="p">[]</span>
@@ -570,8 +573,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_levels</span> <span class="o">=</span> <span class="p">([</span><span class="mf">1.e20</span><span class="p">,</span> <span class="mf">1.e20</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_level_1</span> <span class="o">=</span> <span class="mf">1.e20</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_level_2</span> <span class="o">=</span> <span class="mf">1.e20</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_color_1</span> <span class="o">=</span> <span class="mi">16</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_color_2</span> <span class="o">=</span> <span class="mi">239</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_color_1</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_color_2</span> <span class="o">=</span> <span class="mi">255</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_boxfill_type</span> <span class="o">=</span> <span class="s2">&quot;linear&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_timeunits</span> <span class="o">=</span> <span class="s1">&#39;days since 2000&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_calendar</span> <span class="o">=</span> <span class="n">cdtime</span><span class="o">.</span><span class="n">DefaultCalendar</span>
@@ -856,7 +859,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_y2</span> <span class="o">=</span> <span class="n">value</span>
     <span class="n">datawc_y2</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getdatawc_y2</span><span class="p">,</span> <span class="n">_setdatawc_y2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Gfb.colors"><a class="viewcode-back" href="../../vcs/graphics/boxfill.html#vcs.boxfill.Gfb.colors">[docs]</a>    <span class="k">def</span> <span class="nf">colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color1</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="mi">239</span><span class="p">):</span>
+<div class="viewcode-block" id="Gfb.colors"><a class="viewcode-back" href="../../vcs/graphics/boxfill.html#vcs.boxfill.Gfb.colors">[docs]</a>    <span class="k">def</span> <span class="nf">colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color2</span><span class="o">=</span><span class="mi">255</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">color_1</span> <span class="o">=</span> <span class="n">color1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">color_2</span> <span class="o">=</span> <span class="n">color2</span></div>
     <span class="n">colors</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">colorsdoc</span>
@@ -1208,7 +1211,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

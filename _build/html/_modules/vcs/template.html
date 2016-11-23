@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -1052,12 +1054,14 @@
 
     <span class="c1"># Adding the drawing functionnality to plot all these attributes on the</span>
     <span class="c1"># Canvas</span>
-    <span class="k">def</span> <span class="nf">drawTicks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span>
-                  <span class="n">vp</span><span class="p">,</span> <span class="n">wc</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-        <span class="c1"># Draws the ticks for the axis x number number</span>
-        <span class="c1"># using the label passed by the graphic  method</span>
-        <span class="c1"># vp and wc are from the actual canvas, they have</span>
-        <span class="c1"># been reset when they get here...</span>
+<div class="viewcode-block" id="P.drawTicks"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.drawTicks">[docs]</a>    <span class="k">def</span> <span class="nf">drawTicks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span>
+                  <span class="n">vp</span><span class="p">,</span> <span class="n">wc</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the ticks for the axis x number number</span>
+<span class="sd">        using the label passed by the graphic  method</span>
+<span class="sd">        vp and wc are from the actual canvas, they have</span>
+<span class="sd">        been reset when they get here...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;donotstoredisplay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1267,7 +1271,7 @@
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;texttable&quot;</span><span class="p">][</span><span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">][</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">][</span><span class="n">tt</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">displays</span>
+        <span class="k">return</span> <span class="n">displays</span></div>
 
 <div class="viewcode-block" id="P.blank"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.blank">[docs]</a>    <span class="k">def</span> <span class="nf">blank</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1293,40 +1297,41 @@
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sub_name</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">ov1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ov2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># This function resets all the attributes having a</span>
-        <span class="c1"># sub-attribute with the specified name.</span>
+<div class="viewcode-block" id="P.reset"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sub_name</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">ov1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ov2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function resets all the attributes having a</span>
+<span class="sd">        sub-attribute with the specified name.</span>
 
-        <span class="c1"># .. note::</span>
-            <span class="c1"># Respect how far from original position you are</span>
-            <span class="c1"># i.e. you move to x1,x2 from old_x1, old_x2</span>
-            <span class="c1"># if your current x1 value is not == to old_x1_value,</span>
-            <span class="c1"># then respect how far from it you  were</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            Respect how far from original position you are</span>
+<span class="sd">            i.e. you move to x1,x2 from old_x1, old_x2</span>
+<span class="sd">            if your current x1 value is not == to old_x1_value,</span>
+<span class="sd">            then respect how far from it you  were</span>
 
-        <span class="c1"># Example:</span>
+<span class="sd">        Example:</span>
 
-            <span class="c1"># Create template &#39;example1&#39; which inherits from &#39;default&#39; template</span>
-            <span class="c1"># t = vcs.createtemplate(&#39;example1&#39;, &#39;default&#39;)</span>
-            <span class="c1"># Set x1 value to 0.15 and x2 value to 0.5</span>
-            <span class="c1"># t.reset(&#39;x&#39;,0.15,0.5,t.data.x1,t.data.x2)</span>
+<span class="sd">            Create template &#39;example1&#39; which inherits from &#39;default&#39; template</span>
+<span class="sd">            t = vcs.createtemplate(&#39;example1&#39;, &#39;default&#39;)</span>
+<span class="sd">            Set x1 value to 0.15 and x2 value to 0.5</span>
+<span class="sd">            t.reset(&#39;x&#39;,0.15,0.5,t.data.x1,t.data.x2)</span>
 
-        <span class="c1"># :param sub_name: String indicating the name of the sub-attribute to be reset.</span>
-                         <span class="c1"># For example, sub-name=&#39;x&#39; would cause the x1 ans x2 attributes to be set.</span>
-        <span class="c1"># :type sub_name: str</span>
+<span class="sd">        :param sub_name: String indicating the name of the sub-attribute to be reset.</span>
+<span class="sd">                         For example, sub-name=&#39;x&#39; would cause the x1 ans x2 attributes to be set.</span>
+<span class="sd">        :type sub_name: str</span>
 
-        <span class="c1"># :param v1: Float value to used to set the sub_name1 attribute.</span>
-        <span class="c1"># :type v1: float</span>
+<span class="sd">        :param v1: Float value to used to set the sub_name1 attribute.</span>
+<span class="sd">        :type v1: float</span>
 
-        <span class="c1"># :param v2: Float value used to set the sub_name2 attribute.</span>
-        <span class="c1"># :type v2: float</span>
+<span class="sd">        :param v2: Float value used to set the sub_name2 attribute.</span>
+<span class="sd">        :type v2: float</span>
 
-        <span class="c1"># :param ov1: Float value of the old sub-name1 attribute value. Used to compute an offset ratio.</span>
-        <span class="c1"># :type ov1: float</span>
+<span class="sd">        :param ov1: Float value of the old sub-name1 attribute value. Used to compute an offset ratio.</span>
+<span class="sd">        :type ov1: float</span>
 
-        <span class="c1"># :param ov2: Float value of the old sub-name1 attribute value. Used to compute an offset ratio.</span>
-        <span class="c1"># :type ov2: float</span>
+<span class="sd">        :param ov2: Float value of the old sub-name1 attribute value. Used to compute an offset ratio.</span>
+<span class="sd">        :type ov2: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># attr=vars(self).keys()</span>
         <span class="n">Attr</span> <span class="o">=</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">attr</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">Attr</span><span class="p">:</span>
@@ -1369,7 +1374,7 @@
                                 <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">ov</span> <span class="o">-</span> <span class="n">ov2</span><span class="p">)</span> <span class="o">*</span> <span class="n">ratio</span>
                             <span class="nb">setattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">sub_name</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">v2</span> <span class="o">+</span> <span class="n">delta</span><span class="p">)))</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="k">pass</span>
+                    <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="P.move"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1475,19 +1480,20 @@
         <span class="k">if</span> <span class="n">font</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">font</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">axis</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scalefont</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">scalefont</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
-        <span class="c1"># Scales the template font by scale.</span>
+<div class="viewcode-block" id="P.scalefont"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.scalefont">[docs]</a>    <span class="k">def</span> <span class="nf">scalefont</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scales the template font by scale.</span>
 
-        <span class="c1"># Example:</span>
+<span class="sd">        Example:</span>
 
-            <span class="c1"># Create template &#39;example1&#39; which inherits from &#39;default&#39; template</span>
-            <span class="c1"># t = vcs.createtemplate(&#39;example1&#39;, &#39;default&#39;)</span>
-            <span class="c1"># reduces the fonts size by 2</span>
-            <span class="c1"># t.scalefont(0.5)</span>
+<span class="sd">            Create template &#39;example1&#39; which inherits from &#39;default&#39; template</span>
+<span class="sd">            t = vcs.createtemplate(&#39;example1&#39;, &#39;default&#39;)</span>
+<span class="sd">            reduces the fonts size by 2</span>
+<span class="sd">            t.scalefont(0.5)</span>
 
-        <span class="c1"># :param scale: Float representing the factor by which to scale the template&#39;s font size.</span>
-        <span class="c1"># :type scale: float</span>
-
+<span class="sd">        :param scale: Float representing the factor by which to scale the template&#39;s font size.</span>
+<span class="sd">        :type scale: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">attr</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
@@ -1501,30 +1507,81 @@
                 <span class="n">to</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">to</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">scale</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;textorientation&#39;</span><span class="p">,</span> <span class="n">to</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">pass</span>
+                <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-        <span class="c1"># This plots the template stuff on the Canvas.</span>
-        <span class="c1"># It needs a slab and a graphic method.</span>
+<div class="viewcode-block" id="P.drawLinesAndMarkersLegend"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.drawLinesAndMarkersLegend">[docs]</a>    <span class="k">def</span> <span class="nf">drawLinesAndMarkersLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span>
+                                  <span class="n">linecolors</span><span class="p">,</span> <span class="n">linetypes</span><span class="p">,</span> <span class="n">linewidths</span><span class="p">,</span>
+                                  <span class="n">markercolors</span><span class="p">,</span> <span class="n">markertypes</span><span class="p">,</span> <span class="n">markersizes</span><span class="p">,</span>
+                                  <span class="n">strings</span><span class="p">,</span> <span class="n">scratched</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws a legend with line/marker/text inside a template legend box</span>
+<span class="sd">        Auto adjust text size to make it fit inside the box</span>
+<span class="sd">        Auto arrange the elements to fill the box nicely</span>
 
+<span class="sd">        :Example:</span>
 
-        <span class="c1"># :returns: A list containing all the displays used</span>
-        <span class="c1"># :rtype: list</span>
+<span class="sd">            .. doctest:: template_drawLinesAndMarkersLegend</span>
 
+<span class="sd">                &gt;&gt;&gt; import vcs</span>
+<span class="sd">                &gt;&gt;&gt; x = vcs.init()</span>
+<span class="sd">                &gt;&gt;&gt; t = vcs.createtemplate()</span>
+<span class="sd">                &gt;&gt;&gt; t.drawLinesAndMarkersLegend(x,</span>
+<span class="sd">                ...     [&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;], [&quot;solid&quot;,&quot;dash&quot;,&quot;dot&quot;],[1,4,8],</span>
+<span class="sd">                ...     [&quot;blue&quot;,&quot;green&quot;,&quot;red&quot;], [&quot;cross&quot;,&quot;square&quot;,&quot;dot&quot;],[3,4,5],</span>
+<span class="sd">                ...     [&quot;sample A&quot;,&quot;type B&quot;,&quot;thing C&quot;],True)</span>
+<span class="sd">                &gt;&gt;&gt; x.png(&quot;sample&quot;)</span>
 
+<span class="sd">        :param canvas: a VCS canvas object onto which to draw the legend</span>
+<span class="sd">        :type canvas: vcs.Canvas.Canvas</span>
+
+<span class="sd">        :param linecolors: list containing the colors of each line to draw</span>
+<span class="sd">        :type linecolors: list of either colorInt, (r,g,b,opacity), or string color names</span>
+
+<span class="sd">        :param linetypes: list containing the type of each line to draw</span>
+<span class="sd">        :type linetypes: list on int of line stype strings</span>
+
+<span class="sd">        :param linewidths: list containing each line width</span>
+<span class="sd">        :type linewidths: list of float</span>
+
+<span class="sd">        :param markercolors: list of the markers colors to draw</span>
+<span class="sd">        :type markercolors: list of either colorInt, (r,g,b,opacity), or string color names</span>
+
+<span class="sd">        :param markertypes: list of the marker types to draw</span>
+<span class="sd">        :type markertypes: list of int or  string of marker names</span>
+
+<span class="sd">        :param markersizes: list of the size of each marker to draw</span>
+<span class="sd">        :type markersizes: list of float</span>
+
+<span class="sd">        :param strings: list of the string to draw next to each line/marker</span>
+<span class="sd">        :type strings: list of string</span>
+
+<span class="sd">        :param scratched: None (off) or list. list contains False where no scratch is needed</span>
+<span class="sd">                      For scratched provide True or line type to use for scratch</span>
+<span class="sd">                      color will match that of text</span>
+<span class="sd">        :type scratched: None or list of bool</span>
+
+<span class="sd">        :param bg: do we draw in background or foreground</span>
+<span class="sd">        :type bg: bool</span>
+
+<span class="sd">        :param render: do we render or not (so it less flashy)</span>
+<span class="sd">        :type render: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">drawLinesAndMarkersLegend</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="p">,</span>
+                                                   <span class="n">linecolors</span><span class="p">,</span> <span class="n">linetypes</span><span class="p">,</span> <span class="n">linewidths</span><span class="p">,</span>
+                                                   <span class="n">markercolors</span><span class="p">,</span> <span class="n">markertypes</span><span class="p">,</span> <span class="n">markersizes</span><span class="p">,</span>
+                                                   <span class="n">strings</span><span class="p">,</span> <span class="n">scratched</span><span class="p">,</span> <span class="n">bg</span><span class="p">,</span> <span class="n">render</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="P.drawAttributes"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.drawAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">drawAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draws attribtes of slab onto a canvas</span>
+
+<span class="sd">        :param x: vcs canvas onto which attributes will be drawn</span>
+<span class="sd">        :type x: vcs.Canvas.Canvas</span>
+
+<span class="sd">        :param slab: slab to get attributes from</span>
+<span class="sd">        :type slab: cdms2.tvariable.TransientVariable, numpy.ndarray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">displays</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;donotstoredisplay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;render&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="c1"># now remembers the viewport and worldcoordinates in order to reset</span>
-        <span class="c1"># them later</span>
-        <span class="n">vp</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">_viewport</span>
-        <span class="n">wc</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">_worldcoordinate</span>
-        <span class="c1"># m=x.mode</span>
-        <span class="c1"># and resets everything to [0,1]</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">_viewport</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">_worldcoordinate</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="c1"># x.mode=0 # this should disable the replot but it doesn&#39;t work....</span>
         <span class="c1"># figures out the min and max and set them as atributes...</span>
         <span class="n">smn</span><span class="p">,</span> <span class="n">smx</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">minmax</span><span class="p">(</span><span class="n">slab</span><span class="p">)</span>
 
@@ -1593,6 +1650,32 @@
                     <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;texttable&quot;</span><span class="p">][</span><span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
                     <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">][</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
                     <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">][</span><span class="n">tt</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">displays</span></div>
+
+<div class="viewcode-block" id="P.plot"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This plots the template stuff on the Canvas.</span>
+<span class="sd">        It needs a slab and a graphic method.</span>
+
+<span class="sd">        :returns: A list containing all the displays used</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">displays</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;donotstoredisplay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;render&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># now remembers the viewport and worldcoordinates in order to reset</span>
+        <span class="c1"># them later</span>
+        <span class="n">vp</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">_viewport</span>
+        <span class="n">wc</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">_worldcoordinate</span>
+        <span class="c1"># m=x.mode</span>
+        <span class="c1"># and resets everything to [0,1]</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">_viewport</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">_worldcoordinate</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># x.mode=0 # this should disable the replot but it doesn&#39;t work....</span>
+
+        <span class="n">displays</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawAttributes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slab</span><span class="p">,</span> <span class="n">gm</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
 
         <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;donotstoredisplay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">vcs</span><span class="o">.</span><span class="n">taylor</span><span class="o">.</span><span class="n">Gtd</span><span class="p">):</span>
@@ -1742,21 +1825,23 @@
         <span class="c1"># but Dean doesn&#39;t allow to set it back to some of these values (None)!</span>
         <span class="n">x</span><span class="o">.</span><span class="n">_viewport</span> <span class="o">=</span> <span class="n">vp</span>
         <span class="n">x</span><span class="o">.</span><span class="n">_worldcoordinate</span> <span class="o">=</span> <span class="n">wc</span>
-        <span class="k">return</span> <span class="n">displays</span>
+        <span class="k">return</span> <span class="n">displays</span></div>
 
-    <span class="k">def</span> <span class="nf">drawColorBar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ext_1</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">,</span>
-                     <span class="n">ext_2</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="P.drawColorBar"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.drawColorBar">[docs]</a>    <span class="k">def</span> <span class="nf">drawColorBar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ext_1</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">,</span>
+                     <span class="n">ext_2</span><span class="o">=</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">cmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;solid&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                      <span class="n">opacity</span><span class="o">=</span><span class="p">[],</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-        <span class="c1"># This function, draws the colorbar, it needs:</span>
-        <span class="c1"># colors : The colors to be plotted</span>
-        <span class="c1"># levels : The levels that each color represent</span>
-        <span class="c1"># legend : To overwrite, saying just draw box at</span>
-        <span class="c1"># certain values and display some specific text instead of the value</span>
-        <span class="c1"># ext_1 and ext_2: to draw the arrows</span>
-        <span class="c1"># x : the canvas where to plot it</span>
-        <span class="c1"># bg: background mode ?</span>
-        <span class="c1"># returns a list of displays used</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function, draws the colorbar, it needs:</span>
+<span class="sd">        colors : The colors to be plotted</span>
+<span class="sd">        levels : The levels that each color represent</span>
+<span class="sd">        legend : To overwrite, saying just draw box at</span>
+<span class="sd">        certain values and display some specific text instead of the value</span>
+<span class="sd">        ext_1 and ext_2: to draw the arrows</span>
+<span class="sd">        x : the canvas where to plot it</span>
+<span class="sd">        bg: background mode ?</span>
+<span class="sd">        returns a list of displays used</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">kargs</span><span class="p">[</span><span class="s2">&quot;donotstoredisplay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">displays</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1789,8 +1874,8 @@
         <span class="n">x</span><span class="o">.</span><span class="n">worldcoordinate</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
         <span class="c1"># Ok first determine the orientation of the legend (bottom to top  or</span>
         <span class="c1"># left to right)</span>
-        <span class="n">dX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x1</span>
-        <span class="n">dY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y1</span>
+        <span class="n">dX</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">dY</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y1</span><span class="p">)</span>
         <span class="n">nbox</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">l0</span> <span class="o">=</span> <span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -1804,84 +1889,88 @@
             <span class="n">ext_2</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
         <span class="n">levels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span>
         <span class="c1"># Now figure out the typical length of a box</span>
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dX</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dY</span><span class="p">):</span>
-            <span class="n">isH</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">dLong</span> <span class="o">=</span> <span class="n">dX</span>
-            <span class="n">dlong</span> <span class="o">=</span> <span class="n">dX</span> <span class="o">/</span> <span class="n">nbox</span>
-            <span class="n">dshrt</span> <span class="o">=</span> <span class="n">dY</span>
-            <span class="n">startlong</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x1</span>
-            <span class="n">startshrt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y1</span>
+        <span class="k">if</span> <span class="n">dX</span> <span class="o">&gt;</span> <span class="n">dY</span><span class="p">:</span>
+            <span class="n">isHorizontal</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="n">dX</span>
+            <span class="n">boxLength</span> <span class="o">=</span> <span class="n">dX</span> <span class="o">/</span> <span class="n">nbox</span>
+            <span class="n">thick</span> <span class="o">=</span> <span class="n">dY</span>
+            <span class="n">startLength</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
+            <span class="n">startThick</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y2</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">isH</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">dLong</span> <span class="o">=</span> <span class="n">dY</span>
-            <span class="n">dlong</span> <span class="o">=</span> <span class="n">dY</span> <span class="o">/</span> <span class="n">nbox</span>
-            <span class="n">dshrt</span> <span class="o">=</span> <span class="n">dX</span>
-            <span class="n">startlong</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y1</span>
-            <span class="n">startshrt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x1</span>
+            <span class="n">isHorizontal</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="n">dY</span>
+            <span class="n">boxLength</span> <span class="o">=</span> <span class="n">dY</span> <span class="o">/</span> <span class="n">nbox</span>
+            <span class="n">thick</span> <span class="o">=</span> <span class="n">dX</span>
+            <span class="n">startLength</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">y2</span><span class="p">)</span>
+            <span class="n">startThick</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
         <span class="c1"># initialize the fillarea coordinates</span>
-        <span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">S</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># length</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># thickness</span>
         <span class="c1"># computes the fillarea coordinates</span>
         <span class="n">iext</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># To know if we changed the dims</span>
-        <span class="n">minarrow</span> <span class="o">=</span> <span class="o">.</span><span class="mi">02</span>  <span class="c1"># % of the legend that the arrow must use (at least)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">ext_1</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="ow">or</span> <span class="n">ext_2</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dlong</span> <span class="o">&lt;</span> <span class="n">minarrow</span> <span class="o">*</span> <span class="n">dLong</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ext_1</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="ow">or</span> <span class="n">ext_2</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">):</span>  <span class="c1"># and boxLength &lt; self.legend.arrow * length:</span>
             <span class="n">iext</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># one mins changed ext_1</span>
+            <span class="n">arrowLength</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">arrow</span> <span class="o">*</span> <span class="n">length</span>
             <span class="k">if</span> <span class="n">ext_1</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="ow">and</span> <span class="n">ext_2</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-                <span class="n">dlong</span> <span class="o">=</span> <span class="n">dLong</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">minarrow</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nbox</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">)</span>
+                <span class="n">boxLength</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">arrowLength</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nbox</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">)</span>
                 <span class="n">iext</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># changed both side</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">dlong</span> <span class="o">=</span> <span class="n">dLong</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">minarrow</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nbox</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span>
+                <span class="n">boxLength</span> <span class="o">=</span> <span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="n">arrowLength</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nbox</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">ext_2</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
                     <span class="n">iext</span> <span class="o">=</span> <span class="mi">2</span>
 
+        <span class="c1"># Loops thru the boxes (i.e colors NOT actual boxes drawn)</span>
+        <span class="n">adjust</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbox</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">ext_1</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># did the chage the size of the arrow</span>
-                <span class="k">if</span> <span class="n">iext</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">iext</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="n">dlongarrow</span> <span class="o">=</span> <span class="n">minarrow</span> <span class="o">*</span> <span class="n">dLong</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">dlongarrow</span> <span class="o">=</span> <span class="n">dlong</span>
                 <span class="c1"># Draws the little arrow at the begining</span>
-                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">startlong</span><span class="p">,</span> <span class="n">startlong</span> <span class="o">+</span> <span class="n">dlongarrow</span><span class="p">,</span>
-                     <span class="n">startlong</span> <span class="o">+</span> <span class="n">dlongarrow</span><span class="p">])</span>
-                <span class="n">S</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span> <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">,</span> <span class="n">startshrt</span><span class="p">])</span>
-                <span class="c1"># Now readjust startlong if necessary</span>
+                <span class="c1"># Make sure the triangle goes back to first point</span>
+                <span class="c1"># Because used to close the extension</span>
+                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="n">startLength</span> <span class="o">+</span> <span class="n">arrowLength</span><span class="p">,</span>
+                    <span class="n">startLength</span><span class="p">,</span>
+                    <span class="n">startLength</span> <span class="o">+</span> <span class="n">arrowLength</span><span class="p">,</span>
+                <span class="p">])</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">startThick</span><span class="p">,</span>
+                        <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span>
+                        <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">,</span>
+                    <span class="p">])</span>
+                <span class="c1"># Now readjust startLength if necessary</span>
                 <span class="k">if</span> <span class="n">iext</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">iext</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="n">startlong</span> <span class="o">=</span> <span class="n">startlong</span> <span class="o">-</span> <span class="n">dlong</span> <span class="o">+</span> <span class="n">minarrow</span> <span class="o">*</span> <span class="n">dLong</span>
+                    <span class="n">startLength</span> <span class="o">=</span> <span class="n">startLength</span> <span class="o">+</span> <span class="n">arrowLength</span>
+                    <span class="n">adjust</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
             <span class="k">elif</span> <span class="n">ext_2</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="n">nbox</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">iext</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># we changed the size of the arrow at the end</span>
-                    <span class="n">dlongarrow</span> <span class="o">=</span> <span class="n">dLong</span> <span class="o">*</span> <span class="n">minarrow</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">dlongarrow</span> <span class="o">=</span> <span class="n">dlong</span>
                 <span class="c1"># Draws the little arrow at the end</span>
-                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startlong</span> <span class="o">+</span>
-                          <span class="n">dlong</span> <span class="o">*</span>
-                          <span class="n">i</span> <span class="o">+</span>
-                          <span class="n">dlongarrow</span><span class="p">,</span> <span class="n">startlong</span> <span class="o">+</span>
-                          <span class="n">dlong</span> <span class="o">*</span>
-                          <span class="n">i</span><span class="p">,</span> <span class="n">startlong</span> <span class="o">+</span>
-                          <span class="n">dlong</span> <span class="o">*</span>
-                          <span class="n">i</span><span class="p">])</span>
-                <span class="n">S</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span> <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">,</span> <span class="n">startshrt</span><span class="p">])</span>
+                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                    <span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span><span class="p">),</span>
+                    <span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span><span class="p">)</span> <span class="o">+</span> <span class="n">arrowLength</span><span class="p">,</span>
+                    <span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span><span class="p">),</span>
+                <span class="p">])</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">startThick</span><span class="p">,</span>
+                        <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span>
+                        <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">,</span>
+                    <span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Draws a normal box</span>
-                <span class="c1"># print i,dlong,dshrt,startlong,startshrt</span>
-                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startlong</span> <span class="o">+</span> <span class="n">dlong</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span>
-                          <span class="n">startlong</span> <span class="o">+</span> <span class="n">dlong</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                          <span class="n">startlong</span> <span class="o">+</span> <span class="n">dlong</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                          <span class="n">startlong</span> <span class="o">+</span> <span class="n">dlong</span> <span class="o">*</span> <span class="n">i</span><span class="p">])</span>
-                <span class="n">S</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startshrt</span><span class="p">,</span>
-                          <span class="n">startshrt</span><span class="p">,</span>
-                          <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">,</span>
-                          <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">])</span>
+                <span class="c1"># print i,boxLength,thick,startLength,startThick</span>
+                <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span><span class="p">),</span>
+                          <span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                          <span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                          <span class="n">startLength</span> <span class="o">+</span> <span class="n">boxLength</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">adjust</span><span class="p">)])</span>
+                <span class="n">T</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startThick</span><span class="p">,</span>
+                          <span class="n">startThick</span><span class="p">,</span>
+                          <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">,</span>
+                          <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">])</span>
 
         <span class="n">fa</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">createfillarea</span><span class="p">()</span>
         <span class="n">fa</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">colors</span>
         <span class="n">fa</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">style</span>
         <span class="n">fa</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="n">fa</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">priority</span>
         <span class="c1"># Boxfill default comes in here with [] we need to fix this</span>
         <span class="k">if</span> <span class="n">opacity</span> <span class="o">==</span> <span class="p">[]:</span>
             <span class="n">opacity</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
@@ -1890,57 +1979,45 @@
         <span class="k">if</span> <span class="n">cmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fa</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="n">cmap</span>
         <span class="c1"># assigning directly since we gen it we know it&#39;s good</span>
-        <span class="k">if</span> <span class="n">isH</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isHorizontal</span><span class="p">:</span>
             <span class="n">fa</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">L</span>
-            <span class="n">fa</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">S</span>
+            <span class="n">fa</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">T</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">fa</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">S</span>
+            <span class="n">fa</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">T</span>
             <span class="n">fa</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">L</span>
-<span class="c1"># fa.list()</span>
-        <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">fillarea</span><span class="p">(</span><span class="n">fa</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
+        <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fa</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;fillarea&quot;</span><span class="p">][</span><span class="n">fa</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
-        <span class="c1"># Now draws the legend</span>
-        <span class="c1"># Fisrt of all make sure we draw the arrows</span>
-        <span class="n">Sl</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">Ll</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">St</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">Lt</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">Tt</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">dD</span> <span class="o">=</span> <span class="n">dLong</span>  <span class="c1"># length of the levels area</span>
+        <span class="c1"># Now draws the box around the legend</span>
+        <span class="c1"># First of all make sure we draw the arrows</span>
+        <span class="n">Tl</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Thickness labels location</span>
+        <span class="n">Ll</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Length labels location</span>
+        <span class="n">Tt</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Thickness ticks location</span>
+        <span class="n">Lt</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Length ticks location</span>
+        <span class="n">St</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># String location</span>
+        <span class="n">levelsLength</span> <span class="o">=</span> <span class="n">length</span>  <span class="c1"># length of the levels area</span>
         <span class="k">if</span> <span class="n">ext_1</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-            <span class="n">startlong</span> <span class="o">=</span> <span class="n">startlong</span> <span class="o">+</span> <span class="n">dlong</span>
-            <span class="n">Sl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">Tl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="c1"># we need to close the arrow</span>
-            <span class="n">Sl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Sl</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">Ll</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ll</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">levels</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">iext</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">iext</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">dD</span> <span class="o">=</span> <span class="n">dD</span> <span class="o">-</span> <span class="n">dLong</span> <span class="o">*</span> <span class="n">minarrow</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">dD</span> <span class="o">=</span> <span class="n">dD</span> <span class="o">-</span> <span class="n">dlong</span>
+                <span class="n">levelsLength</span> <span class="o">=</span> <span class="n">levelsLength</span> <span class="o">-</span> <span class="n">arrowLength</span>
         <span class="k">if</span> <span class="n">ext_2</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-            <span class="n">Sl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">Tl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="c1"># we need to close the arrow</span>
-            <span class="n">Sl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Sl</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">Ll</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Ll</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">levels</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">iext</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">dD</span> <span class="o">=</span> <span class="n">dD</span> <span class="o">-</span> <span class="n">dLong</span> <span class="o">*</span> <span class="n">minarrow</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">dD</span> <span class="o">=</span> <span class="n">dD</span> <span class="o">-</span> <span class="n">dlong</span>
+                <span class="n">levelsLength</span> <span class="o">=</span> <span class="n">levelsLength</span> <span class="o">-</span> <span class="n">arrowLength</span>
         <span class="c1"># adds the coordinate for the box around the legend</span>
-        <span class="n">Sl</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startshrt</span><span class="p">,</span>
-                   <span class="n">startshrt</span><span class="p">,</span>
-                   <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">,</span>
-                   <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">,</span>
-                   <span class="n">startshrt</span><span class="p">])</span>
-        <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startlong</span><span class="p">,</span>
-                   <span class="n">startlong</span> <span class="o">+</span> <span class="n">dD</span><span class="p">,</span>
-                   <span class="n">startlong</span> <span class="o">+</span> <span class="n">dD</span><span class="p">,</span>
-                   <span class="n">startlong</span><span class="p">,</span>
-                   <span class="n">startlong</span><span class="p">])</span>
+        <span class="n">Tl</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startThick</span><span class="p">,</span>
+                   <span class="n">startThick</span><span class="p">,</span>
+                   <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">,</span>
+                   <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">,</span>
+                   <span class="n">startThick</span><span class="p">])</span>
+        <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startLength</span><span class="p">,</span>
+                   <span class="n">startLength</span> <span class="o">+</span> <span class="n">levelsLength</span><span class="p">,</span>
+                   <span class="n">startLength</span> <span class="o">+</span> <span class="n">levelsLength</span><span class="p">,</span>
+                   <span class="n">startLength</span><span class="p">,</span>
+                   <span class="n">startLength</span><span class="p">])</span>
         <span class="c1"># Now make sure we have a legend</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="c1"># Ok these are non-contiguous levels, we will use legend only if</span>
@@ -1948,22 +2025,22 @@
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">levels</span><span class="p">):</span>
                 <span class="n">lt</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">lb</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">loc</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">dlong</span> <span class="o">+</span> <span class="n">startlong</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">boxLength</span> <span class="o">+</span> <span class="n">startLength</span>
                 <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">loc</span><span class="p">,</span> <span class="n">loc</span><span class="p">])</span>
-                <span class="n">Sl</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startshrt</span><span class="p">,</span> <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">])</span>
+                <span class="n">Tl</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startThick</span><span class="p">,</span> <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">])</span>
                 <span class="k">if</span> <span class="n">legend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">lt</span> <span class="o">=</span> <span class="n">legend</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lt</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                     <span class="n">lb</span> <span class="o">=</span> <span class="n">legend</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">lt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">loct</span> <span class="o">=</span> <span class="n">startlong</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">dlong</span>
-                    <span class="n">Tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lt</span><span class="p">))</span>
+                    <span class="n">loct</span> <span class="o">=</span> <span class="n">startLength</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">boxLength</span>
+                    <span class="n">St</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lt</span><span class="p">))</span>
                     <span class="n">Lt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loct</span><span class="p">)</span>
-                    <span class="n">St</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">)</span>
+                    <span class="n">Tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">lb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">loct</span> <span class="o">=</span> <span class="n">startlong</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">dlong</span>
-                    <span class="n">Tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span>
+                    <span class="n">loct</span> <span class="o">=</span> <span class="n">startLength</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">boxLength</span>
+                    <span class="n">St</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span>
                     <span class="n">Lt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loct</span><span class="p">)</span>
-                    <span class="n">St</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startshrt</span> <span class="o">-</span> <span class="n">dshrt</span> <span class="o">*</span> <span class="o">.</span><span class="mi">6</span><span class="p">)</span>
+                    <span class="n">Tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startThick</span> <span class="o">-</span> <span class="n">thick</span> <span class="o">*</span> <span class="o">.</span><span class="mi">6</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">legend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1977,24 +2054,25 @@
             <span class="k">def</span> <span class="nf">in_bounds</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">comparison</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span> <span class="ow">and</span> <span class="n">comparison</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">levels</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-            <span class="n">dlong</span> <span class="o">=</span> <span class="n">dD</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">boxLength</span> <span class="o">=</span> <span class="n">levelsLength</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">legend</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">il</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">legend</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
                 <span class="k">if</span> <span class="n">in_bounds</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
                         <span class="c1"># if legend key is (inclusive) between levels[i] and levels[i+1]</span>
                         <span class="k">if</span> <span class="n">comparison</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">l</span><span class="p">)</span> <span class="ow">and</span> <span class="n">comparison</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]):</span>
                             <span class="c1"># first let&#39;s figure out where to put the legend label</span>
-                            <span class="n">location</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">dlong</span>  <span class="c1"># position at beginning of level</span>
+                            <span class="n">location</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">boxLength</span>  <span class="c1"># position at beginning of level</span>
                             <span class="c1"># Adds the distance from beginning of level box</span>
-                            <span class="n">location</span> <span class="o">+=</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">dlong</span>
-                            <span class="n">location</span> <span class="o">+=</span> <span class="n">startlong</span>  <span class="c1"># Figures out the beginning</span>
+                            <span class="n">location</span> <span class="o">+=</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">levels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">boxLength</span>
+                            <span class="n">location</span> <span class="o">+=</span> <span class="n">startLength</span>  <span class="c1"># Figures out the beginning</span>
 
-                            <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">location</span><span class="p">,</span> <span class="n">location</span><span class="p">])</span>
-                            <span class="n">Sl</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startshrt</span><span class="p">,</span> <span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span><span class="p">])</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">levels</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
+                                <span class="n">Ll</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">location</span><span class="p">,</span> <span class="n">location</span><span class="p">])</span>
+                                <span class="n">Tl</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startThick</span><span class="p">,</span> <span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span><span class="p">])</span>
                             <span class="n">Lt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
-                            <span class="n">St</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startshrt</span> <span class="o">+</span> <span class="n">dshrt</span> <span class="o">*</span> <span class="mf">1.4</span><span class="p">)</span>
-                            <span class="n">Tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">legend</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+                            <span class="n">Tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startThick</span> <span class="o">+</span> <span class="n">thick</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span>
+                            <span class="n">St</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">legend</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
                             <span class="k">break</span>
         <span class="c1"># ok now creates the line object and text object</span>
         <span class="n">ln</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
@@ -2003,26 +2081,26 @@
             <span class="n">Tt_source</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">legend</span><span class="o">.</span><span class="n">texttable</span><span class="p">)</span>
         <span class="n">ln</span><span class="o">.</span><span class="n">_priority</span> <span class="o">=</span> <span class="n">priority</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">txt</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">priority</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">txt</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">Tt</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">St</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">legend</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">isH</span><span class="p">:</span>
-                <span class="n">txt</span><span class="o">.</span><span class="n">_halign</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span>
+            <span class="k">if</span> <span class="n">isHorizontal</span><span class="p">:</span>
+                <span class="n">txt</span><span class="o">.</span><span class="n">halign</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">txt</span><span class="o">.</span><span class="n">_valign</span> <span class="o">=</span> <span class="s2">&quot;half&quot;</span>
-        <span class="k">if</span> <span class="n">isH</span><span class="p">:</span>
+                <span class="n">txt</span><span class="o">.</span><span class="n">valign</span> <span class="o">=</span> <span class="s2">&quot;half&quot;</span>
+        <span class="k">if</span> <span class="n">isHorizontal</span><span class="p">:</span>
             <span class="n">ln</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">Ll</span>
-            <span class="n">ln</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">Sl</span>
+            <span class="n">ln</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">Tl</span>
             <span class="n">txt</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Lt</span>
-            <span class="n">txt</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">St</span>
+            <span class="n">txt</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Tt</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ln</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">Sl</span>
+            <span class="n">ln</span><span class="o">.</span><span class="n">_x</span> <span class="o">=</span> <span class="n">Tl</span>
             <span class="n">ln</span><span class="o">.</span><span class="n">_y</span> <span class="o">=</span> <span class="n">Ll</span>
-            <span class="n">txt</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">St</span>
+            <span class="n">txt</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Tt</span>
             <span class="n">txt</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Lt</span>
 
         <span class="c1"># Now reset the viewport and worldcoordiantes</span>
-        <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
-        <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
+        <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
+        <span class="n">displays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">))</span>
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">][</span><span class="n">ln</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
         <span class="n">sp</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:::&quot;</span><span class="p">)</span>
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;texttable&quot;</span><span class="p">][</span><span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
@@ -2030,34 +2108,36 @@
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">][</span><span class="n">txt</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
         <span class="n">x</span><span class="o">.</span><span class="n">_viewport</span> <span class="o">=</span> <span class="n">vp</span>
         <span class="n">x</span><span class="o">.</span><span class="n">_worldcoordinate</span> <span class="o">=</span> <span class="n">wc</span>
-        <span class="k">return</span> <span class="n">displays</span>
+        <span class="k">return</span> <span class="n">displays</span></div>
 
-    <span class="k">def</span> <span class="nf">ratio_linear_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span>
+<div class="viewcode-block" id="P.ratio_linear_projection"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.ratio_linear_projection">[docs]</a>    <span class="k">def</span> <span class="nf">ratio_linear_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span>
                                 <span class="n">Rwished</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Rout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">box_and_ticks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Computes ratio to shrink the data area of a template in order</span>
-        <span class="c1"># that the overall area</span>
-        <span class="c1"># has the least possible deformation in linear projection</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes ratio to shrink the data area of a template in order</span>
+<span class="sd">        that the overall area</span>
+<span class="sd">        has the least possible deformation in linear projection</span>
 
-        <span class="c1"># Version: 1.1</span>
-        <span class="c1"># Notes: Thanks to Karl Taylor for the equation of &quot;optimal&quot; ratio</span>
+<span class="sd">        Version: 1.1</span>
+<span class="sd">        Notes: Thanks to Karl Taylor for the equation of &quot;optimal&quot; ratio</span>
 
-        <span class="c1"># Necessary arguments:</span>
-          <span class="c1"># lon1, lon2: in degrees_east  : Longitude spanned by plot</span>
-          <span class="c1"># lat1, lat2: in degrees_north : Latitude  spanned by plot</span>
+<span class="sd">        Necessary arguments:</span>
+<span class="sd">          lon1, lon2: in degrees_east  : Longitude spanned by plot</span>
+<span class="sd">          lat1, lat2: in degrees_north : Latitude  spanned by plot</span>
 
-        <span class="c1"># Optional arguments:</span>
-          <span class="c1"># Rwished: Ratio y/x wished, None=automagic</span>
-          <span class="c1"># Rout: Ratio of output (default is US Letter=11./8.5)</span>
-                <span class="c1"># Also you can pass a string: &quot;A4&quot;,&quot;US LETTER&quot;, &quot;X&quot;/&quot;SCREEN&quot;,</span>
-                <span class="c1"># the latest uses the window information</span>
-          <span class="c1"># box_and_ticks: Also redefine box and ticks to the new region</span>
-        <span class="c1"># Returned:</span>
-          <span class="c1"># vcs template object</span>
+<span class="sd">        Optional arguments:</span>
+<span class="sd">          Rwished: Ratio y/x wished, None=automagic</span>
+<span class="sd">          Rout: Ratio of output (default is US Letter=11./8.5)</span>
+<span class="sd">                Also you can pass a string: &quot;A4&quot;,&quot;US LETTER&quot;, &quot;X&quot;/&quot;SCREEN&quot;,</span>
+<span class="sd">                the latest uses the window information</span>
+<span class="sd">          box_and_ticks: Also redefine box and ticks to the new region</span>
+<span class="sd">        Returned:</span>
+<span class="sd">          vcs template object</span>
 
-        <span class="c1"># Usage example:</span>
-          <span class="c1">## USA</span>
-          <span class="c1"># t.ratio_linear_projection(-135,-50,20,50)</span>
+<span class="sd">        Usage example:</span>
+<span class="sd">          #USA</span>
+<span class="sd">          t.ratio_linear_projection(-135,-50,20,50)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Converts lat/lon to rad</span>
         <span class="n">Lat1</span> <span class="o">=</span> <span class="n">lat1</span> <span class="o">/</span> <span class="mf">180.</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span>
@@ -2083,29 +2163,30 @@
                                 <span class="p">(</span><span class="n">Lat2</span> <span class="o">-</span>
                                  <span class="n">Lat1</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span><span class="p">(</span><span class="n">Rwished</span><span class="p">,</span> <span class="n">Rout</span><span class="p">,</span> <span class="n">box_and_ticks</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span>
+        <span class="k">return</span></div>
 
-    <span class="k">def</span> <span class="nf">ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Rwished</span><span class="p">,</span> <span class="n">Rout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">box_and_ticks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># Computes ratio to shrink the data area of a template</span>
-        <span class="c1"># to have an y/x ratio of Rwished</span>
-        <span class="c1"># has the least possible deformation in linear projection</span>
+<div class="viewcode-block" id="P.ratio"><a class="viewcode-back" href="../../vcs/template/template.html#vcs.template.P.ratio">[docs]</a>    <span class="k">def</span> <span class="nf">ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Rwished</span><span class="p">,</span> <span class="n">Rout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">box_and_ticks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes ratio to shrink the data area of a template</span>
+<span class="sd">        to have an y/x ratio of Rwished</span>
+<span class="sd">        has the least possible deformation in linear projection</span>
 
-        <span class="c1"># Version: 1.1</span>
+<span class="sd">        Version: 1.1</span>
 
-        <span class="c1"># Necessary arguments:</span>
-         <span class="c1">#  Rwished: Ratio y/x wished</span>
-        <span class="c1"># Optional arguments:</span>
-          <span class="c1"># Rout: Ratio of output (default is US Letter=11./8.5)</span>
-                <span class="c1"># Also you can pass a string: &quot;A4&quot;,&quot;US LETTER&quot;,</span>
-                <span class="c1"># &quot;X&quot;/&quot;SCREEN&quot;, the latest uses the window information</span>
-          <span class="c1"># box_and_ticks: Also redefine box and ticks to the new region</span>
-        <span class="c1"># Returned:</span>
-          <span class="c1"># vcs template object</span>
+<span class="sd">        Necessary arguments:</span>
+<span class="sd">          Rwished: Ratio y/x wished</span>
+<span class="sd">        Optional arguments:</span>
+<span class="sd">          Rout: Ratio of output (default is US Letter=11./8.5)</span>
+<span class="sd">                Also you can pass a string: &quot;A4&quot;,&quot;US LETTER&quot;,</span>
+<span class="sd">                &quot;X&quot;/&quot;SCREEN&quot;, the latest uses the window information</span>
+<span class="sd">          box_and_ticks: Also redefine box and ticks to the new region</span>
+<span class="sd">        Returned:</span>
+<span class="sd">          vcs template object</span>
 
-        <span class="c1"># Usage example:</span>
-          <span class="c1">## y is twice x</span>
-          <span class="c1"># t.ratio(2)</span>
-
+<span class="sd">        Usage example:</span>
+<span class="sd">          # y is twice x</span>
+<span class="sd">          t.ratio(2)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Rout</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -2227,7 +2308,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">_ratio</span> <span class="o">=</span> <span class="n">Rwished</span>
 
         <span class="k">del</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;template&quot;</span><span class="p">][</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
-        <span class="k">return</span></div>
+        <span class="k">return</span></div></div>
 </pre></div>
 
           </div>
@@ -2268,7 +2349,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

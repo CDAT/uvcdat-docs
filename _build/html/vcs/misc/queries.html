@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="Miscellaneous Modules" href="misc.html" />
     <link rel="next" title="utils" href="utils.html" />
@@ -73,8 +75,8 @@
 </div>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of available grapics methods (i.e., boxfill, isofill, isoline, outfill,
-scatter, vector, xvsy, xyvsy, yxvsx, taylordiagram ).</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of available grapics methods (i.e., &#8216;boxfill&#8217;, &#8216;isofill&#8217;, &#8216;isoline&#8217;, &#8216;meshfill&#8217;, &#8216;scatter&#8217;,
+&#8216;vector&#8217;, &#8216;xvsy&#8217;, &#8216;xyvsy&#8217;, &#8216;yxvsx&#8217;, &#8216;taylordiagram&#8217;, &#8216;1d&#8217;, &#8216;3d_scalar&#8217;, &#8216;3d_dual_scalar&#8217;, &#8216;3d_vector&#8217;).</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../graphics/boxfill.html#vcs.boxfill.Gfb.list" title="vcs.boxfill.Gfb.list">list</a></p>
@@ -96,7 +98,7 @@ scatter, vector, xvsy, xyvsy, yxvsx, taylordiagram ).</p>
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">box</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getboxfill</span><span class="p">()</span> <span class="c1"># Get default boxfill graphics method</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">iso</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getisofill</span><span class="p">()</span> <span class="c1"># Get default isofill graphics method</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ln</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getline</span><span class="p">()</span><span class="c1"># Get default line element</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ln</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">getline</span><span class="p">()</span> <span class="c1"># Get default line element</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">graphicsmethodtype</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
 <span class="go">&#39;boxfill&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">graphicsmethodtype</span><span class="p">(</span><span class="n">iso</span><span class="p">)</span>
@@ -107,18 +109,15 @@ scatter, vector, xvsy, xyvsy, yxvsx, taylordiagram ).</p>
 <span class="gr">vcsError</span>: <span class="n">The object passed is not a graphics method object.</span>
 </pre></div>
 </div>
-<table class="last docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">returns:</th><td class="field-body">If gobj is a graphics method object, returns its type: &#8216;boxfill&#8217;, &#8216;isofill&#8217;, &#8216;isoline&#8217;,
-&#8216;scatter&#8217;, &#8216;vector&#8217;, &#8216;xvsy&#8217;, &#8216;xyvsy&#8217;, or &#8216;yxvsx&#8217;, &#8216;taylordiagram&#8217;.
-If gobj is not a graphics method object, raises an exception and prints a vcsError message.</td>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">str or None</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">If gobj is a graphics method object, returns its type: &#8216;boxfill&#8217;, &#8216;isofill&#8217;, &#8216;isoline&#8217;, &#8216;meshfill&#8217;,
+&#8216;scatter&#8217;, &#8216;vector&#8217;, &#8216;xvsy&#8217;, &#8216;xyvsy&#8217;, &#8216;yxvsx&#8217;, &#8216;taylordiagram&#8217;, &#8216;1d&#8217;, &#8216;3d_scalar&#8217;, &#8216;3d_dual_scalar&#8217;,
+&#8216;3d_vector&#8217;.
+If gobj is not a graphics method object, raises an exception and prints a vcsError message.</p>
+</td>
 </tr>
-</tbody>
-</table>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str or None</p>
 </td>
 </tr>
 </tbody>
@@ -684,10 +683,10 @@ scatter, vector, xvsy, xyvsy, yxvsx.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">=</span><span class="n">vcs</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;line&#39;</span><span class="p">)</span> <span class="c1"># Show all available lines</span>
-<span class="go">*******************Line Names List**********************</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;projection&#39;</span><span class="p">)</span> <span class="c1"># Show all available projections</span>
+<span class="go">*******************Projection Names List**********************</span>
 <span class="gp">...</span>
-<span class="go">*******************End Line Names List**********************</span>
+<span class="go">*******************End Projection Names List**********************</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">getprojection</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="c1"># To test an existing line object</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vcs</span><span class="o">.</span><span class="n">issecondaryobject</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
 <span class="go">1</span>
@@ -1102,7 +1101,7 @@ scatter, vector, xvsy, xyvsy, yxvsx.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

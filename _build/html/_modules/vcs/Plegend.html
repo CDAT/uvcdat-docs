@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -173,7 +175,12 @@
         <span class="s2">&quot;_texttable&quot;</span><span class="p">,</span>
         <span class="s2">&quot;_textorientation&quot;</span><span class="p">,</span>
         <span class="s2">&quot;texttable&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;textorientation&quot;</span><span class="p">]</span>
+        <span class="s2">&quot;textorientation&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;offset&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_offset&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;arrow&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;_arrow&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">member</span><span class="p">):</span>
         <span class="c1">#    def __init__(self, template, member=None):</span>
@@ -195,6 +202,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">y1</span> <span class="o">=</span> <span class="mf">0.129999995232</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="mf">0.949999988079</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y2</span> <span class="o">=</span> <span class="mf">0.159999996424</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="o">.</span><span class="mi">01</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arrow</span> <span class="o">=</span> <span class="o">.</span><span class="mi">05</span>
 
     <span class="c1">##########################################################################</span>
     <span class="c1">#                                                                           #</span>
@@ -209,6 +218,8 @@
     <span class="n">line</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">line</span>
     <span class="n">texttable</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">texttable</span>
     <span class="n">textorientation</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">textorientation</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">offset</span>
+    <span class="n">arrow</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">arrow</span>
 
     <span class="c1">##########################################################################</span>
     <span class="c1">#                                                                           #</span>
@@ -224,7 +235,8 @@
         <span class="nb">print</span> <span class="s2">&quot;     y2 =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y2</span>
         <span class="nb">print</span> <span class="s2">&quot;     line =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">line</span>
         <span class="nb">print</span> <span class="s2">&quot;     texttable =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">texttable</span>
-        <span class="nb">print</span> <span class="s2">&quot;     textorientation =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textorientation</span></div>
+        <span class="nb">print</span> <span class="s2">&quot;     textorientation =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">textorientation</span>
+        <span class="nb">print</span> <span class="s2">&quot;     offset =&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span></div>
 
 
 <span class="c1">##########################################################################</span>
@@ -270,7 +282,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -74,11 +76,180 @@
 <span class="kn">import</span> <span class="nn">cdms2</span>
 <span class="kn">import</span> <span class="nn">genutil</span>
 <span class="kn">import</span> <span class="nn">vtk</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+
 
 <span class="kn">from</span> <span class="nn">colors</span> <span class="k">import</span> <span class="n">rgb2str</span><span class="p">,</span> <span class="n">str2rgb</span><span class="p">,</span> <span class="n">matplotlib2vcs</span>  <span class="c1"># noqa</span>
 
 <span class="n">indent</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">sort_keys</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># Deprecated color map names mapping</span>
+<span class="n">vcs_deprecated_colormap_names</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;blue2darkred&quot;</span><span class="p">:</span> <span class="s2">&quot;bl_to_darkred&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blue2darkorange&quot;</span><span class="p">:</span> <span class="s2">&quot;bl_to_drkorang&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blue2grey&quot;</span><span class="p">:</span> <span class="s2">&quot;blue_to_grey&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blue2green&quot;</span><span class="p">:</span> <span class="s2">&quot;blue_to_grn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blue2orange&quot;</span><span class="p">:</span> <span class="s2">&quot;blue_to_orange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blue2orange2red&quot;</span><span class="p">:</span> <span class="s2">&quot;blue_to_orgred&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;brown2blue&quot;</span><span class="p">:</span> <span class="s2">&quot;brown_to_blue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;green2magenta&quot;</span><span class="p">:</span> <span class="s2">&quot;grn_to_magenta&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lightblue2darkblue&quot;</span><span class="p">:</span> <span class="s2">&quot;ltbl_to_drkbl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rainbownogreen&quot;</span><span class="p">:</span> <span class="s2">&quot;rainbow_no_grn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;white2blue&quot;</span><span class="p">:</span> <span class="s2">&quot;white_to_blue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;white2green&quot;</span><span class="p">:</span> <span class="s2">&quot;white_to_green&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;white2magenta&quot;</span><span class="p">:</span> <span class="s2">&quot;white_to_magenta&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;white2red&quot;</span><span class="p">:</span> <span class="s2">&quot;white_to_red&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;white2yellow&quot;</span><span class="p">:</span> <span class="s2">&quot;white_to_yellow&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">defaultColorsRange</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_png_dims"><a class="viewcode-back" href="../../vcs/misc/utils.html#vcs.utils.get_png_dims">[docs]</a><span class="k">def</span> <span class="nf">get_png_dims</span><span class="p">(</span><span class="n">fnm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;given the path to a png, return width, height&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fnm</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;LL&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">24</span><span class="p">])</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span></div>
+
+
+<div class="viewcode-block" id="Logo"><a class="viewcode-back" href="../../vcs/misc/utils.html#vcs.utils.Logo">[docs]</a><span class="k">class</span> <span class="nc">Logo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a &#39;logo&#39; object</span>
+
+<span class="sd">    This also to draw a logo either from a text string or a picture (png) file.</span>
+<span class="sd">    Picture will be shrunk to fit within the canvas if it&#39;s too big to fit</span>
+
+<span class="sd">    :Example:</span>
+
+<span class="sd">        .. doctest:: utils_Logo</span>
+
+<span class="sd">            &gt;&gt;&gt; import vcs</span>
+<span class="sd">            &gt;&gt;&gt; import os</span>
+<span class="sd">            &gt;&gt;&gt; import sys</span>
+<span class="sd">            &gt;&gt;&gt; x=vcs.init()</span>
+<span class="sd">            &gt;&gt;&gt; x.open()</span>
+<span class="sd">            &gt;&gt;&gt; logo1 = vcs.utils.Logo(os.path.join(sys.prefix,&quot;share&quot;,&quot;vcs&quot;,&quot;uvcdat.png&quot;))</span>
+<span class="sd">            &gt;&gt;&gt; logo1.x=.7</span>
+<span class="sd">            &gt;&gt;&gt; logo1.y=.8</span>
+
+<span class="sd">            &gt;&gt;&gt; logo2 = vcs.utils.Logo(&quot;My Test Logo&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; logo2.x = .2</span>
+<span class="sd">            &gt;&gt;&gt; logo2.y = .2</span>
+
+<span class="sd">            &gt;&gt;&gt; logo1.plot(x)</span>
+<span class="sd">            &gt;&gt;&gt; logo2.plot(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=.</span><span class="mi">93</span><span class="p">,</span> <span class="n">y</span><span class="o">=.</span><span class="mi">95</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new &quot;logo&quot; object to be plotted later on a canvas</span>
+
+<span class="sd">        :param source: text string or path to png file representing the logo</span>
+<span class="sd">        :type source: str</span>
+
+<span class="sd">        :param x: x position of the logo&#39;s center in fraction of canvas (0&lt;x&lt;1)</span>
+<span class="sd">        :type x: float</span>
+
+<span class="sd">        :param y: y position of the logo&#39;s center in fraction of canvas (0&lt;y&lt;1)</span>
+<span class="sd">        :type y: float</span>
+
+<span class="sd">        :param width: width in pixels we want the log to be</span>
+<span class="sd">        :type width: int</span>
+
+<span class="sd">        :param height: height in pixels we want the log to be</span>
+<span class="sd">        :type height: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istext</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">basestring</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_height</span> <span class="o">=</span> <span class="n">get_png_dims</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">createtext</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">20</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">halign</span> <span class="o">=</span> <span class="s1">&#39;center&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">valign</span> <span class="o">=</span> <span class="s1">&#39;half&#39;</span>
+                <span class="c1"># Set the texttable</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+
+<div class="viewcode-block" id="Logo.plot"><a class="viewcode-back" href="../../vcs/misc/utils.html#vcs.utils.Logo.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the log onto a given Canvas</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">            .. doctest:: utils_Logo_plot</span>
+
+<span class="sd">                &gt;&gt;&gt; import vcs</span>
+<span class="sd">                &gt;&gt;&gt; import os</span>
+<span class="sd">                &gt;&gt;&gt; import sys</span>
+<span class="sd">                &gt;&gt;&gt; x=vcs.init()</span>
+<span class="sd">                &gt;&gt;&gt; x.open()</span>
+<span class="sd">                &gt;&gt;&gt; logo1 = vcs.utils.Logo(os.path.join(sys.prefix,&quot;share/vcs/uvcdat.png&quot;))</span>
+<span class="sd">                &gt;&gt;&gt; logo1.x=.7</span>
+<span class="sd">                &gt;&gt;&gt; logo1.y=.8</span>
+
+<span class="sd">                &gt;&gt;&gt; logo2 = vcs.utils.Logo(&quot;My Test Logo&quot;)</span>
+<span class="sd">                &gt;&gt;&gt; logo2.x = .2</span>
+<span class="sd">                &gt;&gt;&gt; logo2.y = .2</span>
+
+<span class="sd">                &gt;&gt;&gt; logo1.plot(x)</span>
+<span class="sd">                &gt;&gt;&gt; logo2.plot(x)</span>
+
+
+<span class="sd">        :param canvas: Canvas onto which you desire plotting the logo</span>
+<span class="sd">        :type canvas: vcs.Canvas.Canvas</span>
+
+<span class="sd">        :param bg: do we plot in background (offscreen) mode or not? True/False</span>
+<span class="sd">        :type bg: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">basestring</span><span class="p">):</span>
+            <span class="n">cnv_info</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">canvasinfo</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_width</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_height</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">xdist</span> <span class="o">=</span> <span class="n">cnv_info</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">cnv_info</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
+                <span class="n">xscale</span> <span class="o">=</span> <span class="n">xdist</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_width</span> <span class="o">*</span> <span class="mf">2.</span>
+                <span class="n">ydist</span> <span class="o">=</span> <span class="n">cnv_info</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">cnv_info</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span>
+                <span class="n">yscale</span> <span class="o">=</span> <span class="n">ydist</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_height</span> <span class="o">*</span> <span class="mf">2.</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">xscale</span><span class="p">,</span> <span class="n">yscale</span><span class="p">)</span>
+
+            <span class="n">xoff</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">cnv_info</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_width</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">xscale</span><span class="p">)</span>
+            <span class="n">yoff</span> <span class="o">=</span> <span class="o">-</span> <span class="p">(</span><span class="n">cnv_info</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">-</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">source_height</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">yscale</span><span class="p">)</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">put_png_on_canvas</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span>
+                <span class="n">zoom</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">xOffset</span><span class="o">=</span><span class="n">xoff</span><span class="p">,</span>
+                <span class="n">yOffset</span><span class="o">=</span><span class="n">yoff</span><span class="p">,</span>
+                <span class="n">units</span><span class="o">=</span><span class="s2">&quot;pixels&quot;</span><span class="p">,</span>
+                <span class="n">fitToHeight</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">vcs</span><span class="o">.</span><span class="n">queries</span><span class="o">.</span><span class="n">istext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+            <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">)</span></div></div>
 
 
 <span class="k">def</span> <span class="nf">process_range_from_old_scr</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
@@ -370,7 +541,10 @@
             <span class="k">continue</span>
         <span class="k">for</span> <span class="n">att</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="s2">&quot;textcolors&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">]:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">att</span> <span class="o">==</span> <span class="s2">&quot;line&quot;</span><span class="p">):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;linetypes&quot;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;linetypes&quot;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">if</span> <span class="n">att</span> <span class="o">==</span> <span class="s2">&quot;line&quot;</span><span class="p">:</span>
@@ -380,25 +554,31 @@
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">att</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">]:</span>
-                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
+                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textorientation&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
                         <span class="k">elif</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">]:</span>
-                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
+                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">att</span> <span class="o">==</span> <span class="s2">&quot;textcolors&quot;</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">line</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">textcolors</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;texttable&quot;</span><span class="p">]:</span>
-                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
+                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;texttable&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
                         <span class="k">elif</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">]:</span>
-                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
+                            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;textcombined&quot;</span><span class="p">][</span><span class="n">e</span><span class="p">])</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="n">lst</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">att</span> <span class="o">==</span> <span class="s2">&quot;line&quot;</span><span class="p">):</span>
+                        <span class="n">g</span><span class="o">.</span><span class="n">setLineAttributes</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="n">lst</span><span class="p">)</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">att</span> <span class="o">==</span> <span class="s2">&quot;line&quot;</span><span class="p">):</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;linetypes&quot;</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="s2">&quot;linetypes&quot;</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">att</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="n">att</span><span class="p">))</span>
 
 <span class="c1">#</span>
 <span class="c1">#</span>
@@ -752,10 +932,10 @@
 
 
 <span class="k">def</span> <span class="nf">loadVCSItem</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="n">json_dict</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="c1"># if typ==&quot;oneD&quot;:</span>
-    <span class="c1">#  tp = &quot;oned&quot;</span>
-    <span class="c1"># else:</span>
-    <span class="c1">#  tp = typ</span>
+    <span class="k">if</span> <span class="n">typ</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">_protected_elements</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+    <span class="p">)</span> <span class="ow">and</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">vcs</span><span class="o">.</span><span class="n">_protected_elements</span><span class="p">[</span><span class="n">typ</span><span class="p">]:</span>
+        <span class="c1"># protected element do not overload</span>
+        <span class="k">return</span>
     <span class="n">tp</span> <span class="o">=</span> <span class="n">typ</span>
     <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
@@ -793,6 +973,13 @@
             <span class="n">v</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="s2">&quot;Marker&quot;</span> <span class="ow">and</span> <span class="n">tp</span> <span class="o">==</span> <span class="s2">&quot;taylordiagram&quot;</span><span class="p">):</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">nm</span> <span class="ow">in</span> <span class="n">vcs_deprecated_colormap_names</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;gm = vcs.create</span><span class="si">%s</span><span class="s2">(&#39;</span><span class="si">%s</span><span class="s2">&#39;)&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">typ</span><span class="p">,</span> <span class="n">vcs_deprecated_colormap_names</span><span class="p">[</span><span class="n">nm</span><span class="p">])</span>
+                <span class="n">exec</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">gm</span>
 
 
@@ -1033,7 +1220,8 @@
         <span class="k">if</span> <span class="n">il</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">lv2</span> <span class="o">=</span> <span class="n">levels</span><span class="p">[</span><span class="n">il</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">lv2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">lv</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="k">raise</span> <span class="n">VCSUtilsError</span><span class="p">(</span><span class="s2">&quot;Error intervals are NOT contiguous from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lv2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lv</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                <span class="k">raise</span> <span class="n">VCSUtilsError</span><span class="p">(</span>
+                    <span class="s2">&quot;Error intervals are NOT contiguous from &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lv2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">lv</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="n">tmplevs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">tmplevs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">levels</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">tmplevs</span>
@@ -1068,7 +1256,6 @@
 <span class="sd">    :returns: Dictionary or list of labels for the given values.</span>
 <span class="sd">    :rtype: dict, list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">string</span>
     <span class="kn">import</span> <span class="nn">numpy.ma</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="n">__split2contiguous</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
@@ -1078,7 +1265,7 @@
     <span class="c1"># Finds maximum number to write</span>
     <span class="n">amax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">vals</span><span class="p">)))</span>
     <span class="k">if</span> <span class="n">amax</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">output</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;dic&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;dic&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span>
@@ -1091,7 +1278,7 @@
                 <span class="n">lbls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mklabels</span><span class="p">([</span><span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">output</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">lbls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">output</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;dic&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;dic&#39;</span><span class="p">:</span>
             <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)):</span>
                 <span class="n">dic</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="n">lbls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -1112,7 +1299,14 @@
         <span class="n">aa</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="o">-</span><span class="n">idigleft</span><span class="p">)</span>
         <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">aa</span> <span class="o">*</span> <span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="n">aa</span> <span class="o">*</span> <span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">000001</span><span class="p">:</span>
             <span class="n">aa</span> <span class="o">=</span> <span class="n">aa</span> <span class="o">*</span> <span class="mf">10.</span>
-        <span class="n">idig</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">idig</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">aa</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="n">idigleft</span><span class="p">))))</span>
+        <span class="n">idig</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+            <span class="n">idig</span><span class="p">,</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span>
+                <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span>
+                    <span class="n">aa</span> <span class="o">*</span>
+                    <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">power</span><span class="p">(</span>
+                        <span class="mf">10.</span><span class="p">,</span>
+                        <span class="n">idigleft</span><span class="p">))))</span>
     <span class="n">idig</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">idig</span><span class="p">)</span>
 
     <span class="c1"># Now does the writing part</span>
@@ -1129,8 +1323,8 @@
                 <span class="n">ii</span> <span class="o">=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.</span><span class="p">:</span>
                     <span class="n">ii</span> <span class="o">=</span> <span class="mi">2</span>
-                <span class="n">aa</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">aa</span><span class="p">,</span> <span class="n">idig</span> <span class="o">+</span> <span class="n">ii</span><span class="p">)</span>
-                <span class="n">aa</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">aa</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
+                <span class="n">aa</span> <span class="o">=</span> <span class="n">aa</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">idig</span> <span class="o">+</span> <span class="n">ii</span><span class="p">)</span>
+                <span class="n">aa</span> <span class="o">=</span> <span class="n">aa</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span>
                 <span class="n">lbls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aa</span> <span class="o">+</span> <span class="s1">&#39;E&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idigleft</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">idigleft</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">idigleft</span> <span class="o">&gt;=</span> <span class="n">idig</span><span class="p">:</span>  <span class="c1"># F format</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nvals</span><span class="p">):</span>
@@ -1151,7 +1345,7 @@
         <span class="n">vals</span> <span class="o">=</span> <span class="o">-</span><span class="n">vals</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lbls</span><span class="p">)):</span>
             <span class="n">lbls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">lbls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">output</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;dic&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">output</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;dic&#39;</span><span class="p">:</span>
         <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)):</span>
             <span class="n">dic</span><span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">lbls</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -1160,16 +1354,18 @@
         <span class="k">return</span> <span class="n">lbls</span></div>
 
 
-<div class="viewcode-block" id="getcolors"><a class="viewcode-back" href="../../vcs/misc/utils.html#vcs.utils.getcolors">[docs]</a><span class="k">def</span> <span class="nf">getcolors</span><span class="p">(</span><span class="n">levs</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span> <span class="n">split</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">white</span><span class="o">=</span><span class="mi">240</span><span class="p">):</span>
+<div class="viewcode-block" id="getcolors"><a class="viewcode-back" href="../../vcs/misc/utils.html#vcs.utils.getcolors">[docs]</a><span class="k">def</span> <span class="nf">getcolors</span><span class="p">(</span><span class="n">levs</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">white</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    For isofill/boxfill purposes</span>
 <span class="sd">    Given a list of levels this function returns the colors that would</span>
-<span class="sd">    best spread a list of &quot;user-defined&quot; colors (default is 16 to 239,</span>
-<span class="sd">    i.e 224 colors), always using the first and last color.</span>
+<span class="sd">    best spread a list of &quot;user-defined&quot; colors (default is 0 to 255,</span>
+<span class="sd">    i.e 256 colors), always using the first and last color.</span>
 <span class="sd">    Optionally the color range can be split into 2 equal domain to</span>
 <span class="sd">    represent &lt;0 and &gt;0 values.</span>
 <span class="sd">    If the colors are split an interval goes from &lt;0 to &gt;0</span>
 <span class="sd">    then this is assigned the &quot;white&quot; color</span>
+<span class="sd">    the default range of colors to use can be adjusted by setting:</span>
+<span class="sd">    vcs.utils.defaultColorsRange = newrange</span>
 
 <span class="sd">    :Example:</span>
 
@@ -1188,7 +1384,6 @@
 <span class="sd">            &gt;&gt;&gt; vcs.getcolors (a,white=241,split=0)</span>
 <span class="sd">            [16, 48, 80, 112, 143, 175, 207, 239]</span>
 
-
 <span class="sd">    :param levs: levels defining the color ranges</span>
 <span class="sd">    :type levs: list, tuple</span>
 
@@ -1201,17 +1396,16 @@
 <span class="sd">                    2 : split even if all the values are positive or negative</span>
 <span class="sd">    :type split: int</span>
 
-<span class="sd">    :param white: If split is on and an interval goes from &lt;0 to &gt;0 this color number</span>
-<span class="sd">                  will be used within this interval (240 is white in the default VCS palette color).</span>
-<span class="sd">                  Integer must be between 0 and 255.</span>
-<span class="sd">    :type white: int</span>
+<span class="sd">    :param white: If split is on and an interval goes from &lt;0 to &gt;0 this color</span>
+<span class="sd">                  will be used within this interval.</span>
+<span class="sd">    :type white: int, string, tuple</span>
 
 <span class="sd">    :returns: List of colors</span>
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="kn">import</span> <span class="nn">string</span>
-
+    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">defaultColorsRange</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">levs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">levs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
@@ -1231,8 +1425,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">split</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="c1"># Take care of argument white</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">white</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">white</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">atoi</span><span class="p">(</span><span class="n">white</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">white</span><span class="p">,</span> <span class="n">basestring</span><span class="p">):</span>
+        <span class="n">white</span> <span class="o">=</span> <span class="n">genutil</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">str2rgb</span><span class="p">(</span><span class="n">white</span><span class="p">)</span>
 
     <span class="c1"># Gets first and last value, and adjust if extensions</span>
     <span class="n">mn</span> <span class="o">=</span> <span class="n">levs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1789,7 +1983,7 @@
 <span class="sd">    :rtype: int</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># First gets the rgb values</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">basestring</span><span class="p">):</span>
         <span class="n">vals</span> <span class="o">=</span> <span class="n">genutil</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">str2rgb</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
         <span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="mf">2.55</span>
         <span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="mf">2.55</span>
@@ -1879,7 +2073,7 @@
 <span class="c1"># datawc_ can be a float or a cdtime.reltime</span>
 <span class="c1"># TODO: Investigate why datawc is converted to a cdtime.reltime</span>
 <span class="k">def</span> <span class="nf">getDataWcValue</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;months since 1900&#39;</span><span class="p">))):</span>  <span class="c1"># noqa</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">cdtime</span><span class="o">.</span><span class="n">reltime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;months since 1900&#39;</span><span class="p">)))):</span>  <span class="c1"># noqa</span>
         <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">v</span>
@@ -1937,10 +2131,7 @@
         <span class="k">return</span> <span class="n">wc</span>
     <span class="k">if</span> <span class="p">(((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">cdms2</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">TransientAxis</span><span class="p">)</span> <span class="ow">and</span>
           <span class="nb">isinstance</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">cdms2</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">TransientAxis</span><span class="p">))</span> <span class="ow">or</span>
-         <span class="ow">not</span> <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">monotonic</span><span class="p">(</span><span class="n">X</span><span class="p">[:]))</span> <span class="ow">and</span>
-        <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="n">datawc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">datawc</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="mf">1.e20</span><span class="p">))</span>\
-            <span class="ow">or</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="s2">&quot;projection&quot;</span><span class="p">)</span> <span class="ow">and</span>
-                <span class="n">vcs</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="n">gm</span><span class="o">.</span><span class="n">projection</span><span class="p">]</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;linear&quot;</span><span class="p">):</span>
+         <span class="ow">not</span> <span class="n">vcs</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">monotonic</span><span class="p">(</span><span class="n">X</span><span class="p">[:]))</span> <span class="ow">and</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="n">datawc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">datawc</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="mf">1.e20</span><span class="p">)):</span>
         <span class="n">wc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
         <span class="n">wc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">datawc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mf">1.e20</span><span class="p">):</span>
@@ -2056,7 +2247,12 @@
     <span class="kn">import</span> <span class="nn">hashlib</span>
     <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">sample_data</span>
-    <span class="n">samples</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vcs</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;vcs&quot;</span><span class="p">,</span> <span class="s2">&quot;sample_files.txt&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">vcs</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span>
+            <span class="s2">&quot;share&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vcs&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sample_files.txt&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
         <span class="n">good_md5</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="n">local_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -2074,7 +2270,10 @@
                     <span class="n">attempts</span> <span class="o">=</span> <span class="mi">5</span>
                     <span class="k">continue</span>
             <span class="nb">print</span> <span class="s2">&quot;Downloading:&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="n">local_filename</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://uvcdat.llnl.gov/cdat/sample_data/&quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;http://uvcdat.llnl.gov/cdat/sample_data/&quot;</span> <span class="o">+</span>
+                <span class="n">name</span><span class="p">,</span>
+                <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">local_filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1024</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>  <span class="c1"># filter local_filename keep-alive new chunks</span>
@@ -2085,6 +2284,165 @@
                 <span class="n">attempts</span> <span class="o">=</span> <span class="mi">5</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">attempts</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="drawLinesAndMarkersLegend"><a class="viewcode-back" href="../../vcs/misc/utils.html#vcs.utils.drawLinesAndMarkersLegend">[docs]</a><span class="k">def</span> <span class="nf">drawLinesAndMarkersLegend</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">templateLegend</span><span class="p">,</span>
+                              <span class="n">linecolors</span><span class="p">,</span> <span class="n">linetypes</span><span class="p">,</span> <span class="n">linewidths</span><span class="p">,</span>
+                              <span class="n">markercolors</span><span class="p">,</span> <span class="n">markertypes</span><span class="p">,</span> <span class="n">markersizes</span><span class="p">,</span>
+                              <span class="n">strings</span><span class="p">,</span> <span class="n">scratched</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draws a legend with line/marker/text inside a template legend box</span>
+<span class="sd">    Auto adjust text size to make it fit inside the box</span>
+<span class="sd">    Auto arrange the elements to fill the box nicely</span>
+
+<span class="sd">    :Example:</span>
+
+<span class="sd">        .. doctest:: utils_drawLinesAndMarkersLegend</span>
+
+<span class="sd">            &gt;&gt;&gt; import vcs</span>
+<span class="sd">            &gt;&gt;&gt; x = vcs.init()</span>
+<span class="sd">            &gt;&gt;&gt; t = vcs.createtemplate()</span>
+<span class="sd">            &gt;&gt;&gt; vcs.utils.drawLinesAndMarkersLegend(x,t.legend,</span>
+<span class="sd">            ...     [&quot;red&quot;,&quot;blue&quot;,&quot;green&quot;], [&quot;solid&quot;,&quot;dash&quot;,&quot;dot&quot;],[1,4,8],</span>
+<span class="sd">            ...     [&quot;blue&quot;,&quot;green&quot;,&quot;red&quot;], [&quot;cross&quot;,&quot;square&quot;,&quot;dot&quot;],[3,4,5],</span>
+<span class="sd">            ...     [&quot;sample A&quot;,&quot;type B&quot;,&quot;thing C&quot;], None, True, True)</span>
+<span class="sd">            &gt;&gt;&gt; x.png(&quot;sample&quot;)</span>
+
+<span class="sd">    :param canvas: a VCS canvas object onto which to draw the legend</span>
+<span class="sd">    :type canvas: vcs.Canvas.Canvas</span>
+
+<span class="sd">    :param templateLegend: a template legend object used to determine the coordinates of the box and the box line type</span>
+<span class="sd">    :type legendTemplate: vcs.Plegend.Pls</span>
+
+<span class="sd">    :param linecolors: list containing the colors of each line to draw</span>
+<span class="sd">    :type linecolors: list of either colorInt, (r,g,b,opacity), or string color names</span>
+
+<span class="sd">    :param linetypes: list containing the type of each line to draw</span>
+<span class="sd">    :type linetypes: list on int of line stype strings</span>
+
+<span class="sd">    :param linewidths: list containing each line width</span>
+<span class="sd">    :type linewidths: list of float</span>
+
+<span class="sd">    :param markercolors: list of the markers colors to draw</span>
+<span class="sd">    :type markercolors: list of either colorInt, (r,g,b,opacity), or string color names</span>
+
+<span class="sd">    :param markertypes: list of the marker types to draw</span>
+<span class="sd">    :type markertypes: list of int or  string of marker names</span>
+
+<span class="sd">    :param markersizes: list of the size of each marker to draw</span>
+<span class="sd">    :type markersizes: list of float</span>
+
+<span class="sd">    :param strings: list of the string to draw next to each line/marker</span>
+<span class="sd">    :type strings: list of string</span>
+
+<span class="sd">    :param scratched: None (off) or list. list contains False where no scratch is needed</span>
+<span class="sd">                      For scratched provide True or line type to use for scratch</span>
+<span class="sd">                      color will match that of text</span>
+<span class="sd">    :type scratched: None or list of bool</span>
+
+<span class="sd">    :param bg: do we draw in background or foreground</span>
+<span class="sd">    :type bg: bool</span>
+
+<span class="sd">    :param render: do we render or not (so it less flashy)</span>
+<span class="sd">    :type render: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">nlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">linecolors</span><span class="p">)</span>
+    <span class="c1"># Now figures out the widest string and tallest</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">vcs</span><span class="o">.</span><span class="n">createtext</span><span class="p">(</span><span class="n">To_source</span><span class="o">=</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">textorientation</span><span class="p">,</span>
+                          <span class="n">Tt_source</span><span class="o">=</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">texttable</span><span class="p">)</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+    <span class="n">maxx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Max number of elts on X direction</span>
+    <span class="n">maxy</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Max number of elts on Y direction</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">x2</span> <span class="o">-</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">x1</span><span class="p">)</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">y2</span> <span class="o">-</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">y1</span><span class="p">)</span>
+
+    <span class="c1"># Loop until we can fit all elts into the box</span>
+    <span class="k">while</span> <span class="n">maxx</span> <span class="o">*</span> <span class="n">maxy</span> <span class="o">&lt;</span> <span class="n">nlines</span><span class="p">:</span>
+        <span class="n">maxwidth</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">maxheight</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nlines</span><span class="p">):</span>
+            <span class="n">text</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">strings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">ext</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">gettextextent</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">maxwidth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxwidth</span><span class="p">,</span> <span class="n">ext</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ext</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">maxheight</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxheight</span><span class="p">,</span> <span class="n">ext</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">ext</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">leg_lines</span> <span class="o">=</span> <span class="n">maxwidth</span> <span class="o">/</span> <span class="mf">3.</span>
+        <span class="n">leg_spc</span> <span class="o">=</span> <span class="n">leg_lines</span> <span class="o">/</span> <span class="mf">3.</span>
+        <span class="n">maxwidth</span> <span class="o">=</span> <span class="n">maxwidth</span> <span class="o">+</span> <span class="n">leg_lines</span> <span class="o">+</span> <span class="n">leg_spc</span>
+        <span class="n">maxx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dx</span> <span class="o">/</span> <span class="n">maxwidth</span><span class="p">)</span>
+        <span class="n">maxy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dy</span> <span class="o">/</span> <span class="n">maxheight</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">maxx</span> <span class="o">*</span> <span class="n">maxy</span> <span class="o">&lt;</span> <span class="n">nlines</span><span class="p">:</span>
+            <span class="c1"># Does not fit less shrink the text a bit</span>
+            <span class="n">text</span><span class="o">.</span><span class="n">height</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">height</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Oh well it cannot fit...</span>
+            <span class="c1"># We settle for the smallest size</span>
+            <span class="n">text</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">break</span>
+
+    <span class="n">nH</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">maxx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">))</span>  <span class="c1"># How many elts on horizontal direction</span>
+    <span class="n">nV</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">nlines</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">nH</span><span class="p">))</span>  <span class="c1"># How many elts vertically</span>
+    <span class="n">spcX</span> <span class="o">=</span> <span class="p">(</span><span class="n">dx</span> <span class="o">-</span> <span class="n">maxwidth</span> <span class="o">*</span> <span class="n">nH</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">spcY</span> <span class="o">=</span> <span class="p">(</span><span class="n">dy</span> <span class="o">-</span> <span class="n">maxheight</span> <span class="o">*</span> <span class="n">nV</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nV</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">txs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">tys</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">x2</span><span class="p">)</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">y2</span><span class="p">)</span>
+    <span class="c1"># Box around legend area</span>
+    <span class="n">ln</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">ln</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">x1</span><span class="p">]</span>
+    <span class="n">ln</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">templateLegend</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">y1</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">y2</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">y2</span><span class="p">,</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">y1</span><span class="p">]</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="n">render</span><span class="p">)</span>
+
+    <span class="c1"># Create the objects</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">)):</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">nH</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">nH</span><span class="p">)</span>
+        <span class="c1"># TODO check if previous line was identical</span>
+        <span class="c1"># so that we create less objet/renderers</span>
+        <span class="n">ln</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">createline</span><span class="p">()</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">linecolors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">]</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">linetypes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">linewidths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">priority</span>
+        <span class="c1"># TODO check if previous marker was identical</span>
+        <span class="c1"># so that we create less objet/renderers</span>
+        <span class="n">mrk</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">createmarker</span><span class="p">()</span>
+        <span class="n">mrk</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">markercolors</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">mrk</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">markertypes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">mrk</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">markersizes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">mrk</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">priority</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">spcX</span> <span class="o">+</span> <span class="n">col</span> <span class="o">*</span> <span class="p">(</span><span class="n">maxwidth</span> <span class="o">+</span> <span class="n">spcX</span><span class="p">)</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">xs</span><span class="p">,</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">leg_lines</span><span class="p">]</span>
+        <span class="n">mrk</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">xs</span> <span class="o">+</span> <span class="n">leg_lines</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">]</span>
+        <span class="n">txs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xs</span> <span class="o">+</span> <span class="n">leg_lines</span> <span class="o">+</span> <span class="n">leg_spc</span><span class="p">)</span>
+        <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">strings</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">row</span> <span class="o">*</span> <span class="p">(</span><span class="n">maxheight</span> <span class="o">+</span> <span class="n">spcY</span><span class="p">)</span> <span class="o">-</span> <span class="n">spcY</span> <span class="o">-</span> <span class="n">maxheight</span> <span class="o">/</span> <span class="mf">2.</span>
+        <span class="n">ln</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">ys</span><span class="p">,</span> <span class="n">ys</span><span class="p">]</span>
+        <span class="n">mrk</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">ys</span><span class="p">]</span>
+        <span class="n">tys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scratched</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scratched</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">scratch</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">createline</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">ln</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">scratch</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">scratch</span><span class="o">.</span><span class="n">width</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">2.</span>
+            <span class="n">scratch</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">text</span><span class="o">.</span><span class="n">color</span><span class="p">]</span>
+            <span class="n">scratch</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">scratched</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">text</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">strings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">ext</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">gettextextent</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">scratch</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">txs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">txs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ext</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">ext</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">scratch</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">priority</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">scratch</span><span class="o">.</span><span class="n">priority</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">scratch</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="n">render</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ln</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="n">render</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mrk</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="n">render</span><span class="p">)</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">halign</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">valign</span> <span class="o">=</span> <span class="s2">&quot;half&quot;</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">ts</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">txs</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">tys</span>
+    <span class="n">text</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">templateLegend</span><span class="o">.</span><span class="n">priority</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span> <span class="n">render</span><span class="o">=</span><span class="n">render</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -2125,7 +2483,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>

@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/globe.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="VCS 2.4.1 documentation" href="../../index.html" />
     <link rel="up" title="vcs" href="../vcs.html" /> 
   </head>
@@ -212,35 +214,33 @@
 
 <span class="s2">        .. code-block:: python</span>
 
-<span class="s2">        # VCS Canvas Constructor</span>
-<span class="s2">        a=vcs.init()</span>
-<span class="s2">        # Show predefined meshfill graphics methods</span>
-<span class="s2">        a.show(&#39;meshfill&#39;)</span>
-<span class="s2">        # Change the VCS color map</span>
-<span class="s2">        a.setcolormap(&quot;AMIP&quot;)</span>
-<span class="s2">        # Plot data &#39;s&#39; with meshfill &#39;b&#39; and &#39;default&#39; template</span>
-<span class="s2">        a.meshfill(s,b,&#39;default&#39;)</span>
-<span class="s2">        # Updates the VCS Canvas at user&#39;s request</span>
-<span class="s2">        a.update()</span>
+<span class="s2">            # VCS Canvas Constructor</span>
+<span class="s2">            a=vcs.init()</span>
+<span class="s2">            # Show predefined meshfill graphics methods</span>
+<span class="s2">            a.show(&#39;meshfill&#39;)</span>
+<span class="s2">            # Change the VCS color map</span>
+<span class="s2">            a.setcolormap(&quot;AMIP&quot;)</span>
+<span class="s2">            # Plot data &#39;s&#39; with meshfill &#39;b&#39; and &#39;default&#39; template</span>
+<span class="s2">            a.meshfill(s,b,&#39;default&#39;)</span>
+<span class="s2">            # Updates the VCS Canvas at user&#39;s request</span>
+<span class="s2">            a.update()</span>
 
 <span class="s2">    .. describe:: Create a new instance of meshfill:</span>
 
 <span class="s2">        .. code-block:: python</span>
 
-<span class="s2">        # Copies content of &#39;quick&#39; to &#39;new&#39;</span>
-<span class="s2">        mesh=a.createmeshfill(&#39;new&#39;,&#39;quick&#39;)</span>
-<span class="s2">        # Copies content of &#39;default&#39; to &#39;new&#39;</span>
-<span class="s2">        mesh=a.createmeshfill(&#39;new&#39;)</span>
+<span class="s2">            # Copies content of &#39;quick&#39; to &#39;new&#39;</span>
+<span class="s2">            mesh=a.createmeshfill(&#39;new&#39;,&#39;quick&#39;)</span>
+<span class="s2">            # Copies content of &#39;default&#39; to &#39;new&#39;</span>
+<span class="s2">            mesh=a.createmeshfill(&#39;new&#39;)</span>
 
 <span class="s2">    .. describe:: Modify an existing meshfill:</span>
 
 <span class="s2">        .. code-block:: python</span>
 
-<span class="s2">        mesh=a.getmeshfill(&#39;AMIP_psl&#39;)</span>
+<span class="s2">            mesh=a.getmeshfill(&#39;AMIP_psl&#39;)</span>
 
 <span class="s2">    .. describe:: Overview of meshfill object attributes:</span>
-
-<span class="s2">        .. code-block:: python</span>
 
 <span class="s2">        * List all the meshfill attribute values</span>
 
@@ -357,13 +357,13 @@
 <span class="s2">    </span><span class="si">%s</span><span class="s2"></span>
 <span class="s2">    </span><span class="si">%s</span><span class="s2"></span>
 <span class="s2">    mesh :: (str/int) (0) Draws the mesh</span>
-<span class="s2">    wrap :: ([float,float]) ([0.,0.]) Modulo to wrap around on either axis (automatically sets to 360 for longitude axes)</span>
+<span class="s2">    wrap :: ([float,float]) ([0.,0.]) Modulo to wrap around on either axis (automatically set to 360 for longitude axes)</span>
 <span class="s2">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">xmldocs</span><span class="o">.</span><span class="n">graphics_method_core</span><span class="p">,</span> <span class="n">xmldocs</span><span class="o">.</span><span class="n">meshfill_doc</span><span class="p">)</span>
 
     <span class="c1">##########################################################################</span>
-    <span class="c1">#                                                                           #</span>
-    <span class="c1"># Initialize the meshfill attributes.                                        #</span>
-    <span class="c1">#                                                                           #</span>
+    <span class="c1">#                                                                        #</span>
+    <span class="c1"># Initialize the meshfill attributes.                                    #</span>
+    <span class="c1">#                                                                        #</span>
     <span class="c1">##########################################################################</span>
     <span class="n">colormap</span> <span class="o">=</span> <span class="n">VCS_validation_functions</span><span class="o">.</span><span class="n">colormap</span>
     <span class="n">__slots__</span> <span class="o">=</span> <span class="p">[</span>
@@ -705,7 +705,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_datawc_x2</span> <span class="o">=</span> <span class="mf">1.e20</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_xaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_yaxisconvert</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="mi">241</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_missing</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ext_1</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ext_2</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fillareastyle</span> <span class="o">=</span> <span class="s1">&#39;solid&#39;</span>
@@ -1008,7 +1008,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2016, LLNL.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
     </div>
   </body>
 </html>
